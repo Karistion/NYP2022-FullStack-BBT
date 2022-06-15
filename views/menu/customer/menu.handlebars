@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Product Page{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-6">
+                <img class="card-img-top mb-5 mb-md-0" src="{{ url_for('static', filename='images/A3sedan.png') }}" width="200px" height="300px">
+            </div>
+            <div class="col-md-6">
+                <h1 class="display-5 fw-bolder">Audi A3 sedan</h1>
+                <div class="fs-5 mb-5">
+                    <span class="text-decoration-line-through">S$210,000</span>
+                    <span class="fw-bold text-success">S$189,415</span>
+                </div>
+                <p class="lead">The new Audi A3 Sedan impresses with its sporty, stylish exterior and the high-quality, driver-oriented interior.</p>
+                <div class="d-flex">
+                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem">
+                    <a class="btn btn-outline-dark mt-auto" href="/checkout">
+                        <i class="bi-cart-fill me-1"></i>Buy Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-3 bg-light">
+    <div class="container px-4 px-lg-5">
+        <h2 class="fw-bold text-center pt-4 mb-5">You might be interested in these:</h2>
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/A1sportback.png') }}" alt="A1sportback.png" width="100%" height="150px">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">Audi A1 sportback</h5>
+                            <p>S$280,650</p>
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="/buy-car">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/bmw318isedan.png') }}" alt="bmw318isedan.png" width="100%" height="150px">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">BMW 318i sedan</h5>
+                            <p>
+                                <span class="text-muted text-decoration-line-through">S$300,000</span>
+                                <span>S$231,888</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="/buy-car">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <div class="badge bg-success text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale</div>
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/bmw520isedan.png') }}" alt="bmw520isedan.png" width="100%" height="150px">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">BMW 520i sedan</h5>
+                            <span class="text-muted text-decoration-line-through">S$300,000</span>
+                            <span>S$286,888</span>
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="/checkout">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="{{ url_for('static', filename='images/bmw420icoupe.png') }}" alt="bmw420icoupe.png" width="100%" height="150px">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">BMW 420i coupe</h5>
+                            <p>S$280,650</p>
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="/buy-car">Buy Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

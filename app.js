@@ -29,8 +29,7 @@ const app = express();
 * */
 app.engine('handlebars', engine({
 	helpers: helpers,
-	handlebars: allowInsecurePrototypeAccess(Handlebars),
-	defaultLayout: 'main' // Specify default template views/layout/main.handlebar 
+	handlebars: allowInsecurePrototypeAccess(Handlebars)
 }));
 app.set('view engine', 'handlebars');
 

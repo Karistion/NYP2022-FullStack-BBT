@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
 
 router.get('/about', (req, res) => {
 	const author = 'Jordan';
-	res.render('about', {author});
+	res.render('about', {layout: 'main'});
 });
 
 router.post('/flash', (req, res) => {
