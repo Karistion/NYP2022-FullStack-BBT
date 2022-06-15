@@ -15,7 +15,7 @@ router.get('/register', (req,res) => { //this is to render the page
 });
 
 router.post('/register', async function (req, res) { //this is to get the input of the page, req is to get what the user input
-    let { name, email, password, password2 } = req.body; //password/password2 is from the input name in the html
+    let { name, email, password, password2, mobile, postal, address, username} = req.body; //password/password2 is from the input name in the html
     let isValid = true;                                  //this is to get the user input into the code through req.body otherwise we will have 4 lines with e.g. req.boby.name = name
     if (password.length < 6) {
         flashMessage(res, 'error', 'Password must be at least 6 characters');
@@ -27,18 +27,19 @@ router.post('/register', async function (req, res) { //this is to get the input 
     }
     if (!isValid) {
         res.render('user/register', {
-            name, email
+            name, email, mobile, postal, address, username
         });
         return;
     }
     try {
         // If all is well, checks if user is already registered
         let user = await User.findOne({ where: { email: email } }); //left side is column email
+        // let username = await User.findOne({ where: { username: username } });
         if (user) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', email + ' alreay registered');
             res.render('user/register', {
-                name, email
+                name, email, mobile, postal, address, username
             });
         }
         else {
@@ -46,7 +47,7 @@ router.post('/register', async function (req, res) { //this is to get the input 
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
-            let user = await User.create({ name, email, password: hash });
+            let user = await User.create({ name, email, password: hash, mobile, postal, address, username });
             flashMessage(res, 'success', email + ' registered successfully');
             res.redirect('/user/login');
         }
@@ -74,4 +75,17 @@ router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
+
+// router.get('/profile', ensureAuthenticated, (req, res) => {
+//     User.findAll({
+//         where: { userId: req.user.id },
+//         order: [['dateRelease', 'DESC']],
+//         raw: true
+//     })
+//         .then((user) => {
+//             // pass object to listVideos.handlebar
+//             res.render('user/profile', { user });
+//         })
+//         .catch(err => console.log(err));
+// });
 module.exports = router;

@@ -10,7 +10,7 @@ const setUpDB = (drop) => {
             Defines the relationship where a user has many videos.
             The primary key from user will be a foreign key in video.
             */
-            User.hasMany(Video);
+            User.hasOne(Video);
             Video.belongsTo(User);
             mySQLDB.sync({
                 force: drop
