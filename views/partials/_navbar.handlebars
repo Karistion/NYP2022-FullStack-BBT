@@ -1,7 +1,7 @@
     <nav class="navbar sticky-top navbar-expand-xl navbar-light bg-light mb-3">
         <div class="container-lg">
             <a class="navbar-brand" href="/">
-                <img src="{{ url_for('static', filename='images/CarOrSell-logo.png') }}" alt="CarOrSell-logo.png" width="52px" height="40px" class="me-1">CarOrSell
+                <img src="/jordan/images/CarOrSell-logo.png" alt="CarOrSell-logo.png" width="52px" height="40px" class="me-1">CarOrSell
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle Navigation Bar">
                 <i class="fa-solid fa-bars"></i>
@@ -38,7 +38,7 @@
                             </li>
                         </ul>
                     </li>
-                    {% if session['logged_in_admin'] %}
+                    <!--{% if session['logged_in_admin'] %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user-tie me-1"></i>My Account
@@ -84,7 +84,7 @@
                             </li>
                         </ul>
                     </li>
-                    {% else %}
+                    {% else %}-->
                     <li class="nav-item">
                         <form action="/login" method="get">
                             <button type="submit" class="btn btn-success">
@@ -92,7 +92,7 @@
                             </button>
                         </form>
                     </li>
-                    {% endif %}
+                    <!--{% endif %}-->
                 </ul>
             </div>
         </div>

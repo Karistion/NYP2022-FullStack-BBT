@@ -4,9 +4,8 @@ const router = express.Router();
 const flashMessage = require('../helpers/messenger');
 
 router.get('/', (req, res) => {
-	const title = 'Video Jotter';
 	// renders views/index.handlebars, passing title as an object
-	res.render('index', { title: title }) // why only write index? left title is handlebar while right one is const from js
+	res.render('index') // why only write index? left title is handlebar while right one is const from js
 });
 
 router.get('/about', (req, res) => {

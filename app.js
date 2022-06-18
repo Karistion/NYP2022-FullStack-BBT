@@ -29,7 +29,8 @@ const app = express();
 * */
 app.engine('handlebars', engine({
 	helpers: helpers,
-	handlebars: allowInsecurePrototypeAccess(Handlebars)
+	handlebars: allowInsecurePrototypeAccess(Handlebars), 
+	defaultLayout: null
 }));
 app.set('view engine', 'handlebars');
 
@@ -100,7 +101,7 @@ app.use(function (req, res, next) {
 
 // mainRoute is declared to point to routes/main.js
 const mainRoute = require('./routes/main');
-const userRoute = require('./routes/user');
+const userRoute = require('./routes/user/user');
 const videoRoute = require('./routes/video');
 //const registerRoute = require('./routes/register');
 
