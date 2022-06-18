@@ -9,8 +9,15 @@ router.get('/', (req, res) => {
 });
 
 router.get('/about', (req, res) => {
-	const author = 'Jordan';
 	res.render('about', {layout: 'main'});
+});
+
+router.get('/termsandconditions', (req, res) => {
+	res.render('termsandconditions', {layout: 'main'});
+});
+
+router.get('/privacypolicy', (req, res) => {
+	res.render('privacypolicy', {layout: 'main'});
 });
 
 router.post('/flash', (req, res) => {

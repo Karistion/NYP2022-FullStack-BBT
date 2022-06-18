@@ -57,7 +57,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <!--{% if session['logged_in_admin'] %}-->
+                        <!--{% if session['logged_in_admin'] %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-tie me-1"></i>My Account
@@ -80,7 +80,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <!--{% elif session['logged_in'] %}
+                        {% elif session['logged_in'] %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-solid fa-user-tie me-1"></i>My Account
@@ -103,15 +103,15 @@
                                 </li>
                             </ul>
                         </li>
-                        {% else %}
+                        {% else %}-->
                         <li class="nav-item">
-                            <form action="/login" method="get">
+                            <form action="user/login" method="get">
                                 <button type="submit" class="btn btn-success">
                                     <i class="fa-solid fa-user-lock me-1"></i>Login/Register
                                 </button>
                             </form>
                         </li>
-                        {% endif %}-->
+                        <!--{% endif %}-->
                     </ul>
                 </div>
             </div>
