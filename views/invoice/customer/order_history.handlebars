@@ -1,0 +1,53 @@
+<h1 class="fw-bold text-center py-4 px-2">My History</h1>
+<hr>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h5 class="fw-bold mb-0">Pending Delivery</h5>
+            </div>
+            <div class="card-body">
+                {% if count == 0 %}
+                    <p>You have no pending deliveries.</p>
+                {% elif count == 1 %}
+                    <p>You have <span class="fw-bold">1</span> pending delivery.</p>
+                {% else %}
+                    <p>You have <span class="fw-bold">{{ count }}</span> pending deliveries.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h5 class="fw-bold mb-0">
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History ({{ count }})
+                </h5>
+            </div>
+            <div class="card-body">
+                {% for orders in orders_list %}
+                <h5 class="fw-bold mb-3">A3 Sedan</h5>
+                <p class="mb-2">
+                    <span class="fw-bold">Total Paid: </span>SGD190,415
+                </p>
+                <p class="mb-2">
+                    <span class="fw-bold">Estimated Delivery Date: </span>Tomorrow
+                </p>
+                <p class="mb-2">
+                    <span class="fw-bold">Shipping Address: </span>{{ orders.get_address() }}
+                </p>
+                <p class="mb-3">
+                    <span class="fw-bold">Order ID: </span>{{ orders.get_order_id() }}
+                </p>
+                <form action="{{url_for('delete_order', id=orders.get_order_id())}}" method="POST" class="mb-1">
+                    <input type="submit" value="Cancel Order" class="btn btn-danger">
+                </form>
+                <small class="fw-bold text-danger">
+                    <sup>*</sup>Cancellation of order can only be made within the first two hours of order confirmation.
+                </small>
+                <hr>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
