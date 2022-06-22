@@ -3,6 +3,7 @@ const db = require('../config/DBConfig');
 // Create users table in MySQL Database
 const User = db.define('user',
     {
+        id: { type: Sequelize.UUID, primaryKey: true },
         name: { type: Sequelize.STRING },
         mobile: { type: Sequelize.INTEGER },
         gender: { type: Sequelize.STRING },
@@ -11,7 +12,7 @@ const User = db.define('user',
         email: { type: Sequelize.STRING },
         username: { type: Sequelize.STRING },
         password: { type: Sequelize.STRING },
-        ewallet: { type: Sequelize.INTEGER },
+        ewallet: { type: Sequelize.INTEGER, defaultValue: 0 },
         history: { type: Sequelize.STRING },
     });
 module.exports = User

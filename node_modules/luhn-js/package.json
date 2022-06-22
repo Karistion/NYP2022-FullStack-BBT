@@ -1,0 +1,46 @@
+{
+  "name": "luhn-js",
+  "version": "1.1.2",
+  "description": "Validation and control key generation for credit cards (and more) using Luhn algorithm",
+  "main": "./src/luhn.js",
+  "types": "./src/luhn.d.ts",
+  "scripts": {
+    "lint": "node_modules/.bin/eslint .",
+    "test": "node_modules/.bin/mocha --recursive test",
+    "test-coverage": "node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EDumdum/luhn.git"
+  },
+  "keywords": [
+    "Luhn",
+    "ISO 7812",
+    "IEC 7812",
+    "ISO/IEC 7812",
+    "card validation",
+    "card",
+    "credit",
+    "validation",
+    "credit card",
+    "checksum",
+    "check digit"
+  ],
+  "author": "E. Dumont",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EDumdum/luhn/issues"
+  },
+  "homepage": "https://github.com/EDumdum/luhn#readme",
+  "devDependencies": {
+    "chai": "4.1.2",
+    "eslint": "4.18.2",
+    "eslint-config-standard": "10.2.1",
+    "eslint-plugin-import": "2.7.0",
+    "eslint-plugin-node": "5.2.0",
+    "eslint-plugin-promise": "3.6.0",
+    "eslint-plugin-standard": "3.0.1",
+    "istanbul": "0.4.5",
+    "mocha": "6.2.2"
+  }
+}

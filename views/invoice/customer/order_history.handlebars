@@ -7,13 +7,11 @@
                 <h5 class="fw-bold mb-0">Pending Delivery</h5>
             </div>
             <div class="card-body">
-                {% if count == 0 %}
+                {{#if !invoices}}
                     <p>You have no pending deliveries.</p>
-                {% elif count == 1 %}
-                    <p>You have <span class="fw-bold">1</span> pending delivery.</p>
-                {% else %}
-                    <p>You have <span class="fw-bold">{{ count }}</span> pending deliveries.</p>
-                {% endif %}
+                {{#else}}
+                    <p>You have <span class="fw-bold">{{count}}</span> pending delivery.</p>
+                {{/if}}
             </div>
         </div>
     </div>
@@ -25,28 +23,24 @@
                 </h5>
             </div>
             <div class="card-body">
-                {% for orders in orders_list %}
+                {{#if invoices}}
+                {{#each invoices}}
                 <h5 class="fw-bold mb-3">A3 Sedan</h5>
                 <p class="mb-2">
                     <span class="fw-bold">Total Paid: </span>SGD190,415
                 </p>
                 <p class="mb-2">
-                    <span class="fw-bold">Estimated Delivery Date: </span>Tomorrow
+                    <span class="fw-bold">Estimated Delivery Date: </span>{{ orders.datedelivery + 15 }}
                 </p>
                 <p class="mb-2">
-                    <span class="fw-bold">Shipping Address: </span>{{ orders.get_address() }}
+                    <span class="fw-bold">Shipping Address: </span>{{ orders.address }}
                 </p>
                 <p class="mb-3">
-                    <span class="fw-bold">Order ID: </span>{{ orders.get_order_id() }}
+                    <span class="fw-bold">Order ID: </span>{{ orders.id }}
                 </p>
-                <form action="{{url_for('delete_order', id=orders.get_order_id())}}" method="POST" class="mb-1">
-                    <input type="submit" value="Cancel Order" class="btn btn-danger">
-                </form>
-                <small class="fw-bold text-danger">
-                    <sup>*</sup>Cancellation of order can only be made within the first two hours of order confirmation.
-                </small>
                 <hr>
-                {% endfor %}
+                {{/each}}
+                {{/if}}
             </div>
         </div>
     </div>

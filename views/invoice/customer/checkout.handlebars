@@ -29,7 +29,7 @@
                     <i class="fa-solid fa-circle-info me-1"></i>Payment Information
                 </h5>
             </div>
-            <!--<div class="card-body">
+            <div class="card-body">
                 <form method="POST" action="">
                     <div class="text-left">
                         <h5 class="fw-bold mb-3">Billing Address</h5>
@@ -41,6 +41,10 @@
                             <label for="postal_code">Postal Code</label>
 							<input type="text" name="postal_code" class="form-control" required>
                         </div>
+                        <div class="mb-2 form-check">
+                            <input type="checkbox" class="form-check-input" id="billingAddressSameAsShipping">
+                            <label class="form-check-label" for="billingAddressSameAsShipping">Billing address same as shipping address</label>
+                        </div>
                         <hr>
                         <h5 class="fw-bold mb-3">Card Details</h5>
                         <div class="my-3">
@@ -50,106 +54,28 @@
                             <i class="fa-brands fa-cc-amex" style="color: #0076ce; font-size: 35px;"></i>
                         </div>
                         <div class="mb-2 mx-auto">
-                            <label for="card_name">Card name</label>
-							<input type="text" name="card_name" class="form-control" required>
+                            <label for="card_name">Card Number</label>
+							<input type="text" name="card_number" class="form-control" required>
                         </div>
                         <div class="mb-2 mx-auto">
-                            <label for="card_name">Card name</label>
+                            <label for="card_name">Card Name</label>
 							<input type="text" name="card_name" class="form-control" required>
                         </div>
                         <div class="mb-2" style="max-width: 22.5%;">
-                            <label for="expmonth">Expire month</label>
-							<input type="number" name="expmonth" class="form-control" required>
+                            <label for="expmonth">Expire Date</label>
+							<input type="text" name="expiry_date" placeholder="MM/YY" class="form-control" required>
+                        </div>
                         </div>
                         <div class="mb-2" style="max-width: 22.5%;">
-                            <label for="expyear">Expire year</label>
-							<input type="number" name="expyear" class="form-control" required>
-                        </div>
-                        <div class="mb-2" style="max-width: 22.5%;">
-                            <label for="cvve">cvv</label>
+                            <label for="cvve">CVV</label>
 							<input type="number" name="cvv" class="form-control" required>
-                        </div>
-                        <div class="mb-2 form-check">
-                            <input type="checkbox" class="form-check-input" id="billingAddressSameAsShipping">
-                            <label class="form-check-label" for="billingAddressSameAsShipping">Billing address same as shipping address</label>
                         </div>
                         <div class="mx-auto">
                             <input type="submit" value="Place Order" class="btn btn-info w-100">
                         </div>
                     </div>
                 </form>
-            </div>-->
-            <div id="paypal-button-container"></div>
+            </div>
         </div>
     </div>
 </div>
-
-
-<!-- Sample PayPal credentials (client-id) are included -->
-<script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD&intent=capture&enable-funding=venmo"></script>
-
-<script>
-const fundingSources = [
-    paypal.FUNDING.PAYPAL,
-    paypal.FUNDING.VENMO,
-    paypal.FUNDING.PAYLATER,
-    paypal.FUNDING.CARD
-    ]
-
-for (const fundingSource of fundingSources) {
-    const paypalButtonsComponent = paypal.Buttons({
-    fundingSource: fundingSource,
-
-    // optional styling for buttons
-    // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
-    style: {
-        shape: 'rect',
-        height: 40,
-    },
-
-    // set up the transaction
-    createOrder: (data, actions) => {
-        // pass in any options from the v2 orders create call:
-        // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
-        const createOrderPayload = {
-        purchase_units: [
-            {
-            amount: {
-                value: '88.44',
-            },
-            },
-        ],
-        }
-
-        return actions.order.create(createOrderPayload)
-    },
-
-    // finalize the transaction
-    onApprove: (data, actions) => {
-        const captureOrderHandler = (details) => {
-        const payerName = details.payer.name.given_name
-        console.log('Transaction completed!')
-        }
-
-        return actions.order.capture().then(captureOrderHandler)
-    },
-
-    // handle unrecoverable errors
-    onError: (err) => {
-        console.error(
-        'An error prevented the buyer from checking out with PayPal',
-        )
-    },
-    })
-
-    if (paypalButtonsComponent.isEligible()) {
-    paypalButtonsComponent
-        .render('#paypal-button-container')
-        .catch((err) => {
-        console.error('PayPal Buttons failed to render')
-        })
-    } else {
-    console.log('The funding source is ineligible')
-    }
-}
-</script>
