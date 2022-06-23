@@ -8,11 +8,11 @@ const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/login', (req, res) => { //this is where we get the info
-    res.render('login', { layout: 'main' }); //this is for the handlebar name
+    res.render('user/customer/login', { layout: 'main' }); //this is for the handlebar name
 });
 
 router.get('/register', (req, res) => { //this is to render the page
-    res.render('user/register');
+    res.render('user/customer/register', { layout: 'main' });
 });
 
 router.post('/register', async function (req, res) { //this is to get the input of the page, req is to get what the user input
