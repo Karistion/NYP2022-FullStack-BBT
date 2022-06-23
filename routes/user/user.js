@@ -8,7 +8,7 @@ const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/login', (req, res) => { //this is where we get the info
-    res.render('user/login'); //this is for the handlebar name
+    res.render('login', { layout: 'main' }); //this is for the handlebar name
 });
 
 router.get('/register', (req, res) => { //this is to render the page
