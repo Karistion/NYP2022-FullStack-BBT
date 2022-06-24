@@ -4,6 +4,7 @@ const router = express.Router();
 const flashMessage = require('../../helpers/messenger');
 var Luhn = require('luhn-js');
 const Invoice = require('../../models/Invoice');
+const Cart = require('../../models/Cart');
 const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/checkout', ensureAuthenticated, (req, res) => {
