@@ -102,7 +102,7 @@ app.use(function (req, res, next) {
 // mainRoute is declared to point to routes/main.js
 const mainRoute = require('./routes/main');
 const userRoute = require('./routes/user/user');
-// const forumsRoute = require('./routes/forums/forums');
+const forumsRoute = require('./routes/forums/forums');
 const invoiceRoute = require('./routes/invoice/invoice');
 // const menuRoute = require('./routes/menu/menu');
 // const reportRoute = require('./routes/report/report');
@@ -114,7 +114,7 @@ const videoRoute = require('./routes/video');
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
 app.use('/user', userRoute);
-// app.use('/forums', forumsRoute);
+app.use('/forums', forumsRoute);
 app.use('/invoice', invoiceRoute);
 // app.use('/menu', menuRoute);
 // app.use('/report', reportRoute);
