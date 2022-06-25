@@ -18,7 +18,7 @@ const setUpDB = (drop) => {
             Video.belongsTo(User);
             User.hasMany(Invoice);
             Invoice.belongsTo(User);
-            Invoice.hasOne(Cart); 
+            //Invoice.hasOne(Cart); 
             mySQLDB.sync({
                 force: drop
             });
