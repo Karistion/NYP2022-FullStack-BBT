@@ -8,7 +8,8 @@ const Cart = require('../../models/Cart');
 const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/checkout', ensureAuthenticated, (req, res) => {
-	res.render('invoice/customer/checkout', {layout: 'main'});
+    let items=Cart.getCart();
+	res.render('invoice/customer/checkout', {layout: 'main'}, { items });
 });
 
 router.post('/checkout', async function (req, res) {
@@ -25,12 +26,17 @@ router.post('/checkout', async function (req, res) {
         return;
     }
     let userId=req.user.id;
-	let invoice = await Invoice.create({ card_number, card_name, postal_code, address, userId });
-	res.redirect('/invoice/cfmorder');
+    let items=Cart.getCart();
+	Invoice.create({ card_number, card_name, postal_code, address, userId, items })
+    .then((invoice)=>{ 
+        console.log(invoice.toJSON());  
+	    res.redirect('/invoice/cfmorder');
+    })
 });
 
 router.get('/cart', ensureAuthenticated, (req, res) => {
-	res.render('invoice/customer/cart', {layout: 'main'});
+    let cart=Cart.getCart();
+	res.render('invoice/customer/cart', {layout: 'main'}, { cart });
 });
 
 router.get('/cfmorder', ensureAuthenticated, (req, res) => {
@@ -50,7 +56,7 @@ router.get('/cfmorder', ensureAuthenticated, (req, res) => {
 router.get('/order_history', ensureAuthenticated, (req, res) => {
     Invoice.findAll({
         where: { userId: req.user.id },
-        order: [['datedelivered']],
+        order: [['datedelivered', 'DESC']],
         raw: true
         })
         .then((invoices) => {

@@ -3,7 +3,6 @@ const db = require('../config/DBConfig');
 // Create users table in MySQL Database
 const User = db.define('user',
     {
-        id: { type: Sequelize.UUID, primaryKey: true },
         name: { type: Sequelize.STRING },
         mobile: { type: Sequelize.INTEGER },
         gender: { type: Sequelize.STRING },

@@ -1,6 +1,8 @@
 const mySQLDB = require('./DBConfig');
 const User = require('../models/User');
 const Video = require('../models/Video');
+const Cart = require('../models/Cart');
+const Invoice = require('../models/Invoice');
 // const Invoice = require('../models/Invoice');
 // const Invoice = require('../models/Drink');
 // If drop is true, all existing tables are dropped and recreated
@@ -14,9 +16,9 @@ const setUpDB = (drop) => {
             */
             User.hasOne(Video);
             Video.belongsTo(User);
-            // User.hasMany(Invoice);
-            // Invoice.belongsTo(User);
-            // Invoice.hasMany(Drinks); 
+            User.hasMany(Invoice);
+            Invoice.belongsTo(User);
+            Invoice.hasOne(Cart); 
             mySQLDB.sync({
                 force: drop
             });

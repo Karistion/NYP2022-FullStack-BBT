@@ -6,6 +6,7 @@ const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
+const uuid = require('uuid')
 
 router.get('/login', (req, res) => { //this is where we get the info
     res.render('user/customer/login', { layout: 'main' }); //this is for the handlebar name
@@ -27,9 +28,9 @@ router.post('/register', async function (req, res) { //this is to get the input 
         isValid = false;
     }
     if (!isValid) {
-        res.render('user/register', {
+        res.render('user/customer/register', {
             name, email, mobile, postal, address, username
-        });
+        }, { layout: 'main' });
         return;
     }
     try {
@@ -39,12 +40,13 @@ router.post('/register', async function (req, res) { //this is to get the input 
         if (user) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', username + ' alreay registered');
-            res.render('user/register', {
+            res.render('user/customer/register', {
                 name, email, mobile, postal, address, username
-            });
+            }, { layout: 'main' });
         }
         else {
             // Create new user record
+            id=uuid.v1.toString()
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
@@ -62,7 +64,7 @@ router.post('/register', async function (req, res) { //this is to get the input 
 router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         // Success redirect URL
-        successRedirect: '/video/listVideos',
+        successRedirect: '/',
         // Failure redirect URL
         failureRedirect: '/user/login',
         /* Setting the failureFlash option to true instructs Passport to flash

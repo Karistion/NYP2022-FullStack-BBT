@@ -25,20 +25,21 @@
             <div class="card-body">
                 {{#if invoices}}
                 {{#each invoices}}
-                <h5 class="fw-bold mb-3">A3 Sedan</h5>
-                <p class="mb-2">
-                    <span class="fw-bold">Total Paid: </span>SGD190,415
-                </p>
-                <p class="mb-2">
-                    <span class="fw-bold">Estimated Delivery Date: </span>{{ orders.datedelivery + 15 }}
-                </p>
-                <p class="mb-2">
-                    <span class="fw-bold">Shipping Address: </span>{{ orders.address }}
-                </p>
-                <p class="mb-3">
-                    <span class="fw-bold">Order ID: </span>{{ orders.id }}
-                </p>
-                <hr>
+                <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                <h2 class="accordion-header" id="heading+{{id}}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    {{datedelivery}} Total Price: {{items.totalPrice}}
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    {{#each items.products}}    
+                    {{/each}}
+                    </div>
+                </div>
+                </div>
+                </div>
                 {{/each}}
                 {{/if}}
             </div>

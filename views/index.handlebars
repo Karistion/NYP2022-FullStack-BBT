@@ -54,61 +54,43 @@
                                 </li>
                             </ul>
                         </li>
-                        <!--{% if session['logged_in_admin'] %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user-tie me-1"></i>My Account
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-lg-end mb-md-2" aria-labelledby="authenticatedUserNavbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="/admin-dashboard">
-                                        <i class="fa-solid fa-chart-line me-1"></i>Admin Dashboard
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="/retrieveUsers">
-                                        <i class="fa-solid fa-pen-to-square me-1"></i>Edit Account Information
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item text-danger" href="/logout">
-                                        <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        {% elif session['logged_in'] %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-user-tie me-1"></i>My Account
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-lg-end mb-md-2" aria-labelledby="authenticatedUserNavbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="/retrieveUsers">
-                                        <i class="fa-solid fa-pen-to-square me-1"></i>Edit Account Information
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="/order-history">
-                                        <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item text-danger" href="/logout">
-                                        <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        {% else %}-->
-                        <li class="nav-item">
-                            {{!-- <form action="user/login" method="get"> --}}
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fa-solid fa-user-lock me-1"></i><a href="/user/login">Login/Register</a>
-                                </button>
-                            {{!-- </form> --}}
-                        </li>
-                        <!--{% endif %}-->
+                        {{#if user}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user-tie me-1"></i>My Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg-end mb-md-2" aria-labelledby="authenticatedUserNavbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/retrieveUsers">
+                                    <i class="fa-solid fa-pen-to-square me-1"></i>Edit Account Information
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/invoice/cart">
+                                    <img src="https://cdn-icons.flaticon.com/png/128/2838/premium/2838895.png?token=exp=1656139041~hmac=4bea4d6971d791ef9ddbfe14a6bf4ba8" width="25" height="25"> Cart
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/invoice/order_history">
+                                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item text-danger" href="/logout">
+                                    <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <form action="/login" method="get">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa-solid fa-user-lock me-1"></i><a href="/user/login">Login/Register</a>
+                            </button>
+                        </form>
+                    </li>
+                    {{/if}}
                     </ul>
                 </div>
             </div>
