@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 const Invoice = db.define('invoice',
     {
-        id: { type: Sequelize.UUID, allowNull: false, unique: true, primaryKey: true},
+        id: { type: Sequelize.UUID, allowNull: false, unique: true, primaryKey: true, defaultValue: Sequelize.UUIDV4},
         card_number: { type: Sequelize.INTEGER, allowNull: false },
         card_name: { type: Sequelize.INTEGER, allowNull: false },
         postal: { type: Sequelize.STRING, allowNull: false },

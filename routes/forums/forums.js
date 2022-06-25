@@ -5,16 +5,15 @@ const router = express.Router();
 const moment = require('moment');
 
 router.get('/forums', (req, res) => {
-	
 	Threads.findAll({
         
         //order: [['dateRelease', 'DESC']],
-        raw: true
+        //raw: true
     })
         .then((threads) => {
             // pass object to listVideos.handlebar
             
-            res.render('forums/customer/homeforums', { threads }, {layout: 'main'});
+            res.render('forums/customer/homeforums', { threads, layout: 'main' });
         })
         .catch(err => console.log(err));
 });

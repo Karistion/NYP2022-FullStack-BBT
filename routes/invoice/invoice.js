@@ -8,8 +8,15 @@ const Cart = require('../../models/Cart');
 const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/checkout', ensureAuthenticated, (req, res) => {
-    let items=Cart.getCart();
-	res.render('invoice/customer/checkout', {layout: 'main'}, { items });
+    Cart.findFirst({
+        where: { userId: req.user.id },
+        order: [['updatedAt', 'DESC']],
+        raw: true
+        })
+        .then((cart) => {
+        res.render('invoice/customer/checkout', {layout: 'main'}, { cart });
+        })
+        .catch(err => console.log(err));
 });
 
 router.post('/checkout', async function (req, res) {
@@ -26,8 +33,7 @@ router.post('/checkout', async function (req, res) {
         return;
     }
     let userId=req.user.id;
-    let items=Cart.getCart();
-	Invoice.create({ card_number, card_name, postal_code, address, userId, items })
+	Invoice.create({ card_number, card_name, postal_code, address, userId })
     .then((invoice)=>{ 
         console.log(invoice.toJSON());  
 	    res.redirect('/invoice/cfmorder');
@@ -50,7 +56,6 @@ router.get('/cfmorder', ensureAuthenticated, (req, res) => {
         res.render('invoice/customer/cfmorder', {layout: 'main'}, { invoice });
         })
         .catch(err => console.log(err));
-	res.render('invoice/customer/cfmorder');
 });
 
 router.get('/order_history', ensureAuthenticated, (req, res) => {
