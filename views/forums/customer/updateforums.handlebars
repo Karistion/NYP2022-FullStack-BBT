@@ -45,28 +45,20 @@
     <div class="text-left">
         <div class="mb-3 mx-auto" style="max-width: 750px;">
             <p class="fw-bold">
-                {{ render_field(form.thread_title, class="form-control") }}
+                <input type="text" name="thread_Title" class="form-control" required>
             </p>
         </div>
         <div class="mb-3 mx-auto" style="max-width: 750px;">
             <p class="fw-bold">
-                {{ render_field(form.thread_username, class="form-control") }}
+                <input type="text" name="thread_Content" class="form-control" required>
             </p>
         </div>
-        <div class="mb-3 mx-auto" style="max-width: 750px;">
-            <p class="fw-bold">
-                {{ render_field(form.thread_message, class="form-control") }}
-            </p>
-        </div>
+      
         <hr class="mx-auto" style="max-width: 750px;">
-        <div class="form-group mb-3 mx-auto" style="max-width: 750px;">
-            <p class="fw-bold">
-                {{ render_field(form.thread_reply, class="form-control") }}
-            </p>
-        </div>
+        
         <div class="mx-auto" style="max-width: 750px;">
             <!-- Trigger Add Reply Modal -->
-            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdropReply">Add Reply</button>
+            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdropReply">Save Changes</button>
             <!-- Trigger Discard Changes & Go Back Modal -->
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropDiscard">Discard Changes & Exit</button>
         </div>

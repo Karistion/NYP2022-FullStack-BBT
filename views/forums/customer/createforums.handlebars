@@ -2,15 +2,18 @@
 
 <form method="POST" action="">
     <div class="text-left">
+       
         <div class="mb-3 mx-auto" style="max-width: 750px;">
-            {{ render_field(form.thread_username, class="form-control") }}
+            <p>Thread Title: </p>
+            <input type="text" name="thread_Title" placeholder="Please provide a title for your thread..." class="form-control" required>
         </div>
         <div class="mb-3 mx-auto" style="max-width: 750px;">
-            {{ render_field(form.thread_title, class="form-control") }}
+            <p>Thread Description: </p>
+            <textarea placeholder ="Please briefly describe your inquiry..." rows="5" cols = "60" name="thread_Content" class="form-control" required></textarea><br>
         </div>
-        <div class="mb-3 mx-auto" style="max-width: 750px;">
-            {{ render_field(form.thread_message, class="form-control") }}
-        </div>
+
+    
+
         <div class="mx-auto" style="max-width: 750px;">
             <input type="submit" value="Create Support Thread" class="btn btn-info w-100 mb-1">
         </div>
@@ -21,3 +24,14 @@
         </div>
     </div>
 </form>
+
+
+<style>
+    input:placeholder-shown {
+   font-style: italic;
+}
+
+    textarea:placeholder-shown {
+   font-style: italic;
+}
+</style>
