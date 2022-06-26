@@ -11,7 +11,7 @@ const User = db.define('user',
         email: { type: Sequelize.STRING },
         username: { type: Sequelize.STRING },
         password: { type: Sequelize.STRING },
-        ewallet: { type: Sequelize.INTEGER, defaultValue: 0 },
-        history: { type: Sequelize.STRING },
+        // ewallet: { type: Sequelize.INTEGER, defaultValue: 0 },
+        // history: { type: Sequelize.STRING },
     });
 module.exports = User

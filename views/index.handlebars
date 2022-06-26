@@ -61,7 +61,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end mb-md-2" aria-labelledby="authenticatedUserNavbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="/retrieveUsers">
+                                <a class="dropdown-item" href="/user/profile/{{ user.id }}">
                                     <i class="fa-solid fa-pen-to-square me-1"></i>Edit Account Information
                                 </a>
                             </li>
@@ -76,7 +76,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-danger" href="/logout">
+                                <a class="dropdown-item text-danger" href="/user/logout">
                                     <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
                                 </a>
                             </li>

@@ -51,8 +51,9 @@ router.post('/register', async function (req, res) { //this is to get the input 
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
             let user = await User.create({ name, email, gender, password: hash, mobile, postal, address, username });
+            // for deafault value is it role:member?
             flashMessage(res, 'success', username + ' registered successfully');
-            res.redirect('/user/login');
+            res.redirect('/user/customer/login');
         }
     }
     catch (err) {
@@ -66,7 +67,7 @@ router.post('/login', (req, res, next) => {
         // Success redirect URL
         successRedirect: '/',
         // Failure redirect URL
-        failureRedirect: '/user/login',
+        failureRedirect: '/user/customer/login' ,
         /* Setting the failureFlash option to true instructs Passport to flash
         an error message using the message given by the strategy's verify callback.
         When a failure occur passport passes the message object as error */
@@ -86,7 +87,7 @@ router.get('/logout', (req, res) => {
 router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
     User.findByPk(req.user.id)
         .then((user) => {
-            res.render('user/editprofile', { user });
+            res.render('user/customer/editprofile', { user, layout: 'main' });
         })
         .catch(err => console.log(err));
 });
@@ -103,7 +104,7 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     let email = req.body.email;
     if (password != password2) {
         flashMessage(res, 'error', 'Password not matching');
-        res.redirect('/user/editprofile/{{id}}');
+        res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
     }
     User.update(
         {
@@ -113,7 +114,7 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     )
         .then((result) => {
             console.log(result[0] + ' User updated');
-            res.redirect('/user/profile/{{id}}');
+            res.redirect('/user/customer/profile/{{id}}', { layout: 'main' });
         })
         .catch(err => console.log(err));
 });
@@ -121,7 +122,7 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
 router.get('/profile/:id', ensureAuthenticated, (req, res) => {
     User.findByPk(req.user.id)
         .then((user) => {
-            res.render('user/profile', { user });
+            res.render('user/customer/profile', { user, layout: 'main' });
         })
         .catch(err => console.log(err));
 });
@@ -132,7 +133,7 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         let user = await User.findByPk(req.user.id);
         let result = await User.destroy({ where: { id: user.id } });
         console.log(result + ' User deleted');
-        res.redirect('/user/register');
+        res.redirect('/user/customer/register', { layout: 'main' });
     }
     catch (err) {
         console.log(err);
