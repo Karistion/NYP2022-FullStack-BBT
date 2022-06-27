@@ -7,10 +7,10 @@
                 <h5 class="fw-bold mb-0">Pending Delivery</h5>
             </div>
             <div class="card-body">
-                {{#if !invoices}}
-                    <p>You have no pending deliveries.</p>
-                {{#else}}
+                {{#if invoice}}
                     <p>You have <span class="fw-bold">{{count}}</span> pending delivery.</p>
+                {{else}}
+                    <p>You have no pending deliveries.</p>
                 {{/if}}
             </div>
         </div>
@@ -19,22 +19,28 @@
         <div class="card">
             <div class="card-header bg-info">
                 <h5 class="fw-bold mb-0">
-                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History ({{ count }})
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History ({{ invoice.length }})
                 </h5>
             </div>
             <div class="card-body">
-                {{#if invoices}}
-                {{#each invoices}}
+                {{#if invoice}}
+                {{#each invoice}}
                 <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                 <h2 class="accordion-header" id="heading+{{id}}">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    {{datedelivery}} Total Price: {{items.totalPrice}}
+                    {{datedelivery}}<br> Total Price: ${{totalPrice}} <br>
+                    {{#if delivered}}
+                    Delivered
+                    {{else}}
+                    Pending delivery
+                    {{/if}}
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                    {{#each items.products}}    
+                    {{#each items}}    
+                    <p>{{ drink.name }} {{ sugar }}% sugar {{ topping }} {{ quantity }} quantity</p>
                     {{/each}}
                     </div>
                 </div>

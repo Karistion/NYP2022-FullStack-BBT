@@ -1,4 +1,5 @@
 const moment = require('moment');
+const Handlebars = require('handlebars');
 const formatDate = function (date, targetFormat) {
     return moment(date).format(targetFormat);
 };
@@ -11,4 +12,9 @@ const checkboxCheck = function (value, checkboxValue) {
 const radioCheck = function (value, radioValue) {
     return (value == radioValue) ? 'checked' : '';
 };
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck };
+
+const multiply = function (drink, item) {
+    return drink*item
+}
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply };

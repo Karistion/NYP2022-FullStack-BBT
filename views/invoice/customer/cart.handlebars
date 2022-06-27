@@ -4,10 +4,10 @@
       <div class="col-md-8">
         <div class="card mb-4">
           <div class="card-header py-3">
-            <h5 class="mb-0">Cart - {{drinks.length}} items</h5>
+            <h5 class="mb-0">Cart - {{items.length}} items</h5>
           </div>
           <div class="card-body">
-            {{#each drinks}}
+            {{#each items as | items |}}
             <!-- Single item -->
             <div class="row">
               <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
@@ -24,13 +24,13 @@
 
               <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
                 <!-- Data -->
-                <p><strong>Blue denim shirt</strong></p>
-                <p>Color: blue</p>
-                <p>Size: M</p>
-                <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+                <p><strong>{{items.drink.name}}</strong></p>
+                <p>{{items.sugar}}</p>
+                <p>{{items.topping}}</p>
+                <a href='/cart/deletecart/{{id}}'><button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
                   title="Remove item">
                   <i class="fas fa-trash"></i>
-                </button>
+                </button></a>
                 <!-- Data -->
               </div>
 
@@ -43,7 +43,7 @@
                   </button>
 
                   <div class="form-outline">
-                    <input id="form1" min="1" name="quantity" value="1" type="number" class="form-control" />
+                    <input id="form1" min="1" name="quantity" value="{{items.quantity}}" type="number" class="form-control" />
                     <label class="form-label" for="form1">Quantity</label>
                   </div>
 
@@ -56,7 +56,7 @@
 
                 <!-- Price -->
                 <p class="text-start text-md-center">
-                  <strong>$17.99</strong>
+                  <strong>{{multiply items.drink.price items.quantity}}</strong>
                 </p>
                 <!-- Price -->
               </div>

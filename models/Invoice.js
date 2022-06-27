@@ -2,11 +2,11 @@ const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 const Invoice = db.define('invoice',
     {
-        id: { type: Sequelize.UUID, allowNull: false, unique: true, primaryKey: true, defaultValue: Sequelize.UUIDV4},
-        card_number: { type: Sequelize.INTEGER, allowNull: false },
-        card_name: { type: Sequelize.INTEGER, allowNull: false },
-        postal: { type: Sequelize.STRING, allowNull: false },
-        address: { type: Sequelize.STRING, allowNull: false },
+        card_number: { type: Sequelize.BIGINT },
+        card_name: { type: Sequelize.STRING },
+        postal: { type: Sequelize.STRING },
+        address: { type: Sequelize.STRING },
+        totalPrice: { type:Sequelize.DECIMAL(10,2) },
         datedelivery: { type: Sequelize.DATE, defaultValue: Sequelize.NOW },
         status: { type: Sequelize.INTEGER(1), allowNull: false, defaultValue:1 },
         delivered: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue:false },

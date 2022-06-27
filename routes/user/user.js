@@ -49,13 +49,13 @@ router.post('/register', async function (req, res) { //this is to get the input 
             // Create new user record
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
-            var userId=req.user.id;
             // Use hashed password
             let user = await User.create({ name, email, gender, password: hash, mobile, postal, address, username });
+            var userId=user.id;
             let cart = await Cart.create({ userId })
             // for deafault value is it role:member?
             flashMessage(res, 'success', username + ' registered successfully');
-            res.redirect('/user/customer/login');
+            res.redirect('/user/login');
         }
     }
     catch (err) {
@@ -69,7 +69,7 @@ router.post('/login', (req, res, next) => {
         // Success redirect URL
         successRedirect: '/',
         // Failure redirect URL
-        failureRedirect: '/user/customer/login' ,
+        failureRedirect: '/user/login' ,
         /* Setting the failureFlash option to true instructs Passport to flash
         an error message using the message given by the strategy's verify callback.
         When a failure occur passport passes the message object as error */

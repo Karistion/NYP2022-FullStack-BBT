@@ -9,12 +9,12 @@
                 </h5>
             </div>
             <div class="card-body">
-                {{#each drinks}}
-                <p class="fw-bold mb-0">{{this}}</p> <!--name-->
-                <p class="fw mb-0">{{this}}</p> <!--sugar-->
-                <p class="fw mb-0">{{this}}</p> <!--topping-->
+                {{#each items}}
+                <p class="fw-bold mb-0">{{drink.name}}</p> <!--name-->
+                <p class="fw mb-0">{{sugar}}</p> <!--sugar-->
+                <p class="fw mb-0">{{topping}}</p> <!--topping-->
                 <ul style="list-style: none;">
-                    <li>Price: SGD200,000</li>
+                    <li>{{multiply drink.price quantity}}</li>
                 </ul>
                 {{/each}}
             </div>
@@ -33,15 +33,11 @@
                         <h5 class="fw-bold mb-3">Billing Address</h5>
                         <div class="mb-2 mx-auto">
                             <label for="address">Address</label>
-							<input type="text" name="address" class="form-control" required>
+							<input type="text" name="address" value="{{ user.address }}" class="form-control" required>
                         </div>
                         <div class="mb-2 mx-auto">
                             <label for="postal_code">Postal Code</label>
-							<input type="text" name="postal_code" class="form-control" required>
-                        </div>
-                        <div class="mb-2 form-check">
-                            <input type="checkbox" class="form-check-input" id="billingAddressSameAsShipping">
-                            <label class="form-check-label" for="billingAddressSameAsShipping">Billing address same as shipping address</label>
+							<input type="text" name="postal_code" value="{{ user.postal }}" class="form-control" required>
                         </div>
                         <hr>
                         <h5 class="fw-bold mb-3">Card Details</h5>
