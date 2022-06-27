@@ -97,18 +97,6 @@ app.use(function (req, res, next) {
 	res.locals.messages = req.flash('message');
 	res.locals.errors = req.flash('error');
 	res.locals.user = req.user || null;
-	res.locals.cart = req.cart || null;
-	if (res.locals.user!=null){
-		fs.writeFile('JsonCart/'+ string(res.locals.user.id) +'.json', JSON.stringify({}), 'utf8', function (err) {
-			if (err) {
-				console.log("An error occured while writing JSON Object to File.");
-				return console.log(err);
-			}
-		});
-		var path='JsonCart/'+ string(res.locals.user.id) +'.json';
-		var userId=res.locals.user.id;
-		Cart.create({path, userId});
-	}
 	next();
 });
 
