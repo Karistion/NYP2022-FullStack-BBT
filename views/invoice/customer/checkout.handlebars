@@ -9,8 +9,10 @@
                 </h5>
             </div>
             <div class="card-body">
-                {{#each cart}}
-                <p class="fw-bold mb-0">Tesla Model S</p>
+                {{#each drinks}}
+                <p class="fw-bold mb-0">{{this}}</p> <!--name-->
+                <p class="fw mb-0">{{this}}</p> <!--sugar-->
+                <p class="fw mb-0">{{this}}</p> <!--topping-->
                 <ul style="list-style: none;">
                     <li>Price: SGD200,000</li>
                 </ul>

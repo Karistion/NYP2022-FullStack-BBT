@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 const helpers = require('./helpers/handlebars');
+const fs = require('fs');
 require('dotenv').config();
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -96,6 +97,18 @@ app.use(function (req, res, next) {
 	res.locals.messages = req.flash('message');
 	res.locals.errors = req.flash('error');
 	res.locals.user = req.user || null;
+	res.locals.cart = req.cart || null;
+	if (res.locals.user!=null){
+		fs.writeFile('JsonCart/'+ string(res.locals.user.id) +'.json', JSON.stringify({}), 'utf8', function (err) {
+			if (err) {
+				console.log("An error occured while writing JSON Object to File.");
+				return console.log(err);
+			}
+		});
+		var path='JsonCart/'+ string(res.locals.user.id) +'.json';
+		var userId=res.locals.user.id;
+		Cart.create({path, userId});
+	}
 	next();
 });
 
@@ -109,6 +122,7 @@ const invoiceRoute = require('./routes/invoice/invoice');
 // const trackingRoute = require('./routes/tracking/tracking');
 // const voucherRoute = require('./routes/voucher/voucher');
 const videoRoute = require('./routes/video');
+const Cart = require('./routes/cart/cart');
 //const registerRoute = require('./routes/register');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js

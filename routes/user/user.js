@@ -46,7 +46,6 @@ router.post('/register', async function (req, res) { //this is to get the input 
         }
         else {
             // Create new user record
-            id=uuid.v1.toString()
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password

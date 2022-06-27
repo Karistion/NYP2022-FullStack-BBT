@@ -17,6 +17,7 @@
     "express-mysql-session": "^2.1.8",
     "express-session": "^1.15.6",
     "flash-messenger": "^1.1.1",
+    "fs": "^0.0.1-security",
     "handlebars": "^4.7.7",
     "luhn-js": "^1.1.2",
     "moment": "^2.29.3",
