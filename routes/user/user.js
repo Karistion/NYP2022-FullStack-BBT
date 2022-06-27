@@ -6,7 +6,8 @@ const User = require('../../models/User');
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
-const uuid = require('uuid')
+const uuid = require('uuid');
+const Cart = require('../../models/Cart');
 
 router.get('/login', (req, res) => { //this is where we get the info
     res.render('user/customer/login', { layout: 'main' }); //this is for the handlebar name
@@ -48,8 +49,10 @@ router.post('/register', async function (req, res) { //this is to get the input 
             // Create new user record
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(password, salt);
+            var userId=req.user.id;
             // Use hashed password
             let user = await User.create({ name, email, gender, password: hash, mobile, postal, address, username });
+            let cart = await Cart.create({ userId })
             // for deafault value is it role:member?
             flashMessage(res, 'success', username + ' registered successfully');
             res.redirect('/user/customer/login');

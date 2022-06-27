@@ -37,6 +37,7 @@ router.post('/checkout', async function (req, res) {
     let userId=req.user.id;
     var CartId = Cart.findFirst({order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err))
 	Invoice.create({ card_number, card_name, postal_code, address, userId, CartId })
+    Cart.create({userId})
     .then((invoice)=>{ 
         console.log(invoice.toJSON());  
 	    res.redirect('/invoice/cfmorder');
