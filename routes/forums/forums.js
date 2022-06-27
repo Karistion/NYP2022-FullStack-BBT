@@ -27,10 +27,10 @@ router.post('/CreateThread', async function (req, res) { //this is to get the in
     let thread_Content = req.body.thread_Content.slice(0, 1999);
     let dateCreated = moment(req.body.dateRelease, 'DD/MM/YYYY');
 
-    
+    var userId=req.user.id
     Threads.create(
         {
-            thread_Title, thread_Content, dateCreated
+            thread_Title, thread_Content, dateCreated, userId
         }
     )
         .then((Thread) => {
