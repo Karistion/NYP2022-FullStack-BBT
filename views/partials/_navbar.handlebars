@@ -57,7 +57,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item text-danger" href="/logout">
+                                <a class="dropdown-item text-danger" href="/user/logout">
                                     <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
                                 </a>
                             </li>
@@ -65,11 +65,9 @@
                     </li>
                     {{else}}
                     <li class="nav-item">
-                        <form action="user/login" method="get">
-                            <button type="submit" class="btn btn-success">
+                            <a href="/user/login"><button type="submit" class="btn btn-success">
                                 <i class="fa-solid fa-user-lock me-1"></i>Login/Register
-                            </button>
-                        </form>
+                            </button></a>
                     </li>
                     {{/if}}
                 </ul>

@@ -2,11 +2,13 @@
 <hr>
  <div class="card mb-3">
             <div class="card-header">
-                <h5 class="fw-bold my-1">{{ thread_Title }}</h5>
-                <small class="p-0">Posted by: {{ thread_Username }}</small>
+                <h5 class="fw-bold my-1">{{ Thread.thread_Title }}</h5>
+                <small class="p-0">Posted by: {{ Thread.thread_Username }}</small>
+                
             </div>
             <div class="card-body py-2">
-                <p class="mb-1 fst-italic">Please selection an option:</p>
+                <h5 class="fw-bold my-1">{{ Thread.thread_Content }}</h5>
+                
                
                     
             </div>
@@ -14,9 +16,15 @@
 
 
     <div class="mx-auto" style="max-width: 750px;">
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/forums/UpdateThread/{{Thread.id}}">Edit Thread</a>
+          
+                                </button>
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/forums/DeleteThread/{{id}}">Delete Thread</a>
+                                </button>
         <a href="/forums/forums">
             <button type="button" class="btn btn-info btn-block">Go Back</button>
         </a>
     </div>
 </div>
-{% endblock %}

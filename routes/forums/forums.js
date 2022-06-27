@@ -3,6 +3,8 @@ const res = require('express/lib/response');
 const Threads = require('../../models/CustSupp');
 const router = express.Router();
 const moment = require('moment');
+const User = require('../../models/User');
+
 
 router.get('/forums', (req, res) => {
 	Threads.findAll({
@@ -20,6 +22,28 @@ router.get('/forums', (req, res) => {
 
 router.get('/CreateThread', (req, res) => { //this is to render the page
     res.render('forums/customer/createforums', { layout: 'main' });
+});
+
+router.get('/ViewThread/:id', (req, res) => { //this is to render the page
+    Threads.findByPk(req.params.id).then((thread)=>{
+        User.findOne({
+            where: {id:thread.userId}
+        }).then((user)=>{
+            res.render('forums/customer/viewforums', { layout: 'main', Thread });
+        })
+        })
+        .catch(err => console.log(err)); 
+});
+
+
+
+router.get('/UpdateThread/:id', (req, res) => { //this is to render the page
+    
+    Threads.findByPk(req.params.id) //this part is we get the id from the database using findbypk. then we get the whole video object
+        .then((Thread) => {
+            res.render('forums/customer/updateforums', { layout: 'main', Thread });
+        })
+        .catch(err => console.log(err));
 });
 
 router.post('/CreateThread', async function (req, res) { //this is to get the input of the page, req is to get what the user input
