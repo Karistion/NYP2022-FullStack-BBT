@@ -12,6 +12,11 @@ router.get('/about', (req, res) => {
 	res.render('about', {layout: 'main'});
 });
 
+router.get('/admin', (req, res) => {
+	var active_page='dashboard';
+	res.render('user/admin/profile', {layout: 'admin', active_page});
+});
+
 
 
 router.get('/termsandconditions', (req, res) => {

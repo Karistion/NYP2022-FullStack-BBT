@@ -97,6 +97,14 @@ app.use(function (req, res, next) {
 	res.locals.messages = req.flash('message');
 	res.locals.errors = req.flash('error');
 	res.locals.user = req.user || null;
+	res.locals.admin_nav = [
+		{'href':'/admin', 'id':'dashboard', 'caption':'Dashboard', 'icon':'bx bxs-dashboard'},
+		{'href':'/adminUser', 'id':'users', 'caption':'Users', 'icon':'bx bx-user'},
+		{'href':'/adminProduct', 'id':'inventory', 'caption':'Inventory', 'icon':'bx bx-package'},
+		{'href':'/adminVoucher', 'id':'rewards', 'caption':'Rewards', 'icon':'bx bxs-discount'},
+		{'href':'/adminReports', 'id':'reports', 'caption':'Reports', 'icon':'bx bx-bar-chart-alt-2'},
+		{'href':'/adminForums', 'id':'customer_support', 'caption':'Customer Support', 'icon':'bx bx-support'}
+	] 
 	next();
 });
 
@@ -110,7 +118,6 @@ const cartRoute = require('./routes/cart/cart');
 // const reportRoute = require('./routes/report/report');
 // const trackingRoute = require('./routes/tracking/tracking');
 // const voucherRoute = require('./routes/voucher/voucher');
-const videoRoute = require('./routes/video');
 //const registerRoute = require('./routes/register');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
@@ -123,7 +130,6 @@ app.use('/cart', cartRoute)
 // app.use('/report', reportRoute);
 // app.use('/tracking', trackingRoute);
 // app.use('/voucher', voucherRoute);
-app.use('/video', videoRoute);
 //app.use('/register', registerRoute);
 
 /*

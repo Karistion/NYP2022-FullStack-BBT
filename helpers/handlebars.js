@@ -13,8 +13,12 @@ const radioCheck = function (value, radioValue) {
     return (value == radioValue) ? 'checked' : '';
 };
 
-const multiply = function (drink, item) {
-    return drink*item
+const multiply = function (drink, quantity) {
+    return drink*quantity
 }
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply };
+const cssactive = function (id, active) {
+    return (id == active) ? 'active' : '';
+}
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive };
