@@ -104,7 +104,8 @@ app.use(function (req, res, next) {
 		{'href':'/adminVoucher', 'id':'rewards', 'caption':'Rewards', 'icon':'bx bxs-discount'},
 		{'href':'/adminReports', 'id':'reports', 'caption':'Reports', 'icon':'bx bx-bar-chart-alt-2'},
 		{'href':'/adminForums', 'id':'customer_support', 'caption':'Customer Support', 'icon':'bx bx-support'}
-	] 
+	];
+	res.locals.trackinglist={'1':'Confirmed Order', '2':'Making Drinks', '3':'En Route', '4':'Delivered'}
 	next();
 });
 
@@ -116,7 +117,7 @@ const invoiceRoute = require('./routes/invoice/invoice');
 const cartRoute = require('./routes/cart/cart');
 // const menuRoute = require('./routes/menu/menu');
 // const reportRoute = require('./routes/report/report');
-// const trackingRoute = require('./routes/tracking/tracking');
+const trackingRoute = require('./routes/tracking/tracking');
 // const voucherRoute = require('./routes/voucher/voucher');
 //const registerRoute = require('./routes/register');
 
@@ -128,7 +129,7 @@ app.use('/invoice', invoiceRoute);
 app.use('/cart', cartRoute)
 // app.use('/menu', menuRoute);
 // app.use('/report', reportRoute);
-// app.use('/tracking', trackingRoute);
+app.use('/tracking', trackingRoute);
 // app.use('/voucher', voucherRoute);
 //app.use('/register', registerRoute);
 
