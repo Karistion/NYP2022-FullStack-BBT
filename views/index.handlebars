@@ -84,11 +84,9 @@
                     </li>
                     {{else}}
                     <li class="nav-item">
-                        <form action="/login" method="get">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fa-solid fa-user-lock me-1"></i><a href="/user/login">Login/Register</a>
-                            </button>
-                        </form>
+                        <a href="/user/login"><button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-user-lock me-1"></i>Login/Register
+                        </button></a>
                     </li>
                     {{/if}}
                     </ul>
@@ -96,28 +94,49 @@
             </div>
         </nav>
 
-        <div class="container-lg">
+        {{!-- <div class="container-lg">
             <div class="d-flex flex-column vh-100 justify-content-center align-items-center">
-                <h2 class="text-white px-auto text-center fw-bold fst-italic">Welcome to CarOrSell!</h2>
-                <p class="text-white px-auto text-center fw-bold mb-0" style="font-size: 60px;">Your Dream Car.</p>
-                <p class="text-white px-auto text-center fw-bold" style="font-size: 60px;">We Find It.</p>
-                <!--{% if session['logged_in_admin'] %}
+                <h2 class="text px-auto text-center fw-bold fst-italic">Welcome to CarOrSell!</h2>
+                <p class="text px-auto text-center fw-bold mb-0" style="font-size: 60px;">Your Dream Car.</p>
+                <p class="text px-auto text-center fw-bold" style="font-size: 60px;">We Find It.</p>
+                {% if session['logged_in_admin'] %}
                     <a href="#learn-more" class="text-white text-center mt-3" style="text-decoration: none;">
                         <p class="mb-0" style="font-size: 16px;">Learn More</p>
                         <i class="fa-solid fa-chevron-down fw-bold"></i>
                     </a>
-                {% elif session['logged_in'] %}
+                {{#if user}}
                     <a href="#learn-more" class="text-white text-center mt-3" style="text-decoration: none;">
                         <p class="mb-0" style="font-size: 16px;">Learn More</p>
                         <i class="fa-solid fa-chevron-down fw-bold"></i>
                     </a>
-                {% else %}-->
+                {{else}}
                     <a href="/account-creation" class="btn btn-success btn-lg px-4 mb-3" style="font-size: 24px;">Open an Account Today</a>
                     <a href="#learn-more" class="text-white text-center mt-3" style="text-decoration: none;">
                         <p class="mb-0" style="font-size: 16px;">Learn More</p>
                         <i class="fa-solid fa-chevron-down fw-bold"></i>
                     </a>
-                <!--{% endif %}-->
+                {{/if}}
+            </div> --}}
+            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="5000">
+                <img src="images/bbt1.png" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                <img src="images/bbt2.png" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item" data-bs-interval="5000">
+                <img src="images/bbt3.png" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
             </div>
             <div class="pt-3 mb-5" id="learn-more">
                 <div class="mb-5">
