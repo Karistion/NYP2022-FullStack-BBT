@@ -14,11 +14,16 @@ const radioCheck = function (value, radioValue) {
 };
 
 const multiply = function (drink, quantity) {
-    return drink*quantity
+    return (drink*quantity).toFixed(2)
+}
+
+const decimal2 = function (drink) {
+    return drink.toFixed(2)
 }
 
 const cssactive = function (id, active) {
     return (id == active) ? 'active' : '';
 }
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive };
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2};
