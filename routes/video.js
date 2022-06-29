@@ -6,7 +6,7 @@ const ensureAuthenticated = require('../helpers/auth');
 
 router.get('/listVideos', ensureAuthenticated, (req, res) => {
     Video.findAll({
-        where: { userId: req.user.id },
+        where: { category: 'green tea' },
         order: [['dateRelease', 'DESC']],
         raw: true
     })
