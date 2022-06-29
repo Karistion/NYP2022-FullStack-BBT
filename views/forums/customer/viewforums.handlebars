@@ -3,7 +3,7 @@
  <div class="card mb-3">
             <div class="card-header">
                 <h5 class="fw-bold my-1">{{ Thread.thread_Title }}</h5>
-                <small class="p-0">Posted by: {{ Thread.thread_Username }}</small>
+                <small class="p-0">Posted by: {{ user.username }}</small>
                 
             </div>
             <div class="card-body py-2">
@@ -21,7 +21,7 @@
           
                                 </button>
         <button type="submit" class="btn btn-primary" >
-                                    <a style="color:antiquewhite;" href="/forums/DeleteThread/{{id}}">Delete Thread</a>
+                                    <a style="color:antiquewhite;" href="/forums/DeleteThread/{{Thread.id}}">Delete Thread</a>
                                 </button>
         <a href="/forums/forums">
             <button type="button" class="btn btn-info btn-block">Go Back</button>
