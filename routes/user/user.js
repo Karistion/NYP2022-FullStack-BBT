@@ -108,15 +108,17 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
         flashMessage(res, 'error', 'Password not matching');
         res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
     }
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
     User.update(
         {
-            name, username, password, password2, gender, mobile, postal, address, email
+            name, username, password: hash, password2, gender, mobile, postal, address, email
         },
         { where: { id: req.user.id } }
     )
         .then((result) => {
             console.log(result[0] + ' User updated');
-            res.redirect('/user/customer/profile/{{id}}', { layout: 'main' });
+            res.redirect('/user/profile/{{id}}');
         })
         .catch(err => console.log(err));
 });
@@ -135,7 +137,7 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         let user = await User.findByPk(req.user.id);
         let result = await User.destroy({ where: { id: user.id } });
         console.log(result + ' User deleted');
-        res.redirect('/user/customer/register', { layout: 'main' });
+        res.redirect('/user/register');
     }
     catch (err) {
         console.log(err);
