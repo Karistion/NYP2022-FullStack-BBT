@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Handlebars = require('handlebars');
-const formatDate = function (date, targetFormat) {
-    return moment(date).format(targetFormat);
+const formatDate = function (date) {
+    return moment(date).format("DD-MM-YYYY, hh:mm:ss");
 };
 const replaceCommas = function (value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
