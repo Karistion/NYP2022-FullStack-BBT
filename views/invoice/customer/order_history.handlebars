@@ -29,7 +29,7 @@
                 <div class="accordion-item">
                 <h2 class="accordion-header" id="heading{{id}}">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{id}}" aria-expanded="true" aria-controls="collapse{{id}}">
-                    {{formatDate datedelivery}}<br> Total Price: ${{decimal2 totalprice}} <br>
+                    {{formatDate datedelivery}}<br> Total Price: ${{totalprice}} <br>
                     {{#if delivered}}
                     Delivered
                     {{else}}
@@ -40,7 +40,7 @@
                 <div id="collapse{{id}}" class="accordion-collapse collapse" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                     {{#each items}}    
-                    <p><b>{{ drink.name }} <span style="float: right !important">x{{ quantity }}</span></b></p>
+                    <p><b>{{ drink.name }} (${{ multiply drink.price quantity}}) <span style="float: right !important">x{{ quantity }}</span></b></p>
                     <ul>
                         <li>
                             {{ sugar }}% sugar

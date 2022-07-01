@@ -14,11 +14,11 @@ const radioCheck = function (value, radioValue) {
 };
 
 const multiply = function (drink, quantity) {
-    return (drink*quantity).toFixed(2)
+    return (drink*quantity).toFixed(2);
 }
 
 const decimal2 = function (drink) {
-    return drink.toFixed(2)
+    return drink.toFixed(2);
 }
 
 const cssactive = function (id, active) {
