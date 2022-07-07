@@ -1,7 +1,7 @@
 const moment = require('moment');
 const Handlebars = require('handlebars');
-const formatDate = function (date, targetFormat) {
-    return moment(date).format(targetFormat);
+const formatDate = function (date) {
+    return moment(date).format("DD-MM-YYYY, hh:mm:ss");
 };
 const replaceCommas = function (value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
@@ -14,11 +14,16 @@ const radioCheck = function (value, radioValue) {
 };
 
 const multiply = function (drink, quantity) {
-    return drink*quantity
+    return (drink*quantity).toFixed(2);
+}
+
+const decimal2 = function (drink) {
+    return drink.toFixed(2);
 }
 
 const cssactive = function (id, active) {
     return (id == active) ? 'active' : '';
 }
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive };
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2};

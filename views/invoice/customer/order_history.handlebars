@@ -7,7 +7,7 @@
                 <h5 class="fw-bold mb-0">Pending Delivery</h5>
             </div>
             <div class="card-body">
-                {{#if invoice}}
+                {{#if invoices}}
                     <p>You have <span class="fw-bold">{{count}}</span> pending delivery.</p>
                 {{else}}
                     <p>You have no pending deliveries.</p>
@@ -19,28 +19,36 @@
         <div class="card">
             <div class="card-header bg-info">
                 <h5 class="fw-bold mb-0">
-                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History ({{ invoice.length }})
+                    <i class="fa-solid fa-clock-rotate-left me-1"></i>Order History ({{ invoices.length }})
                 </h5>
             </div>
             <div class="card-body">
-                {{#if invoice}}
-                {{#each invoice}}
+                {{#if invoices}}
+                {{#each invoices}}
                 <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
-                <h2 class="accordion-header" id="heading+{{id}}">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    {{datedelivery}}<br> Total Price: ${{totalPrice}} <br>
+                <h2 class="accordion-header" id="heading{{id}}">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{id}}" aria-expanded="true" aria-controls="collapse{{id}}">
+                    {{formatDate datedelivery}}<br> Total Price: ${{totalprice}} <br>
                     {{#if delivered}}
                     Delivered
                     {{else}}
                     Pending delivery
                     {{/if}}
-                    </button>
+                    </button>       
                 </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
+                <div id="collapse{{id}}" class="accordion-collapse collapse" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                     {{#each items}}    
-                    <p>{{ drink.name }} {{ sugar }}% sugar {{ topping }} {{ quantity }} quantity</p>
+                    <p><b>{{ drink.name }} (${{ multiply drink.price quantity}}) <span style="float: right !important">x{{ quantity }}</span></b></p>
+                    <ul>
+                        <li>
+                            {{ sugar }}% sugar
+                        </li>
+                        <li>
+                            {{ topping }}
+                        </li>
+                    </ul>
                     {{/each}}
                     </div>
                 </div>

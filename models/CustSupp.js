@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 // Create users table in MySQL Database
-const Threads = db.define('Threads',
+const Threads = db.define('threads',
 {
     
     thread_Title:{ type: Sequelize.STRING },

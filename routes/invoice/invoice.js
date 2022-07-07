@@ -42,6 +42,8 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
 router.post('/checkout', async function (req, res) {
 	let { card_number, card_name, postal_code, address, expiry_date, cvv } = req.body;
 	isValid=true;
+    card_number=card_number.trim()
+    var postal=postal_code;
 	if (!Luhn.isValid(card_number)) {
         flashMessage(res, 'error', 'Invalid Card Number');
         isValid = false;
@@ -53,10 +55,10 @@ router.post('/checkout', async function (req, res) {
         return;
     }
     let userId=req.user.id;
-    var cart = Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
-    var CartId = cart.id
-    var cartprice = cart.totalPrice;
-	Invoice.create({ card_number, card_name, postal_code, address, cartprice, userId, CartId })
+    var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
+    var cartId = cart.id
+    var totalprice = cart.totalPrice;
+	Invoice.create({ card_number, card_name, postal, address, totalprice, userId, cartId })
     Cart.create({userId})
 	res.redirect('/invoice/cfmorder');
 });
@@ -95,45 +97,35 @@ router.get('/cfmorder', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/order_history', ensureAuthenticated, (req, res) => {
-    Invoice.findAll({
+router.get('/order_history', ensureAuthenticated, async function(req, res) {
+    var invoices = await Invoice.findAll({
         where: { userId: req.user.id },
         order: [['datedelivery', 'DESC']],
         raw: true
-        })
-        .then((invoice) => {
-            Cart.findOne({
-                where: {userId:req.user.id},
-                order: [['updatedAt']], 
-                raw: true
-            }).then((cart)=>{
-                Cartitems.findAll({
-                    where: { CartId: cart.id },
-                    order: [['createdAt']],
-                    raw: true
-                })
-                    .then(async function(items) {
-                        var count=0;
-                        // pass object to listVideos.handlebar
-                        for (var i=0;i<items.length;i++){
-                            var drink=await Drink.findByPk(items[i].drinkId)
-                            items[i]['drink']=drink;
-                        }
-                        for (var i=0;i<invoice.length;i++){
-                            if (invoice.cartId==items[i]['drink'].cartId){
-                                invoice[i]['items']=items;
-                            }
-                            if (!invoice.delivered){
-                                count++;
-                            }
-                        }
-                        res.render('invoice/customer/order_history', {layout: 'main', invoice, count});
-                    })
-                    .catch(err => console.log(err));
-            }).catch(err => console.log(err))
+        }).catch(err => console.log(err))
+    var count=0;
+    for (var i=0; i<invoices.length; i++){
+        if (!invoices[i].delivered){
+            count++;
+        }
+        invoices[i]['cart']= await Cart.findOne({
+            where: {id:invoices[i].cartId},
+            order: [['updatedAt']], 
+            raw: true
+        }).catch(err => console.log(err));
+        invoices[i]['items'] = await Cartitems.findAll({
+            where: { CartId: invoices[i]['cart'].id },
+            order: [['createdAt']],
+            raw: true
+        }).catch(err => console.log(err));
+        for (var j=0; j<invoices[i]['items'].length; j++){
+            var drink=await Drink.findByPk(invoices[i]['items'][j].drinkId)
+            invoices[i]['items'][j]['drink']=drink;
+        }
+    }
+    res.render('invoice/customer/order_history', {layout: 'main', invoices, count});
+                    
         // pass object to listVideos.handlebar
-        })
-        .catch(err => console.log(err));
 });
 
 module.exports = router;

@@ -36,7 +36,7 @@ router.post('/addtocart/:id', ensureAuthenticated, (req, res) => {
 	var cart = Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
 	Cartitems.create( sugar, topping, quantity, req.params.id, cart.id );
 	var drink = Drink.findByPk(req.params.id)
-	var price = cart.totalPrice + (drink.price*quantity);
+	var price = cart.totalprice + (drink.price*quantity);
 	Cart.update(
         {
             userId, price
