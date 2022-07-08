@@ -12,13 +12,11 @@
 <div class="card">
 <h1 class="display-4">Retrieve Users</h1>
 <div>
-  {% if count == 0 %}
-  <p>There are no Customers.</p>
-  {% elif count == 1 %}
-  <p>There is 1 Customers.</p>
-  {% else %}
+  {{#if count}}
   <p>There are {{ count }} Customers.</p>
-  {% endif %}
+  {{else}}
+  <p>There are no Customers.</p>
+  {{/if}}
 </div>
 <!-- 
 <button id="hide">Hide</button>

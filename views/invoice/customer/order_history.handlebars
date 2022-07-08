@@ -23,8 +23,7 @@
                 </h5>
             </div>
             <div class="card-body">
-                {{#if invoices}}
-                {{#each invoices}}
+                {{#each invoices}} {{! { [drinks, quantity], [drinks2, quantity2], [drinks3, quantity3]  }   }}
                 <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                 <h2 class="accordion-header" id="heading{{id}}">
@@ -55,7 +54,6 @@
                 </div>
                 </div>
                 {{/each}}
-                {{/if}}
             </div>
         </div>
     </div>
