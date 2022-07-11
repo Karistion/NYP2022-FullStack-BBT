@@ -8,6 +8,8 @@ const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
 const uuid = require('uuid');
 const Cart = require('../../models/Cart');
+const jwt = require('jsonwebtoken');
+const jwt_secret = 'secret';
 
 router.get('/login', (req, res) => { //this is where we get the info
     res.render('user/customer/login', { layout: 'main' }); //this is for the handlebar name
@@ -159,6 +161,12 @@ router.post('/forgotpassword', async function (req,res){
             res.render('user/customer/forgotpassword', { layout: 'main' });
         }else{
             res.send("Correct");
+            const secret = jwt_secret + user.password;
+            const payload = {
+                email: user.email,
+                id: user.id
+            }
+            const token = jwt.sign(payload, secret, {expiresIn:'15m'})
         }
     }else
     {
