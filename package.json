@@ -20,6 +20,7 @@
     "flash-messenger": "^1.1.1",
     "fs": "^0.0.1-security",
     "handlebars": "^4.7.7",
+    "jsonwebtoken": "^8.5.1",
     "luhn-js": "^1.1.2",
     "moment": "^2.29.3",
     "mysql2": "^2.3.3",
