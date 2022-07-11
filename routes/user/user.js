@@ -143,4 +143,27 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         console.log(err);
     }
 });
+
+router.get('/forgotpassword', (req,res) => {
+    res.render('user/customer/forgotpassword', {layout:'main'});
+});
+
+router.post('/forgotpassword', async function (req,res){
+    let { username, email } = req.body;
+    let user = await User.findOne({ where: { username: username } });
+    if (user)
+    {
+        if(email != user.email)
+        {
+            flashMessage(res, 'error', email + ' does not match username.');
+            res.render('user/customer/forgotpassword', { layout: 'main' });
+        }else{
+            res.send("Correct");
+        }
+    }else
+    {
+        flashMessage(res, 'error', username + ' does not exist');
+        res.render('user/customer/forgotpassword', { layout: 'main' });
+    }
+});
 module.exports = router;
