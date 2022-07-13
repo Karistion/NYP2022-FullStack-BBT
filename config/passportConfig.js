@@ -14,6 +14,10 @@ function localStrategy(passport) {
                     if (!isMatch) {
                         return done(null, false, {message: 'Password incorrect' });
                         }
+                    // Email Verified
+                    if (!user.verified) {
+                        return done(null, false, { message: 'Email not verified' });
+                    }
                         return done(null, user);
                     })
         }));
