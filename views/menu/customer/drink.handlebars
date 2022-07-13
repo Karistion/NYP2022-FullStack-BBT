@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for cars in createCar_list %}
+            {{#each drink}}
                 <tr>
                     <td>{{ cars.get_car_brand() }}</td>
                     <td>{{ cars.get_car_model() }}</td>
@@ -24,7 +24,7 @@
                         <a href="/checkout" class="btn btn-success w-100">Buy</a>
                     </td>
                 </tr>
-            {% endfor %}
+            {{/each}}
         </tbody>
     </table>
 </div>
