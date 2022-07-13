@@ -54,7 +54,7 @@ router.get('/deletecart/:id', ensureAuthenticated, async function(req, res) {
 			res.redirect(req.get('referer'));
 			return;
 		}
-		let result = await Cartitems.destroy({ where: { id: cartitems.id } });
+		Cartitems.destroy({ where: { id: cartitems.id } });
 		res.redirect(req.get('referer'));
 		}
 		catch (err) {

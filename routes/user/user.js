@@ -8,6 +8,8 @@ const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
 const uuid = require('uuid');
 const Cart = require('../../models/Cart');
+const jwt = require('jsonwebtoken');
+const jwt_secret = 'secret';
 
 router.get('/login', (req, res) => { //this is where we get the info
     res.render('user/customer/login', { layout: 'main' }); //this is for the handlebar name
@@ -141,6 +143,35 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
     }
     catch (err) {
         console.log(err);
+    }
+});
+
+router.get('/forgotpassword', (req,res) => {
+    res.render('user/customer/forgotpassword', {layout:'main'});
+});
+
+router.post('/forgotpassword', async function (req,res){
+    let { username, email } = req.body;
+    let user = await User.findOne({ where: { username: username } });
+    if (user)
+    {
+        if(email != user.email)
+        {
+            flashMessage(res, 'error', email + ' does not match username.');
+            res.render('user/customer/forgotpassword', { layout: 'main' });
+        }else{
+            res.send("Correct");
+            const secret = jwt_secret + user.password;
+            const payload = {
+                email: user.email,
+                id: user.id
+            }
+            const token = jwt.sign(payload, secret, {expiresIn:'15m'})
+        }
+    }else
+    {
+        flashMessage(res, 'error', username + ' does not exist');
+        res.render('user/customer/forgotpassword', { layout: 'main' });
     }
 });
 module.exports = router;
