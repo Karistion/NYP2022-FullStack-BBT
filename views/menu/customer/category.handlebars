@@ -1,0 +1,35 @@
+<section class="header">
+    <div class="centered">
+            <h1>
+                <center>
+                    Menu
+                </center>
+            </h1>
+ </section>
+
+<section class="py-3 bg-light">
+    <div class="container px-4 px-lg-6">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {{#each drink}}
+            <div class="col mb-5">
+                <div class="card h-100">
+                    <img class="card-img-top" src="../images/SignaT.png" alt="Signaturetea.png" style="width:275px;height:300px;">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h5 class="fw-bolder">{{ name }}</h5>
+                            <p>
+                                <span class="text-muted text-decoration-line-through">S$300,000</span>
+                                <span>S$231,888</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center">
+                            <a class="btn btn-outline-dark mt-auto" href="">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
