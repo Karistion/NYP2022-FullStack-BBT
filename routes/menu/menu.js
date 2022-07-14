@@ -8,9 +8,11 @@ router.get('/menu', (req, res) => {
 	res.render('menu/customer/menu', {layout: 'main'});
 });
 
-router.get('/category/:category', (req, res) => {
+router.get('/category/:category', async (req, res) => {
 	var category=req.params.category;
-	res.render('menu/customer/category', {layout: 'main'});
+	var drink = await Drink.findAll({where: {category: category}, order: [['name']], raw: true});
+	res.render('menu/customer/category', {layout: 'main', drink});
 });
+
 
 module.exports = router;

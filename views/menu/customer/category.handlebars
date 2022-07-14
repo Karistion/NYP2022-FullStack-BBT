@@ -13,21 +13,22 @@
             {{#each drink}}
             <div class="col mb-5">
                 <div class="card h-100">
-                    <img class="card-img-top" src="../images/SignaT.png" alt="Signaturetea.png" style="width:275px;height:300px;">
+                    <img class="card-img-top" src="/images/SignaT.png" alt="Signaturetea.png" style="width:275px;height:300px;">
                     <div class="card-body p-4">
                         <div class="text-center">
                             <h5 class="fw-bolder">{{ name }}</h5>
                             <p>
-                                <span class="text-muted text-decoration-line-through">S$3</span>
-                                <span>S$2</span>
+                                <span>${{price}}</span>
                             </p>
                         </div>
                     </div>
+                    {{#if user}}
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         <div class="text-center">
                             <a class="btn btn-outline-dark mt-auto" href="">Add to Cart</a>
                         </div>
                     </div>
+                    {{/if}}
                 </div>
             </div>
             {{/each}}
