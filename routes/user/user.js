@@ -26,10 +26,27 @@ function sendEmail(toEmail, url) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
-        from: `Video Jotter <${process.env.SENDGRID_SENDER_EMAIL}>`,
-        subject: 'Verify Video Jotter Account',
+        from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Verify BubbleT Account',
         html: `Thank you registering with Video Jotter.<br><br> Please
 <a href=\"${url}"><strong>verify</strong></a> your account.`
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
+
+function sendPassword(toEmail, url) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Reset Password',
+        html: `Click on the.<br><br> Please
+<a href=\"${url}"><strong>link</strong></a> to reset your password.`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
