@@ -30,7 +30,7 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 	}).catch(err => console.log(err))
 });
 
-router.post('/addtocart/:id', ensureAuthenticated, (req, res) => {
+router.get('/addtocart/:id', ensureAuthenticated, (req, res) => {
 	var userId=req.user.id;
 	let { sugar, topping, quantity } = req.body; //password/password2 is from the input name in the html
 	var cart = Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
