@@ -45,8 +45,8 @@ function sendPassword(toEmail, url) {
         to: toEmail,
         from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
         subject: 'Reset Password',
-        html: `Click on the.<br><br> Please
-<a href=\"${url}"><strong>link</strong></a> to reset your password.`
+        html: `Click on <a href=\"${url}"><strong>OTP</strong></a> to get your new password. <br>
+        OTP expires in 15mins.`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
@@ -78,6 +78,13 @@ router.post('/register', async function (req, res) { //this is to get the input 
         let user = await User.findOne({ where: { username: username } }); //left side is column email
         // let username = await User.findOne({ where: { username: username } });
         if (user) {
+            // If user is found, that means email has already been registered
+            flashMessage(res, 'error', username + ' alreay registered');
+            res.render('user/customer/register', {
+                name, email, mobile, postal, address, username
+            }, { layout: 'main' });
+        }
+        else if (user) {
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', username + ' alreay registered');
             res.render('user/customer/register', {
@@ -204,21 +211,24 @@ router.post('/forgotpassword', async function (req,res){
     {
         if(email != user.email)
         {
-            flashMessage(res, 'error', email + ' does not match username.');
+            flashMessage(res, 'error', 'Email and username does not match username.');
             res.render('user/customer/forgotpassword', { layout: 'main' });
         }else{
             res.send("Correct");
-            const secret = jwt_secret + user.password;
-            const payload = {
-                email: user.email,
-                id: user.id
-            }
-            const token = jwt.sign(payload, secret, {expiresIn:'15m'})
+            let token = jwt.sign(email, process.env.APP_SECRET, {expiresIn: '15m'});
+            let url = `${process.env.BASE_URL}:${process.env.PORT}/user/OTP/${user.id}/${token}`;
+            sendPassword(user.email, url)
+                .then(response => {
+                    console.log(response);
+                    flashMessage(res, 'success', "One Time Password(OTP) has been sent to "+ user.email);
+                    res.redirect('/user/login');
+                })
+                .catch(err => {
+                    console.log(err);
+                    flashMessage(res, 'error', 'Error when sending email to ' + user.email);
+                    res.redirect('/');
+                });
         }
-    }else
-    {
-        flashMessage(res, 'error', username + ' does not exist');
-        res.render('user/customer/forgotpassword', { layout: 'main' });
     }
 });
 
@@ -257,4 +267,9 @@ router.get('/verify/:userId/:token', async function (req, res) {
         console.log(err);
     }
 });
+
+router.get('/OTP/:userId/:token', async function (req, res) {
+    let id = req.params.userId;
+    let token = req.params.token;})
+
 module.exports = router;

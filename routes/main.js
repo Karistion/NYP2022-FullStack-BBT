@@ -14,7 +14,7 @@ router.get('/about', (req, res) => {
 
 router.get('/admin', (req, res) => {
 	var active_page='dashboard';
-	res.render('user/admin/profile', {layout: 'admin', active_page});
+	res.render('user/admin/profile');
 });
 
 
