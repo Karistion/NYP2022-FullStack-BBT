@@ -88,11 +88,6 @@ router.post('/register', async function (req, res) { //this is to get the input 
                         user.email);
                     res.redirect('/');
                 });
-            var userId=user.id;
-            let cart = await Cart.create({ userId })
-            // for deafault value is it role:member?
-            flashMessage(res, 'success', username + ' registered successfully');
-            res.redirect('/user/login');
         }
     }
     catch (err) {
