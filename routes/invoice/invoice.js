@@ -128,4 +128,14 @@ router.get('/order_history', ensureAuthenticated, async function(req, res) {
         // pass object to listVideos.handlebar
 });
 
+router.get('/invoicelist', ensureAuthenticated, async function(req, res) {
+    var invoices= await Invoice.findAll({order:['createdAt'], raw: true})
+	res.render('invoice/admin/invoice_list', {layout: 'admin', invoices});
+});
+
+router.get('/updateinvoice/:id', ensureAuthenticated, async function(req, res) {
+    var invoice= await Invoice.findByPk(req.params.id)
+	res.render('invoice/customer/cfmorder', {layout: 'admin', invoice});
+});
+
 module.exports = router;

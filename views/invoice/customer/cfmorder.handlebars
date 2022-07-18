@@ -1,77 +1,59 @@
-<!DOCTYPE html>
-<html lang="en-SG" style="height: 100%">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" type="image/png" href="jordan/images/CarOrSell-logo.png">
 
-        <title>Order Confirmed | CarOrSell</title>
-
-        <!-- CarOrSell CSS -->
-        <link rel="stylesheet" href="jordan/css/style.css">
-
-        <!-- Bootstrap v5.1.3 CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-
-        <!-- Font Awesome v6.x -->
-        <script src="https://kit.fontawesome.com/b47353ca11.js" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div class="container-lg">
-            <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <div class="text-center my-3">
-                            <img src="jordan/images/CarOrSell-logo.png" alt="CarOrSell-logo.png" width="150px" height="125px">
-                        </div>
-                        <h3 class="fw-bold">Thank you for your purchase!</h3>
-                        <hr>
-                        <p>
-                            <span class="fw-bold">Order ID: </span>{{ invoice.id }}
-                        </p>
-                        <p>
-                            <span class="fw-bold">Ship To: </span>{{ invoice.address }}, Singapore {{ invoice.postal }}
-                        </p>
-                        <p>
-                            <span class="fw-bold">Estimated Delivery Date: </span>Tomorrow
-                        </p>
-                        <p>
-                            <span class="fw-bold">Payment Mode: </span>Visa
-                        </p>
-                        <p>
-                            <span class="fw-bold">Name on Card: </span>{{ invoice.card_name }}
-                        </p>
-                        <p>
-                            <span class="fw-bold">Card Number: </span>{{ invoice.card_number }}
-                        </p>
-                        </ul>
-                        <hr>
-                        <div class="text-center">
-                            <small>BubbleT Building</small>
-                            <br>
-                            <small>180 Ang Mo Kio Avenue 8</small>
-                            <br>
-                            <small>Singapore 569830</small>
-                            <br>
-                        </div>
+<body>
+    <div class="container-lg">
+        <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="text-center my-3">
+                        <img src="jordan/images/CarOrSell-logo.png" alt="CarOrSell-logo.png" width="150px" height="125px">
+                    </div>
+                    <h3 class="fw-bold">Thank you for your purchase!</h3>
+                    <hr>
+                    <p>
+                        <span class="fw-bold">Order ID: </span>{{ invoice.id }}
+                    </p>
+                    <p>
+                        <span class="fw-bold">Ship To: </span>{{ invoice.address }}, Singapore {{ invoice.postal }}
+                    </p>
+                    <p>
+                        <span class="fw-bold">Estimated Delivery Date: </span>Tomorrow
+                    </p>
+                    <p>
+                        <span class="fw-bold">Payment Mode: </span>Visa
+                    </p>
+                    <p>
+                        <span class="fw-bold">Name on Card: </span>{{ invoice.card_name }}
+                    </p>
+                    <p>
+                        <span class="fw-bold">Card Number: </span>{{ invoice.card_number }}
+                    </p>
+                    </ul>
+                    <hr>
+                    <div class="text-center">
+                        <small>BubbleT Building</small>
+                        <br>
+                        <small>180 Ang Mo Kio Avenue 8</small>
+                        <br>
+                        <small>Singapore 569830</small>
+                        <br>
                     </div>
                 </div>
-                <div class="text-center mb-2">
-                    <button onclick="window.print()" class="btn btn-info w-100">Print</button>
-                </div>
-                <ul class="list-inline text-center">
-                    <li class="list-inline-item mx-2">
-                        <a href="/" class="fw-bold" style="text-decoration: none;">
-                            <i class="fa-solid fa-house me-1"></i>Back to Home
-                        </a>
-                    </li>
-                    <li class="list-inline-item mx-2">
-                        <a href="/invoice/order_history" class="fw-bold" style="text-decoration: none;">
-                            <i class="fa-solid fa-clock me-1"></i>Order History
-                        </a>
-                    </li>
-                </ul>
             </div>
+            <div class="text-center mb-2">
+                <button onclick="window.print()" class="btn btn-info w-100">Print</button>
+            </div>
+            <ul class="list-inline text-center">
+                <li class="list-inline-item mx-2">
+                    <a href="/" class="fw-bold" style="text-decoration: none;">
+                        <i class="fa-solid fa-house me-1"></i>Back to Home
+                    </a>
+                </li>
+                <li class="list-inline-item mx-2">
+                    <a href="/invoice/order_history" class="fw-bold" style="text-decoration: none;">
+                        <i class="fa-solid fa-clock me-1"></i>Order History
+                    </a>
+                </li>
+            </ul>
         </div>
-    </body>
-</html>
+    </div>
+</body>

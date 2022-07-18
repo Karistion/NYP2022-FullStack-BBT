@@ -1,11 +1,21 @@
-{% set active_page = 'users' -%}
+<style>
+  .modal-backdrop {
+    /* bug fix - no overlay */    
+    display: none;    
+}
+.modal-dialog {
+  vertical-align: middle;
+  top: 30%;
+}
+</style>
+
 <div class="card">
-<h1 class="display-4">Retrieve Users</h1>
+<h1 class="display-4">Orders</h1>
 <div>
   {{#if count}}
-  <p>There are no Customers.</p>
+  <p>There are no pending orders.</p>
   {{else}}
-  <p>There are {{ count }} Customers.</p>
+  <p>There are {{ invoices.length }} orders.</p>
   {{/if}}
 </div>
 <!-- 
@@ -16,47 +26,41 @@
     <thead>
       <tr>
         <th>Invoice ID</th>
-        <th>Customer ID</th>
-        <th>Name</th>
-        <th>Order Details</th>
         <th>Status</th>
-        <th>Phone Number</th>
+        <th>Total Price</th>
+        <th>Delivery Date</th>
       </tr>
     </thead>
     <tbody>
-      {{#each invoice}}
+      {{#each invoices}}
       <tr>
-      
-
-        <td>{{ user.get_id() }}</td>
-        <td>{{ user.get_customer_id() }}</td>
-        <td>{{ user.get_name() }}</td>
-        <td>{{ user.get_email() }}</td>
-        <td>{{ user.get_gender() }}</td>
-        <td>{{ user.get_phone_number() }}</td>
-        <td><a href="{{url_for('admin.accounts.update_customer', id=user.get_customer_id())}}" class="btn btn-warning">Update User</a></td>
+        <td>{{ id }}</td>
+        <td>{{ status }}</td>
+        <td>{{ totalprice }}</td>
+        <td>{{ datedelivery }}</td>
+        <td><a href="/invoice/updateinvoice/{{id}}" class="btn btn-warning">Update Order</a></td>
         <td>
-          <form action="{{url_for('admin.accounts.delete_customer', id=user.get_customer_id())}}" method="POST">
-            <!--<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.get_name()}}?');">-->
+          <form action="" method="POST">
+            <!--<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.id}}?');">-->
             <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.get_customer_id()}}">
-              Delete user
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.id}}">
+              <span>&#10003;</span>
             </button>
         
             <!-- The Modal -->
-            <div class="modal" id="myModal_{{user.get_customer_id()}}">
+            <div class="modal" id="myModal_{{user.id}}">
               <div class="modal-dialog">
                 <div class="modal-content">
         
                   <!-- Modal Header -->
                   <div class="modal-header">
                     <h4 class="modal-title">Delete Confirmation</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">x</button>
                   </div>
         
                   <!-- Modal body -->
                   <div class="modal-body">
-                    Are you sure you want to delete {{user.get_name()}}?
+                    Are you sure you want to delete {{user.id}}?
                   </div>
 
                   <!-- Modal footer -->
@@ -77,19 +81,3 @@
     {{/each}}
     </tbody>
   </table>
-<script>
-  window.addEventListener('DOMContentLoaded', event => {
-                      
-    const customersTable = document.getElementById('customers-table');
-    if (customersTable) {
-        new simpleDatatables.DataTable(customersTable);
-    }
-
-    const adminTable = document.getElementById('admin-table');
-    if (adminTable) {
-        new simpleDatatables.DataTable(adminTable);
-    }
-
-
-  });
-</script>
