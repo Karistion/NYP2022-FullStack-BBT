@@ -1,0 +1,195 @@
+<style>
+.steps .step {
+    display: block;
+    width: 100%;
+    margin-bottom: 35px;
+    text-align: center
+}
+
+.steps .step .step-icon-wrap {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 80px;
+    text-align: center
+}
+
+.steps .step .step-icon-wrap::before,
+.steps .step .step-icon-wrap::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 50%;
+    height: 3px;
+    margin-top: -1px;
+    background-color: #e1e7ec;
+    content: '';
+    z-index: 1
+}
+
+.steps .step .step-icon-wrap::before {
+    left: 0
+}
+
+.steps .step .step-icon-wrap::after {
+    right: 0
+}
+
+.steps .step .step-icon {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #e1e7ec;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #374250;
+    font-size: 38px;
+    line-height: 81px;
+    z-index: 5
+}
+
+.steps .step .step-title {
+    margin-top: 16px;
+    margin-bottom: 0;
+    color: #606975;
+    font-size: 14px;
+    font-weight: 500
+}
+
+.steps .step:first-child .step-icon-wrap::before {
+    display: none
+}
+
+.steps .step:last-child .step-icon-wrap::after {
+    display: none
+}
+
+.steps .step.completed .step-icon-wrap::before,
+.steps .step.completed .step-icon-wrap::after {
+    background-color: #0da9ef
+}
+
+.steps .step.completed .step-icon {
+    border-color: #0da9ef;
+    background-color: #0da9ef;
+    color: #fff
+}
+
+@media (max-width: 576px) {
+    .flex-sm-nowrap .step .step-icon-wrap::before,
+    .flex-sm-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 768px) {
+    .flex-md-nowrap .step .step-icon-wrap::before,
+    .flex-md-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 991px) {
+    .flex-lg-nowrap .step .step-icon-wrap::before,
+    .flex-lg-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+@media (max-width: 1200px) {
+    .flex-xl-nowrap .step .step-icon-wrap::before,
+    .flex-xl-nowrap .step .step-icon-wrap::after {
+        display: none
+    }
+}
+
+.bg-faded, .bg-secondary {
+    background-color: #f5f5f5 !important;
+}
+
+.fa-solid, .fa-clock, .me-1 ::before{
+    visibility: hidden;
+}
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<body>
+    <div class="container-lg">
+        <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="text-center my-3">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_GG1OyU7EBBufcWyBXxa4VidtHNpUjD2vKQ&usqp=CAU" alt="BubbleT-logo.png" width="150px" height="125px">
+                    </div>
+                    <hr>
+                    <p>
+                        <span class="fw-bold">Order ID: </span>{{ invoice.id }}
+                    </p>
+                    <p>
+                        <span class="fw-bold">Ship To: </span>{{ invoice.address }}, Singapore {{ invoice.postal }}
+                    </p>
+                    <p>
+                        <span class="fw-bold">Estimated Delivery Date: </span>{{ formatDate invoice.datedelivery }}
+                    </p>
+                    <hr>
+                    {{#each invoice.items}}    
+                    <p><b>{{ drink.name }} <span style="float: right !important">x{{ quantity }}</span></b></p>
+                    <ul>
+                        <li>
+                            {{ sugar }}% sugar
+                        </li>
+                        <li>
+                            {{ topping }}
+                        </li>
+                    </ul>
+                    {{/each}}
+                    {{#if (check delivered 1)}}
+                    <hr>
+                    <div class="card-body">
+                        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                        <a href="{{changestatus invoice.status 1 invoice.id}}" style="text-decoration: none;">
+                        <div class="step {{statuscompleted invoice.status 1}}">
+                            <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="pe-7s-cart"></i></div>
+                            </div>
+                            <h4 class="step-title">Making Order</h4>
+                        </div>
+                        </a>
+                        <a href="{{changestatus invoice.status 2 invoice.id}}" style="text-decoration: none;">
+                        <div class="step {{statuscompleted invoice.status 2}}">
+                            <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="pe-7s-coffee"></i></div>
+                            </div>
+                            <h4 class="step-title">Collected Order</h4>
+                        </div>
+                        </a>
+                        <a href="{{changestatus invoice.status 3 invoice.id}}" style="text-decoration: none;">
+                        <div class="step {{statuscompleted invoice.status 3}}">
+                            <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="pe-7s-car"></i></div>
+                            </div>
+                            <h4 class="step-title">Drinks En Route</h4>
+                        </div>
+                        </a>
+                        <a href="{{changestatus invoice.status 4 invoice.id}}" style="text-decoration: none;">
+                        <div class="step {{statuscompleted invoice.status 4}}">
+                            <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="pe-7s-home"></i></div>
+                            </div>
+                            <h4 class="step-title">Drink Delivered</h4>
+                        </div>
+                        </a>
+                        </div>
+                    </div>
+                    {{/if}}
+            </div>
+            <ul class="list-inline text-center">
+                <li class="list-inline-item mx-2" style="float: left; !important">
+                    <a href="/invoice/orderlist" class="fw-bold" style="text-decoration: none;">
+                        <i class="fa-solid fa-house me-1"></i><span style="font-size:30px;">&#8617;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>

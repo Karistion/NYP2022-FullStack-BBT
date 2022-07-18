@@ -5,7 +5,8 @@ const flashMessage = require('../../helpers/messenger');
 const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/report', ensureAuthenticated, (req, res) => {
-	res.render('report/report', {layout: 'admin'});
+	var page='report';
+	res.render('report/report', {layout: 'admin', page});
 });
 
 module.exports = router;

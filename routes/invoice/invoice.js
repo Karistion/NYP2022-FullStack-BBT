@@ -128,14 +128,62 @@ router.get('/order_history', ensureAuthenticated, async function(req, res) {
         // pass object to listVideos.handlebar
 });
 
-router.get('/invoicelist', ensureAuthenticated, async function(req, res) {
-    var invoices= await Invoice.findAll({order:['createdAt'], raw: true})
-	res.render('invoice/admin/invoice_list', {layout: 'admin', invoices});
+router.get('/orderlist', ensureAuthenticated, async function(req, res) {
+    var invoices= await Invoice.findAll({where: {delivered:0}, order:['createdAt'], raw: true})
+    var page='orderlist';
+	res.render('invoice/admin/order_list', {layout: 'admin', invoices, page});
 });
 
 router.get('/updateinvoice/:id', ensureAuthenticated, async function(req, res) {
     var invoice= await Invoice.findByPk(req.params.id)
-	res.render('invoice/customer/cfmorder', {layout: 'admin', invoice});
+    invoice['cart']= await Cart.findOne({
+        where: {id:invoice.cartId},
+        order: [['updatedAt']], 
+        raw: true
+    }).catch(err => console.log(err));
+    invoice['items'] = await Cartitems.findAll({
+        where: { CartId: invoice['cart'].id },
+        order: [['createdAt']],
+        raw: true
+    }).catch(err => console.log(err));
+    for (var j=0; j<invoice['items'].length; j++){
+        var drink=await Drink.findByPk(invoice['items'][j].drinkId)
+        invoice['items'][j]['drink']=drink;
+    }
+    var page='orderlist';
+	res.render('invoice/admin/updateorderstatus', {layout: 'admin', invoice, page});
+});
+
+router.get('/minusstatus/:id', ensureAuthenticated, async function(req, res) {
+    var invoice= await Invoice.findByPk(req.params.id)
+    Invoice.update(
+        { status: invoice.status-1 },
+        { where: { id: req.params.id } }
+      )
+    res.redirect('/invoice/updateinvoice/'+req.params.id)
+});
+
+router.get('/plusstatus/:id', ensureAuthenticated, async function(req, res) {
+    var invoice= await Invoice.findByPk(req.params.id)
+    Invoice.update(
+        { status: invoice.status+1 },
+        { where: { id: req.params.id } }
+      )
+    res.redirect('/invoice/updateinvoice/'+req.params.id)
+});
+
+router.get('/delivered/:id', ensureAuthenticated, async function(req, res) {
+    Invoice.update(
+        { delivered: 1 },
+        { where: { id: req.params.id } }
+      )
+    res.redirect('/invoice/orderlist')
+});
+
+router.get('/invoicelist', ensureAuthenticated, async function(req, res) {
+    var invoices= await Invoice.findAll({where: {delivered:1}, order:['createdAt'], raw: true})
+    var page='invoicelist';
+	res.render('invoice/admin/order_list', {layout: 'admin', invoices, page});
 });
 
 module.exports = router;

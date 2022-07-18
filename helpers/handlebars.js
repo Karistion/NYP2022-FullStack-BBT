@@ -21,9 +21,39 @@ const decimal2 = function (drink) {
     return drink.toFixed(2);
 }
 
+const check = function (status, num) {
+    return (status == num) ? true : false;
+}
+
 const cssactive = function (id, active) {
     return (id == active) ? 'active' : '';
 }
 
+const statuscompleted = function (status, num) {
+    return (status >= num) ? 'completed' : '';
+} 
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2};
+const changestatus = function (status, num, id) {
+    if (status==num+1){
+        return "/invoice/minusstatus/"+id;
+    }else if (status==num-1){
+        return "/invoice/plusstatus/"+id;
+    }
+    else{
+        return 'javascript:void(0);';
+    }
+}
+
+const statusdesc = function (status) {
+    if (status==1){
+        return "Making Order";
+    }else if (status==2){
+        return "Collected Order";
+    }else if (status==3){
+        return "Drinks En Route";
+    }else if (status==4){
+        return "Drinks Delivered";
+    }
+}
+
+module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check};
