@@ -12,13 +12,6 @@ router.get('/about', (req, res) => {
 	res.render('about', {layout: 'main'});
 });
 
-router.get('/admin', (req, res) => {
-	var active_page='dashboard';
-	res.render('user/admin/profile');
-});
-
-
-
 router.get('/termsandconditions', (req, res) => {
 	res.render('termsandconditions', {layout: 'main'});
 });
