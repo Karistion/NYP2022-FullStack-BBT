@@ -13,6 +13,7 @@ const User = db.define('user',
         username: { type: Sequelize.STRING },
         password: { type: Sequelize.STRING },
         member: { type: Sequelize.STRING, defaultValue: 'member' },
+        activity: { type: Sequelize.INTEGER, defaultValue: 0 },
         // ewallet: { type: Sequelize.INTEGER, defaultValue: 0 },
         // history: { type: Sequelize.STRING },
     });

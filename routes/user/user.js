@@ -123,6 +123,10 @@ router.post('/register', async function (req, res) { //this is to get the input 
 router.post('/login',async function (req, res, next) {
     let {username} = req.body;
     let user = await User.findOne({ where: { username: username } });
+    if (user.activity == 1){
+        res.render('user/customer/login', { layout: 'main' });
+        flashMessage(res,'error','Account has been suspended.')
+    }
     if (user.member == "member"){
     passport.authenticate('local', {
         // Success redirect URL
@@ -210,6 +214,24 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         let result = await User.destroy({ where: { id: user.id } });
         console.log(result + ' User deleted');
         res.redirect('/user/register');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
+
+router.get('/suspendUser/:id', ensureAuthenticated, async function
+    (req, res) {
+    try {
+        let activity = 1;
+        User.update(
+            {
+                activity
+            },
+            { where: { id: req.user.id } }
+        )
+        console.log(result + ' User Suspended');
+        res.redirect('/report/admin');
     }
     catch (err) {
         console.log(err);
