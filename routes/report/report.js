@@ -6,7 +6,7 @@ const ensureAuthenticated = require('../../helpers/auth');
 
 router.get('/admin', ensureAuthenticated, (req, res) => {
 	var page='report';
-	res.render('report/report', {layout: 'admin', page});
+	res.render('report/admin', {layout: 'admin', page});
 });
 
 router.get('/usertable', ensureAuthenticated, (req, res) => {
