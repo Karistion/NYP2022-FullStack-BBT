@@ -120,7 +120,10 @@ router.post('/register', async function (req, res) { //this is to get the input 
 });
 
 
-router.post('/login', (req, res, next) => {
+router.post('/login',async function (req, res, next) {
+    let {username} = req.body;
+    let user = await User.findOne({ where: { username: username } });
+    if (user.member == "member"){
     passport.authenticate('local', {
         // Success redirect URL
         successRedirect: '/',
@@ -131,6 +134,19 @@ router.post('/login', (req, res, next) => {
         When a failure occur passport passes the message object as error */
         failureFlash: true
     })(req, res, next);
+    }
+    if (user.member == "admin") {
+        passport.authenticate('local', {
+            // Success redirect URL
+            successRedirect: '/report/admin',
+            // Failure redirect URL
+            failureRedirect: '/user/login',
+            /* Setting the failureFlash option to true instructs Passport to flash
+            an error message using the message given by the strategy's verify callback.
+            When a failure occur passport passes the message object as error */
+            failureFlash: true
+        })(req, res, next);
+    }
 });
 
 router.get('/logout', (req, res) => {
