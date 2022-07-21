@@ -9,6 +9,24 @@ router.get('/admin', ensureAuthenticated, (req, res) => {
 	res.render('report/report', {layout: 'admin', page});
 });
 
+router.get('/usertable', ensureAuthenticated, (req, res) => {
+	var page = 'user';
+	res.render('user/admin/usertable', { layout: 'admin', page });
+});
+
+router.get('/listUsers', ensureAuthenticated, (req, res) => {
+	User.findAll({
+		where: { userId: req.user.id },
+		order: [['dateRelease', 'DESC']],
+		raw: true
+	})
+		.then((videos) => {
+			// pass object to listVideos.handlebar
+			res.render('video/listVideos', { videos });
+		})
+		.catch(err => console.log(err));
+});
+
 // router.post('/login', (req, res, next) => {
 //     passport.authenticate('local', {
 //         // Success redirect URL

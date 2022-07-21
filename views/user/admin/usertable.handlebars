@@ -1,24 +1,11 @@
-{% extends "baseAdmin.html" %}
-{% block title %}Admin - Retrieve Users{% endblock %}
-
-{% set active_page = 'users' -%}
-{% set breadcrumb = [['accounts.retrive_users', 'Users']    ] %}
-
-{% block content %}
-
-
-
-
 <div class="card">
 <h1 class="display-4">Retrieve Users</h1>
 <div>
-  {% if count == 0 %}
+  {{#if user}}
+  <p>There are {{user.length}} Customers.</p>
+  {{else}}
   <p>There are no Customers.</p>
-  {% elif count == 1 %}
-  <p>There is 1 Customers.</p>
-  {% else %}
-  <p>There are {{ count }} Customers.</p>
-  {% endif %}
+  {{/if}}
 </div>
 <!-- 
 <button id="hide">Hide</button>
