@@ -1,0 +1,154 @@
+<style>
+    @media (min-width: 1025px) {
+        .h-custom {
+            height: 100vh !important;
+        }
+    }
+
+    .card-registration .select-input.form-control[readonly]:not([disabled]) {
+        font-size: 1rem;
+        line-height: 2.15;
+        padding-left: .75em;
+        padding-right: .75em;
+    }
+
+    .card-registration .select-arrow {
+        top: 13px;
+    }
+
+    .bg-indigo {
+        background-color: #4835d4;
+    }
+
+    @media (min-width: 992px) {
+        .card-registration-2 .bg-indigo {
+            border-top-right-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .card-registration-2 .bg-indigo {
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    }
+</style>
+<form action="" method="post">
+    <section class="h-100 h-custom gradient-custom-2">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12">
+                    <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+                            <div class="row g-0">
+                                <div class="col-lg-6">
+                                    <div class="p-5">
+                                        <h3 class="fw-normal mb-5" style="color: #4835d4;">General Infomation</h3>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea2">Full Name</label>
+                                                <input type="text" name="name" id="form3Examplea2"
+                                                    class="form-control form-control-lg" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea2">Gender</label>
+                                                <br>
+                                                <label for="male">Male</label>
+                                                <input type="radio" id="male" name="gender" checked value="Male"
+                                                    onclick="ensureOneCheck('gender', 'genderErr', 'btnSubmit')">
+                                                <label for="female">Female</label>
+                                                <input type="radio" id="female" name="gender" value="Female"
+                                                    onclick="ensureOneCheck('gender', 'genderErr', 'btnSubmit')">
+                                                <p class="text-danger m-0" id="genderErr" style="display:none">Please
+                                                    select one gender</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea2">Username</label>
+                                                <input type="text" name="username" id="form3Examplea2"
+                                                    class="form-control form-control-lg" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea2">Password</label>
+                                                <input type="password" name="password" id="form3Examplea2"
+                                                    class="form-control form-control-lg" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea2">Confirm Password</label>
+                                                <input type="password" name="password2" id="form3Examplea2"
+                                                    class="form-control form-control-lg" required />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 bg-indigo text-white">
+                                    <div class="p-5">
+                                        <h3 class="fw-normal mb-5">Contact Details</h3>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea2">Postal Code</label>
+                                                <input type="text" name="postal" id="form3Examplea2"
+                                                    class="form-control form-control-lg" value="{{postal}}" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea3">Address</label>
+                                                <input type="text" name="address" id="form3Examplea3"
+                                                    class="form-control form-control-lg" value="{{address}}" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4 pb-2">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea6">Mobile</label>
+                                                <input type="text" name="mobile" id="form3Examplea6"
+                                                    class="form-control form-control-lg" value="{{mobile}}" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="mb-4">
+                                            <div class="form-outline form-white">
+                                                <label class="form-label" for="form3Examplea9">Your Email</label>
+                                                <input type="text" name="email" id="form3Examplea9"
+                                                    class="form-control form-control-lg" value="{{email}}" required />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-check d-flex justify-content-start mb-4 pb-3">
+                                            <input class="form-check-input me-3" type="checkbox" value=""
+                                                id="form2Example3c" required />
+                                            <label class="form-check-label text-white" for="form2Example3">
+                                                I do accept the <a href="#!" class="text-white"><u>Terms and
+                                                        Conditions</u></a> of your site.
+                                            </label>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-light btn-lg" id="btnSubmit"
+                                            data-mdb-ripple-color="dark">Register</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

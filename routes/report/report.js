@@ -29,17 +29,73 @@ router.get('/listUsers', ensureAuthenticated, (req, res) => {
 		.catch(err => console.log(err));
 });
 
-// router.post('/login', (req, res, next) => {
-//     passport.authenticate('local', {
-//         // Success redirect URL
-//         successRedirect: '/',
-//         // Failure redirect URL
-//         failureRedirect: '/user/login' ,
-//         /* Setting the failureFlash option to true instructs Passport to flash
-//         an error message using the message given by the strategy's verify callback.
-//         When a failure occur passport passes the message object as error */
-//         failureFlash: true
-//     })(req, res, next);
-// });
+router.get('/create_admin', ensureAuthenticated, (req, res) => {
+	var page = 'users';
+	res.render('user/admin/creation', { layout: 'admin', page });
+});
+
+router.post('/create_admin', async function (req, res) { //this is to get the input of the page, req is to get what the user input
+	let { name, email, password, password2, mobile, postal, address, username, gender } = req.body; //password/password2 is from the input name in the html
+	let isValid = true;                                  //this is to get the user input into the code through req.body otherwise we will have 4 lines with e.g. req.boby.name = name
+	if (password.length < 6) {
+		flashMessage(res, 'error', 'Password must be at least 6 characters');
+		isValid = false;
+	}
+	if (password != password2) {
+		flashMessage(res, 'error', 'Passwords do not match');
+		isValid = false;
+	}
+	if (!isValid) {
+		res.render('user/admin/creation', {
+			name, email, mobile, postal, address, username
+		}, { layout: 'main' });
+		return;
+	}
+	try {
+		// If all is well, checks if user is already registered
+		let user = await User.findOne({ where: { username: username } }); //left side is column email
+		// let username = await User.findOne({ where: { username: username } });
+		if (user) {
+			// If user is found, that means email has already been registered
+			flashMessage(res, 'error', username + ' alreay registered');
+			res.render('user/admin/creation', {
+				name, email, mobile, postal, address, username
+			}, { layout: 'main' });
+		}
+		else if (user) {
+			// If user is found, that means email has already been registered
+			flashMessage(res, 'error', username + ' alreay registered');
+			res.render('user/admin/creation', {
+				name, email, mobile, postal, address, username
+			}, { layout: 'main' });
+		}
+		else {
+			// Create new user record
+			var salt = bcrypt.genSaltSync(10);
+			var hash = bcrypt.hashSync(password, salt);
+			// Use hashed password
+			let member = 'admin';
+			let user = await User.create({ name, email, gender, password: hash,member, mobile, postal, address, username });
+			// Send email
+			let token = jwt.sign(email, process.env.APP_SECRET);
+			let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
+			sendEmail(user.email, url)
+				.then(response => {
+					console.log(response);
+					flashMessage(res, 'success', user.email + ' registered successfully');
+					res.redirect('/user/login');
+				})
+				.catch(err => {
+					console.log(err);
+					flashMessage(res, 'error', 'Error when sending email to ' +
+						user.email);
+					res.redirect('/');
+				});
+		}
+	}
+	catch (err) {
+		console.log(err);
+	}
+});
 
 module.exports = router;

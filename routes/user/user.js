@@ -225,13 +225,11 @@ router.get('/suspendUser/:id', ensureAuthenticated, async function
     try {
         let activity = 1;
         User.update(
-            {
-                activity
-            },
+            {activity},
             { where: { id: req.user.id } }
         )
-        console.log(result + ' User Suspended');
-        res.redirect('/report/admin');
+        console.log(' User Suspended');
+        res.redirect('/report/listUsers');
     }
     catch (err) {
         console.log(err);
