@@ -16,7 +16,7 @@
                         <span class="fw-bold">Ship To: </span>{{ invoice.address }}, Singapore {{ invoice.postal }}
                     </p>
                     <p>
-                        <span class="fw-bold">Estimated Delivery Date: </span>Tomorrow
+                        <span class="fw-bold">Estimated Delivery Date: </span>{{invoice.datedelivery}}
                     </p>
                     <p>
                         <span class="fw-bold">Payment Mode: </span>Visa
@@ -37,6 +37,18 @@
                         <small>Singapore 569830</small>
                         <br>
                     </div>
+                    <hr>
+                    {{#each invoice.items}}    
+                    <p><b>{{ drink.name }} <span style="float: right !important">x{{ quantity }}</span></b></p>
+                    <ul>
+                        <li>
+                            {{ sugar }}% sugar
+                        </li>
+                        <li>
+                            {{ topping }}
+                        </li>
+                    </ul>
+                    {{/each}}
                 </div>
             </div>
             <div class="text-center mb-2">

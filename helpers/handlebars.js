@@ -1,8 +1,15 @@
 const moment = require('moment');
 const Handlebars = require('handlebars');
 const formatDate = function (date) {
-    return moment(date).format("DD-MM-YYYY, hh:mm:ss");
+    return moment(date).format('MMM Do YYYY, h:mm:ss a');
 };
+const formatDay = function (date) {
+    return moment(date).format("MMM Do YY");
+};
+const formatTime = function (date, min) {
+    return moment(date).add(min, 'minute').format('h:mm a');
+};
+
 const replaceCommas = function (value) {
     return value ? value.replace(/,/g, ' | ') : 'None';
 }
@@ -56,4 +63,4 @@ const statusdesc = function (status) {
     }
 }
 
-module.exports = { formatDate, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check};
+module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check};

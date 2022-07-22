@@ -143,42 +143,42 @@
                         </li>
                     </ul>
                     {{/each}}
-                    {{#if (check delivered 1)}}
+                    {{#if (check invoice.delivered 0)}}
                     <hr>
                     <div class="card-body">
                         <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                        <a href="{{changestatus invoice.status 1 invoice.id}}" style="text-decoration: none;">
                         <div class="step {{statuscompleted invoice.status 1}}">
                             <div class="step-icon-wrap">
+                        <a href="{{changestatus invoice.status 1 invoice.id}}" style="text-decoration: none;">
                             <div class="step-icon"><i class="pe-7s-cart"></i></div>
+                        </a>
                             </div>
                             <h4 class="step-title">Making Order</h4>
                         </div>
-                        </a>
-                        <a href="{{changestatus invoice.status 2 invoice.id}}" style="text-decoration: none;">
                         <div class="step {{statuscompleted invoice.status 2}}">
                             <div class="step-icon-wrap">
+                        <a href="{{changestatus invoice.status 2 invoice.id}}" style="text-decoration: none;">
                             <div class="step-icon"><i class="pe-7s-coffee"></i></div>
+                        </a>
                             </div>
                             <h4 class="step-title">Collected Order</h4>
                         </div>
-                        </a>
-                        <a href="{{changestatus invoice.status 3 invoice.id}}" style="text-decoration: none;">
                         <div class="step {{statuscompleted invoice.status 3}}">
                             <div class="step-icon-wrap">
+                        <a href="{{changestatus invoice.status 3 invoice.id}}" style="text-decoration: none;">
                             <div class="step-icon"><i class="pe-7s-car"></i></div>
+                        </a>
                             </div>
                             <h4 class="step-title">Drinks En Route</h4>
                         </div>
-                        </a>
-                        <a href="{{changestatus invoice.status 4 invoice.id}}" style="text-decoration: none;">
                         <div class="step {{statuscompleted invoice.status 4}}">
                             <div class="step-icon-wrap">
+                        <a href="{{changestatus invoice.status 4 invoice.id}}" style="text-decoration: none;">
                             <div class="step-icon"><i class="pe-7s-home"></i></div>
+                        </a>
                             </div>
                             <h4 class="step-title">Drink Delivered</h4>
                         </div>
-                        </a>
                         </div>
                     </div>
                     {{/if}}
