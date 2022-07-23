@@ -27,14 +27,35 @@
         {{#each user}}
         <tr>
           <td>{{ id }}</td>
-          {{!-- <td>{{ user.get_customer_id() }}</td> --}}
           <td>{{ name }}</td>
           <td>{{ username }}</td>
           <td>{{ gender }}</td>
           <td>{{ mobile }}</td>
           <td>{{ email }}</td>
           <td>
-            <button onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger">Suspend</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
+              Suspend
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="id{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;"
+              aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="id{{id}}">Confirmation</h5>
+                    <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button></span>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to suspend account {{id}}?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary"><a href="/user/suspendUser/{{id}}" style="color: white;text-decoration: none;">Confirm</a></button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -42,19 +63,3 @@
     </table>
   </div>
 </div>
-{{!-- <div id="id01" class="modal">
-  <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
-  <form class="modal-content" action="/action_page.php">
-    <div class="container2">
-      <h1>Suspend Account</h1>
-      <p>Are you sure you want to suspend account {{id}}?</p>
-
-      <div class="clearfix">
-        <button type="button" onclick="document.getElementById('id01').style.display='none'"
-          class="cancelbtn">Cancel</button>
-        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="deletebtn"><a
-            href="/user/suspendUser/{{id}}" style="color: black;text-decoration: none;">Confirm</a></button>
-      </div>
-    </div>
-  </form>
-</div> --}}
