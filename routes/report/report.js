@@ -5,6 +5,27 @@ const flashMessage = require('../../helpers/messenger');
 const ensureAuthenticated = require('../../helpers/auth');
 const User = require('../../models/User');
 const Invoice = require('../../models/Invoice')
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const sgMail = require('@sendgrid/mail');
+
+function sendEmail(toEmail, url) {
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	const message = {
+		to: toEmail,
+		from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
+		subject: 'Verify BubbleT Account',
+		html: `Thank you registering with BubbleT.<br><br> Please
+<a href=\"${url}"><strong>verify</strong></a> your account.`
+	};
+	// Returns the promise from SendGrid to the calling function
+	return new Promise((resolve, reject) => {
+		sgMail.send(message)
+			.then(response => resolve(response))
+			.catch(err => reject(err));
+	});
+}
 
 router.get('/admin', ensureAuthenticated, async (req, res) => {
 	var orders= await Invoice.findAll({where: {delivered:0}, order:['createdAt'], raw: true})
@@ -21,7 +42,7 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
 
 router.get('/listUsers', ensureAuthenticated, (req, res) => {
 	User.findAll({
-		order: [['createdAt', 'DESC']],
+		order: [['id', 'ASC']],
 		raw: true
 	})
 		.then((user) => {

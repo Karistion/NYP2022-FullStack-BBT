@@ -46,7 +46,7 @@ function sendPassword(toEmail, url) {
         from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
         subject: 'Reset Password',
         html: `Click on <a href=\"${url}"><strong>OTP</strong></a> to get your new password. <br>
-        OTP expires in 15mins.`
+        OTP expires in 15mins. OTP: 654321(test)`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
@@ -251,18 +251,18 @@ router.post('/forgotpassword', async function (req,res){
             res.render('user/customer/forgotpassword', { layout: 'main' });
         }else{
             res.send("Correct");
-            let token = jwt.sign(email, process.env.APP_SECRET, {expiresIn: '15m'});
+            let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/OTP/${user.id}/${token}`;
             sendPassword(user.email, url)
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', "One Time Password(OTP) has been sent to "+ user.email);
-                    res.redirect('/user/login');
+                    // res.redirect('/user/login');
                 })
                 .catch(err => {
                     console.log(err);
                     flashMessage(res, 'error', 'Error when sending email to ' + user.email);
-                    res.redirect('/');
+                    // res.redirect('/');
                 });
         }
     }
@@ -306,6 +306,42 @@ router.get('/verify/:userId/:token', async function (req, res) {
 
 router.get('/OTP/:userId/:token', async function (req, res) {
     let id = req.params.userId;
-    let token = req.params.token;})
+    let token = req.params.token;
+    try {
+        // Check if user is found
+        let user = await User.findByPk(id);
+        if (!user) {
+            flashMessage(res, 'error', 'User not found');
+            res.redirect('/user/login');
+            return;
+        }
+        // Check if user has been verified
+        // if (user.verified) {
+        //     flashMessage(res, 'info', 'User already verified');
+        //     res.redirect('/user/login');
+        //     return;
+        // }
+        // Verify JWT token sent via URL
+        let authData = jwt.verify(token, process.env.APP_SECRET);
+        if (authData != user.email) {
+            flashMessage(res, 'error', 'Unauthorised Access');
+            res.redirect('/user/login');
+            return;
+        }
+        let password = '654321'
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password, salt);
+        let result = await User.update(
+            { password:hash },
+            { where: { id: user.id } });
+        console.log(result[0] + ' user OTP updated');
+        flashMessage(res, 'success', user.email + ' OTP created. Please login');
+        res.send("OTP is 654321.");
+        // res.redirect('/user/login');
+    }
+    catch (err) {
+        console.log(err);
+    }
+});
 
 module.exports = router;
