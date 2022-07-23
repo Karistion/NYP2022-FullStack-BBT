@@ -4,10 +4,14 @@ const router = express.Router();
 const flashMessage = require('../../helpers/messenger');
 const ensureAuthenticated = require('../../helpers/auth');
 const User = require('../../models/User');
+const Invoice = require('../../models/Invoice')
 
-router.get('/admin', ensureAuthenticated, (req, res) => {
+router.get('/admin', ensureAuthenticated, async (req, res) => {
+	var orders= await Invoice.findAll({where: {delivered:0}, order:['createdAt'], raw: true})
+	var invoices= await Invoice.findAll({where: {delivered:1}, order:['createdAt'], raw: true})
+	var users= await User.findAll({where: {member:'member'}, order:['createdAt'], raw: true})
 	var page='report';
-	res.render('report/report', {layout: 'admin', page});
+	res.render('report/report', {layout: 'admin', page, invoices, orders, users});
 });
 
 // router.get('/usertable', ensureAuthenticated, (req, res) => {

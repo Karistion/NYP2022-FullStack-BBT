@@ -42,7 +42,7 @@
         <td><a href="/invoice/updateinvoice/{{id}}" class="btn btn-warning">Update Order</a></td>
         <td>
           {{#if (check status 4)}}
-          <form action="" method="POST">
+          {{!-- <form action="" method="POST">
             <!--<input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete {{user.id}}?');">-->
             <!-- Button to Open the Modal -->
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#myModal_{{user.id}}">
@@ -74,7 +74,30 @@
                 </div>
               </div>
             </div>
-          </form>
+          </form> --}}
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Launch demo modal
+          </button>
+
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></span>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
           {{/if}}
         </td>
         {{else}}

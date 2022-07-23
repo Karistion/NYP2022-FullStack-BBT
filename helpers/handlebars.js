@@ -28,6 +28,10 @@ const decimal2 = function (drink) {
     return drink.toFixed(2);
 }
 
+const sum = function (num1, num2) {
+    return num1 + num2;
+}
+
 const check = function (status, num) {
     return (status == num) ? true : false;
 }
@@ -63,4 +67,4 @@ const statusdesc = function (status) {
     }
 }
 
-module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check};
+module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, sum};
