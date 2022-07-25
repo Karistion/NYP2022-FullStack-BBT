@@ -22,17 +22,13 @@
                                         </div>
                                     </div>
                                     <h1 class="mt-1 mb-3">2.382</h1>
-                                    <div class="mb-0">
-                                        <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -3.65% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
                                 </div>
                             </div>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col mt-0">
-                                            <h5 class="card-title">Visitors</h5>
+                                            <h5 class="card-title">Customers</h5>
                                         </div>
 
                                         <div class="col-auto">
@@ -42,10 +38,6 @@
                                         </div>
                                     </div>
                                     <h1 class="mt-1 mb-3">{{users.length}}</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 5.25% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -63,11 +55,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <h1 class="mt-1 mb-3">$21.300</h1>
-                                    <div class="mb-0">
-                                        <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> 6.65% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
+                                    <h1 class="mt-1 mb-3">${{sumdictvalue revenue}}</h1>
                                 </div>
                             </div>
                             <div class="card">
@@ -84,10 +72,6 @@
                                         </div>
                                     </div>
                                     <h1 class="mt-1 mb-3">{{sum orders.length invoices.length}}</h1>
-                                    <div class="mb-0">
-                                        <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> -2.25% </span>
-                                        <span class="text-muted">Since last week</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +83,7 @@
                 <div class="card flex-fill w-100">
                     <div class="card-header">
 
-                        <h5 class="card-title mb-0">Recent Movement</h5>
+                        <h5 class="card-title mb-0">Revenue for the past 12 months</h5>
                     </div>
                     <div class="card-body py-3">
                         <div class="chart chart-sm">
@@ -127,44 +111,40 @@
 
                             <table class="table mb-0">
                                 <tbody>
+                                    {{#with drink}}
                                     <tr>
-                                        <td>Chrome</td>
-                                        <td class="text-end">4306</td>
+                                        <td>Signature Drink</td>
+                                        <td class="text-end">{{SignaT}}</td>
                                     </tr>
                                     <tr>
-                                        <td>Firefox</td>
-                                        <td class="text-end">3801</td>
+                                        <td>Macchiato</td>
+                                        <td class="text-end">{{Macchiato}}</td>
                                     </tr>
                                     <tr>
-                                        <td>IE</td>
-                                        <td class="text-end">1689</td>
+                                        <td>Green Tea</td>
+                                        <td class="text-end">{{Gtea}}</td>
                                     </tr>
+                                    <tr>
+                                        <td>Matcha</td>
+                                        <td class="text-end">{{Matcha}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Milk Tea</td>
+                                        <td class="text-end">{{Mtea}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Oolong</td>
+                                        <td class="text-end">{{Oolong}}</td>
+                                    </tr>
+                                    {{/with}}
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
-                <div class="card flex-fill">
-                    <div class="card-header">
-
-                        <h5 class="card-title mb-0">Calendar</h5>
-                    </div>
-                    <div class="card-body d-flex">
-                        <div class="align-self-center w-100">
-                            <div class="chart">
-                                <div id="datetimepicker-dashboard"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12 col-lg-8 col-xxl-9 d-flex">
-                <div class="card flex-fill">
+            <div class="col-12 col-md-12 col-xxl-6 d-flex order-3 order-xxl-2">
+                <div class="card flex-fill w-100">
                     <div class="card-header">
 
                         <h5 class="card-title mb-0">Orders Delivery <span style="float:right; !important"><a href="/invoice/orderlist">see more</a></span></h5>
@@ -184,28 +164,29 @@
                                 <td>{{id}}</td>
                                 <td class="d-none d-xl-table-cell">{{totalprice}}</td>
                                 <td class="d-none d-xl-table-cell">{{ formatDate datedelivery }}</td>
-                                <td><span class="badge bg-warning">{{ status }}. {{ statusdesc status }}</span></td>
+                                <td><span class="badge bg-{{statuscolor status}}">{{ status }}. {{ statusdesc status }}</span></td>
                             </tr>
                             {{/each}}
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="col-12 col-lg-4 col-xxl-3 d-flex">
-                <div class="card flex-fill w-100">
+            <div class="col-12 col-md-6 col-xxl-3 d-flex order-1 order-xxl-1">
+                <div class="card flex-fill">
                     <div class="card-header">
 
-                        <h5 class="card-title mb-0">Monthly Sales</h5>
+                        <h5 class="card-title mb-0">Calendar</h5>
                     </div>
-                    <div class="card-body d-flex w-100">
-                        <div class="align-self-center chart chart-lg">
-                            <canvas id="chartjs-dashboard-bar"></canvas>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="chart">
+                                <div id="datetimepicker-dashboard"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </main>
 <script>
@@ -218,26 +199,13 @@ document.addEventListener("DOMContentLoaded", function() {
     new Chart(document.getElementById("chartjs-dashboard-line"), {
         type: "line",
         data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            labels: [{{{dictkey revenue}}}],
             datasets: [{
                 label: "Sales ($)",
                 fill: true,
                 backgroundColor: gradient,
                 borderColor: window.theme.primary,
-                data: [
-                    2115,
-                    1562,
-                    1584,
-                    1892,
-                    1587,
-                    1923,
-                    2566,
-                    2448,
-                    2805,
-                    3438,
-                    2917,
-                    3327
-                ]
+                data: [{{dictvalue revenue}}]
             }]
         },
         options: {
@@ -282,9 +250,9 @@ document.addEventListener("DOMContentLoaded", function() {
     new Chart(document.getElementById("chartjs-dashboard-pie"), {
         type: "pie",
         data: {
-            labels: ["Chrome", "Firefox", "IE"],
+            labels:["SignaT", "Macchiato","Gtea", "Matcha", "Mtea", "Oolong"],
             datasets: [{
-                data: [4306, 3801, 1689],
+                data: [{{{dictvalue drink}}}],
                 backgroundColor: [
                     window.theme.primary,
                     window.theme.warning,
@@ -300,48 +268,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 display: false
             },
             cutoutPercentage: 75
-        }
-    });
-});
-document.addEventListener("DOMContentLoaded", function() {
-    // Bar chart
-    new Chart(document.getElementById("chartjs-dashboard-bar"), {
-        type: "bar",
-        data: {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-            datasets: [{
-                label: "This year",
-                backgroundColor: window.theme.primary,
-                borderColor: window.theme.primary,
-                hoverBackgroundColor: window.theme.primary,
-                hoverBorderColor: window.theme.primary,
-                data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79],
-                barPercentage: .75,
-                categoryPercentage: .5
-            }]
-        },
-        options: {
-            maintainAspectRatio: false,
-            legend: {
-                display: false
-            },
-            scales: {
-                yAxes: [{
-                    gridLines: {
-                        display: false
-                    },
-                    stacked: false,
-                    ticks: {
-                        stepSize: 20
-                    }
-                }],
-                xAxes: [{
-                    stacked: false,
-                    gridLines: {
-                        color: "transparent"
-                    }
-                }]
-            }
         }
     });
 });

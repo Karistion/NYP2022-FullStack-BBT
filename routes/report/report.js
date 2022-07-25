@@ -1,14 +1,19 @@
 const express = require('express');
 const res = require('express/lib/response');
 const router = express.Router();
+const moment = require('moment');
 const flashMessage = require('../../helpers/messenger');
 const ensureAuthenticated = require('../../helpers/auth');
 const User = require('../../models/User');
-const Invoice = require('../../models/Invoice')
+const Invoice = require('../../models/Invoice');
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+const sequelize = require('sequelize');
+const Cartitems = require('../../models/CartItems');
+const Drink = require('../../models/Drink');
+const Op = sequelize.Op;
 
 function sendEmail(toEmail, url) {
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -31,8 +36,30 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
 	var orders= await Invoice.findAll({where: {delivered:0}, order:['createdAt'], raw: true})
 	var invoices= await Invoice.findAll({where: {delivered:1}, order:['createdAt'], raw: true})
 	var users= await User.findAll({where: {member:'member'}, order:['createdAt'], raw: true})
+	var revenue={};
+	for (i=11;i>=0;i--){
+		var sum=0;
+		var invoice = await Invoice.findAll({where: {createdAt: {
+			[Op.gte]: moment().subtract(i+1, 'months').toDate(),
+      		[Op.lt]: moment().subtract(i, 'months').toDate(),
+		  }}, order:['createdAt'], raw: true})
+		for(x=0;x<invoice.length;x++){
+			sum+=invoice[x]['totalprice'];
+		}
+		revenue[JSON.stringify(moment().subtract(i, 'months').format('MMMM YYYY'))] = sum;
+	}
+	var drink={"SignaT":0, "Macchiato":0,"Gtea":0, "Matcha":0, "Mtea":0, "Oolong":0};
+	var item = await Cartitems.findAll({
+		include: [{
+		  model: Drink,
+		  required: true
+		 }]
+	  });
+	for (x=0;x<item.length;x++){
+		drink[item[x]['drink']['category']]+=item[x]['quantity'];
+	}
 	var page='report';
-	res.render('report/report', {layout: 'admin', page, invoices, orders, users});
+	res.render('report/report', {layout: 'admin', page, invoices, orders, users, revenue, drink});
 });
 
 // router.get('/usertable', ensureAuthenticated, (req, res) => {

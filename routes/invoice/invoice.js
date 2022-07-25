@@ -9,6 +9,24 @@ const Drink = require('../../models/Drink');
 const Cartitems = require('../../models/CartItems');
 const User = require('../../models/User');
 const ensureAuthenticated = require('../../helpers/auth');
+require('dotenv').config();
+const sgMail = require('@sendgrid/mail');
+
+function sendEmail(toEmail, invoice) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Order Purchase',
+        html: `Thank you purchasing from BubbleT.<br><br> Order ID is ${invoice.id}<br>You can use this to track your order in <a href="http://localhost:5000/tracking/tracking/${invoice.id}"`
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
 
 router.get('/checkout', ensureAuthenticated, (req, res) => {
     Cart.findOne({

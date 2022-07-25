@@ -10,8 +10,23 @@ const Invoice = require('../../models/Invoice');
 
 router.get('/tracking/:id', (req, res) => {
 	Invoice.findByPk(req.params.id).then((invoice)=>{
-		res.render('tracking/tracking', {layout: 'main', invoice});
+		if (invoice.userId==req.user.id){
+			res.render('tracking/tracking', {layout: 'main', invoice});
+		}else{
+			flashMessage(res, 'error', 'Unauthorised access');
+			res.redirect('/tracking/tracking');
+			return
+		}
 	}).catch(err => console.log(err));
+});
+
+router.get('/tracking', (req, res) => {
+	res.render('tracking/trackingid', {layout: 'main'});
+});
+
+router.post('/tracking', (req, res) => {
+	let { id } = req.body;
+	res.redirect('/tracking/tracking/'+id);
 });
 
 module.exports = router;

@@ -55,6 +55,17 @@ const changestatus = function (status, num, id) {
     }
 }
 
+const statuscolor = function (status) {
+    if (status==1){
+        return "danger";
+    }else if (status==4){
+        return "success";
+    }
+    else{
+        return 'warning';
+    }
+}
+
 const statusdesc = function (status) {
     if (status==1){
         return "Making Order";
@@ -67,4 +78,21 @@ const statusdesc = function (status) {
     }
 }
 
-module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, sum};
+const dictvalue = function (dict) {
+    return Object.values(dict);
+} 
+
+const dictkey = function (dict) {
+    var list=Object.keys(dict);
+    for (x=0;x<dict.length;x++){
+        console.log(list[x])
+        list[x]=JSON.stringify(list[x])
+    }
+    return list;
+} 
+
+const sumdictvalue = function (dict) {
+    return Object.values(dict).reduce((a, b) => a + b, 0).toFixed(2);
+} 
+
+module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, sum, dictkey, dictvalue, sumdictvalue, statuscolor};

@@ -19,6 +19,7 @@ const setUpDB = (drop) => {
             User.hasMany(Invoice);
             Invoice.belongsTo(User);
             Drink.hasMany(Cartitems);
+            Cartitems.belongsTo(Drink);
             Cart.hasMany(Cartitems);
             Cartitems.belongsTo(Cart);
             Cart.hasOne(Invoice); 
