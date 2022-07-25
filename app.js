@@ -140,3 +140,42 @@ const port = process.env.PORT;
 app.listen(port, () => {
 	console.log(`Server started on port ${port}`);
 });
+
+// Log in using Google
+var userProfile;
+app.get('/success', (req, res) => res.send(userProfile));
+app.get('/error', (req, res) => res.send("error logging in"));
+app.get('/googleLogin', (req, res) => { //this is to render the page
+	res.render('user/customer/googleLogin', { layout: 'main', userProfile});
+});
+passport.serializeUser(function (user, cb) {
+	cb(null, user);
+});
+
+passport.deserializeUser(function (obj, cb) {
+	cb(null, obj);
+});
+
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const GOOGLE_CLIENT_ID = '1064844563981-jhen95c3vgcl5brl328apss4e7tsf2jk.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = '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';
+passport.use(new GoogleStrategy({
+	clientID: GOOGLE_CLIENT_ID,
+	clientSecret: GOOGLE_CLIENT_SECRET,
+	callbackURL: "http://localhost:5000/auth/google/callback"
+},
+	function (accessToken, refreshToken, profile, done) {
+		userProfile = profile;
+		return done(null, userProfile);
+	}
+));
+
+app.get('/auth/google',
+	passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/auth/google/callback',
+	passport.authenticate('google', { failureRedirect: '/error' }),
+	function (req, res) {
+		// Successful authentication, redirect success.
+		res.redirect('/googleLogin');
+	});

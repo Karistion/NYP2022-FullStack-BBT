@@ -12,6 +12,7 @@ const Cart = require('../../models/Cart');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const sgMail = require('@sendgrid/mail');
+const otpGenerator = require('otp-generator');
 
 
 router.get('/login', (req, res) => { //this is where we get the info
@@ -39,14 +40,33 @@ function sendEmail(toEmail, url) {
     });
 }
 
-function sendPassword(toEmail, url) {
+function sendPassword(toEmail, url,password) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
         from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
         subject: 'Reset Password',
-        html: `Click on <a href=\"${url}"><strong>OTP</strong></a> to get your new password. <br>
-        OTP expires in 15mins. OTP: 654321(test)`
+        html: ` Your OTP: ${password} <br>
+        OTP expires in 15mins.`
+    };
+    // Returns the promise from SendGrid to the calling function
+    return new Promise((resolve, reject) => {
+        sgMail.send(message)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+}
+
+function sendSuspend(toEmail, url) {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    const message = {
+        to: toEmail,
+        from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
+        subject: 'Suspension of Account',
+        html: `Your account has been suspended due to suspicious activity.<br>
+        For appeal, please click the <a href=\"${url}"><strong>link</strong></a>.<br>
+        Sincerely,<br>
+        BubbleT Development Team`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
@@ -123,8 +143,8 @@ router.post('/register', async function (req, res) { //this is to get the input 
 router.post('/login',async function (req, res, next) {
     let {username} = req.body;
     let user = await User.findOne({ where: { username: username } });
-    if (user.activity == 1){
-        res.render('user/customer/login', { layout: 'main' });
+    if (user.activity == 0){
+        res.redirect('/user/login');
         flashMessage(res,'error','Account has been suspended.')
     }
     if (user.member == "member"){
@@ -223,12 +243,16 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
 router.get('/suspendUser/:id', ensureAuthenticated, async function
     (req, res) {
     try {
-        let activity = 1;
+        let activity = 0;
         User.update(
             {activity},
             { where: { id: req.params.id } }
         )
         console.log(' User Suspended');
+        let user = await User.findByPk(req.params.id);
+        let token = jwt.sign(email, process.env.APP_SECRET);
+        let url = `${process.env.BASE_URL}:${process.env.PORT}/user/suspend/${user.id}/${token}`;
+        sendSuspend(user.email,url);
         res.redirect('/report/listUsers');
     }
     catch (err) {
@@ -250,14 +274,21 @@ router.post('/forgotpassword', async function (req,res){
             flashMessage(res, 'error', 'Email and username does not match username.');
             res.render('user/customer/forgotpassword', { layout: 'main' });
         }else{
-            res.send("Correct");
+            // res.send("Correct");
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/OTP/${user.id}/${token}`;
-            sendPassword(user.email, url)
+            let password = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
+            sendPassword(user.email, url,password)
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', "One Time Password(OTP) has been sent to "+ user.email);
-                    // res.redirect('/user/login');
+                    var salt = bcrypt.genSaltSync(10);
+                    var hash = bcrypt.hashSync(password, salt);
+                    User.update(
+                        { password: hash },
+                        { where: { id: user.id } });
+                    console.log(' user OTP updated');
+                    res.redirect('/user/login');
                 })
                 .catch(err => {
                     console.log(err);
@@ -304,7 +335,46 @@ router.get('/verify/:userId/:token', async function (req, res) {
     }
 });
 
-router.get('/OTP/:userId/:token', async function (req, res) {
+// router.get('/OTP/:userId/:token', async function (req, res) {
+//     let password = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
+//     let id = req.params.userId;
+//     let token = req.params.token;
+//     try {
+//         // Check if user is found
+//         let user = await User.findByPk(id);
+//         if (!user) {
+//             flashMessage(res, 'error', 'User not found');
+//             res.redirect('/user/login');
+//             return;
+//         }
+//         // Check if user has been verified
+//         // if (user.verified) {
+//         //     flashMessage(res, 'info', 'User already verified');
+//         //     res.redirect('/user/login');
+//         //     return;
+//         // }
+//         // Verify JWT token sent via URL
+//         let authData = jwt.verify(token, process.env.APP_SECRET);
+//         if (authData != user.email) {
+//             flashMessage(res, 'error', 'Unauthorised Access');
+//             res.redirect('/user/login');
+//             return;
+//         }
+//         var salt = bcrypt.genSaltSync(10);
+//         var hash = bcrypt.hashSync(password, salt);
+//         let result = await User.update(
+//             { password:hash },
+//             { where: { id: user.id } });
+//         console.log(result[0] + ' user OTP updated');
+//         flashMessage(res, 'success', user.email + 'Your OTP:', password,'. Please login');
+//         // res.redirect('/user/login');
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
+// });
+
+router.get('/OTP/:suspend/:token', async function (req, res) {
     let id = req.params.userId;
     let token = req.params.token;
     try {
@@ -328,20 +398,15 @@ router.get('/OTP/:userId/:token', async function (req, res) {
             res.redirect('/user/login');
             return;
         }
-        let password = '654321'
-        var salt = bcrypt.genSaltSync(10);
-        var hash = bcrypt.hashSync(password, salt);
-        let result = await User.update(
-            { password:hash },
-            { where: { id: user.id } });
-        console.log(result[0] + ' user OTP updated');
-        flashMessage(res, 'success', user.email + ' OTP created. Please login');
-        res.send("OTP is 654321.");
-        // res.redirect('/user/login');
+        res.redirect('/user/suspend');
     }
     catch (err) {
         console.log(err);
     }
+});
+
+router.get('/suspend', (req, res) => { //this is where we get the info
+    res.render('user/customer/suspend', { layout: 'main' }); //this is for the handlebar name
 });
 
 module.exports = router;

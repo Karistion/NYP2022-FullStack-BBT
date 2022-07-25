@@ -32,6 +32,7 @@
           <td>{{ gender }}</td>
           <td>{{ mobile }}</td>
           <td>{{ email }}</td>
+          {{#if activity}}
           <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
               Suspend
@@ -56,6 +57,14 @@
                 </div>
               </div>
             </div>
+          {{else}}
+          <td>
+          <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
+            data-bs-content="Disabled popover">
+            <button class="btn btn-primary" type="button" disabled>User Disabled</button>
+          </span>
+          </td>
+          {{/if}}
           </td>
         </tr>
       </tbody>

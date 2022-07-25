@@ -1,4 +1,8 @@
 <style>
+    .modal-backdrop {
+    /* bug fix - no overlay */    
+    display: none;    
+}
     body {
         color: #1a202c;
         text-align: left;
@@ -231,24 +235,34 @@ hr {
                             </div>
                         </div>
                         <hr>
+                        {{#if (check user.member "member")}}
                         <button class="btn btn-warning"><a href="/user/editprofile/{{user.id}}"style="color: white;text-decoration: none;">Edit</a></button>
-                        <button onclick="document.getElementById('id01').style.display='block'"class="btn btn-danger">Delete</button>
-                        
-                        <div id="id01" class="modal">
-                            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">×</span>
-                            <form class="modal-content" action="/action_page.php">
-                                <div class="container2">
-                                    <h1>Delete Account</h1>
-                                    <p>Are you sure you want to delete your account?</p>
-                        
-                                    <div class="clearfix">
-                                        <button type="button" onclick="document.getElementById('id01').style.display='none'"
-                                            class="cancelbtn">Cancel</button>
-                                        <button type="button" onclick="document.getElementById('id01').style.display='none'"
-                                            class="deletebtn"><a href="/user/deleteUser/{{user.id}}" style="color: black;text-decoration: none;" >Delete</a></button>
+                        {{else}}
+                        <button class="btn btn-warning"><a href="/report/updateAdmin" style="color: white;text-decoration: none;" class="mm-{{cssactive page 'users'}}">Edit</a></button>
+                        {{/if}}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
+                            Delete
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="id{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="id{{id}}">Confirmation</h5>
+                                        <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button></span>
+                                    </div>
+                                    <div class="modal-body">
+                                        Are you sure you want to delte this account {{user.id}}?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"><a href="/user/deleteUser/{{id}}"
+                                                style="color: white;text-decoration: none;">Confirm</a></button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         {{!-- <button type="button" class="btn btn-danger" data-bs-toggle="modal"><a
                                 href="/user/deleteUser/{{user.id}}" class="card-link" data-toggle="confirmation"
