@@ -17,8 +17,8 @@ function sendEmail(toEmail, invoice) {
     const message = {
         to: toEmail,
         from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
-        subject: 'Order Purchase',
-        html: `Thank you purchasing from BubbleT.<br><br> Order ID is ${invoice.id}<br>You can use this to track your order in <a href="http://localhost:5000/tracking/tracking/${invoice.id}"`
+        subject: 'Order Purchase Confirmation',
+        html: `Thank you purchasing from BubbleT.<br><br> Order ID is ${invoice.id}<br>You can use this to track your order in <a href="http://localhost:5000/tracking/tracking/${invoice.id}">here</a>`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
@@ -76,22 +76,27 @@ router.post('/checkout', async function (req, res) {
     var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
     var cartId = cart.id
     var totalprice = cart.totalPrice;
-	Invoice.create({ card_number, card_name, postal, address, totalprice, userId, cartId })
+	var invoice = await Invoice.create({ card_number, card_name, postal, address, totalprice, userId, cartId })
     Cart.create({userId})
-	res.redirect('/invoice/cfmorder');
+    sendEmail(req.user.email, invoice)
+    .catch(err => {
+        console.log(err);
+        res.redirect('/');
+    });
+	res.redirect('/invoice/cfmorder/'+invoice.id);
 });
 
 
 
-router.get('/cfmorder', ensureAuthenticated, (req, res) => {
+router.get('/cfmorder/:id', ensureAuthenticated, (req, res) => {
     Invoice.findOne({
-        where: { userId: req.user.id },
+        where: { id: req.params.id },
         order: [['createdAt', 'DESC']],
         raw: true
         })
         .then((invoice) => {
             Cart.findOne({
-                where: {userId:req.user.id},
+                where: {id:invoice.cartId},
                 order: [['updatedAt', 'DESC']], 
                 raw: true
             }).then((cart)=>{
@@ -106,7 +111,8 @@ router.get('/cfmorder', ensureAuthenticated, (req, res) => {
                             var drink=await Drink.findByPk(items[i].drinkId)
                             items[i]['drink']=drink;
                         }
-                        res.render('invoice/customer/cfmorder', {layout: 'main', invoice, items});
+                        invoice['items']=items
+                        res.render('invoice/customer/cfmorder', {layout: 'main', invoice});
                     })
                     .catch(err => console.log(err));
             }).catch(err => console.log(err))

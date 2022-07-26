@@ -145,8 +145,8 @@ body{margin-top:20px;}
           </div>
         </div>
         <hr>
-        <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between align-items-center">
-          <div class="text-left text-sm-right"><a class="btn btn-outline-primary btn-rounded btn-sm" href="/invoice/cfmorder/{{invoice.id}}" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+        <div class="d-flex flex-wrap flex-md-nowrap justify-content-center justify-content-sm-between">
+          <div class="text-left text-sm-right fa-align-center"><a class="btn btn-outline-primary btn-rounded btn-sm" href="/invoice/cfmorder/{{invoice.id}}" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
         </div>
       <hr>
 <div class="row">
@@ -155,7 +155,8 @@ body{margin-top:20px;}
     <p>Time of Order Collected: {{formatTime invoice.datedelivery 5}}</p>
     <p>Estimated Time of Delivery: {{formatTime invoice.datedelivery 30}}</p>
   </div>
-  <div class="col-6"><div id="googleMap" style="width:100%;height:400px;"></div></div>
+  <div class="col-6">
+    <div id="googleMap" style="width:100%;height:400px;"></div></div>
 </div>
       </div>
     <hr>
@@ -163,16 +164,45 @@ body{margin-top:20px;}
 
 
 <script>
-function myMap() {
-  var mapProp= {
-    center:new google.maps.LatLng(1.3803685967295198, 103.84895725033446),
-    zoom:15,
-  };
-  var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  var directionsService = new google.maps.DirectionsService();
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setMap(map);
-  }
-</script>
+function initMap() {
+  const directionsService = new google.maps.DirectionsService();
+  const directionsRenderer = new google.maps.DirectionsRenderer();
+  const map = new google.maps.Map(
+    document.getElementById("googleMap"),
+    {
+      zoom: 7,
+      center: { lat: 1.3805184623115008, lng: 103.84878776528998 },
+    }
+  );
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6UKsbOQtoqqleR1hdS0a7muufZCCYOb4&callback=myMap"></script>
+  directionsRenderer.setMap(map); 
+  const onChangeHandler = function () {
+    calculateAndDisplayRoute(directionsService, directionsRenderer);
+  };
+  calculateAndDisplayRoute(directionsService, directionsRenderer);
+}
+
+function calculateAndDisplayRoute(
+  directionsService,
+  directionsRenderer
+) {
+  directionsService
+    .route({
+      origin: {
+        query: "Bober Tea @ Bishan, sg"
+      },
+      destination: {
+        query: {{{invoice.postal}}}+", sg",
+      },
+      travelMode: google.maps.TravelMode.DRIVING,
+    })
+    .then((response) => {
+      directionsRenderer.setDirections(response);
+    })
+    .catch((e) => window.alert("Directions request failed due to " + status));
+}
+
+window.initMap = initMap;
+</script>
+<script src="https://unpkg.com/@googlemaps/js-api-loader@1.0.0/dist/index.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHvTihHpmf9qaes0s5FtX9GZgnVMZZVRc&callback=initMap&v=weekly"></script>

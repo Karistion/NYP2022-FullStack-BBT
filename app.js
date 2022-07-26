@@ -96,14 +96,6 @@ app.use(function (req, res, next) {
 	res.locals.messages = req.flash('message');
 	res.locals.errors = req.flash('error');
 	res.locals.user = req.user || null;
-	res.locals.admin_nav = [
-		{'href':'/admin', 'id':'dashboard', 'caption':'Dashboard', 'icon':'bx bxs-dashboard'},
-		{'href':'/adminUser', 'id':'users', 'caption':'Users', 'icon':'bx bx-user'},
-		{'href':'/adminProduct', 'id':'inventory', 'caption':'Inventory', 'icon':'bx bx-package'},
-		{'href':'/adminVoucher', 'id':'rewards', 'caption':'Rewards', 'icon':'bx bxs-discount'},
-		{'href':'/adminReports', 'id':'reports', 'caption':'Reports', 'icon':'bx bx-bar-chart-alt-2'},
-		{'href':'/adminForums', 'id':'customer_support', 'caption':'Customer Support', 'icon':'bx bx-support'}
-	];
 	res.locals.trackinglist={'1':'Confirmed Order', '2':'Making Drinks', '3':'En Route', '4':'Delivered'}
 	next();
 });

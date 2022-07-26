@@ -16,7 +16,7 @@
                         <span class="fw-bold">Ship To: </span>{{ invoice.address }}, Singapore {{ invoice.postal }}
                     </p>
                     <p>
-                        <span class="fw-bold">Estimated Delivery Date: </span>{{invoice.datedelivery}}
+                        <span class="fw-bold">Estimated Delivery Date: </span>{{formatDate invoice.datedelivery}}
                     </p>
                     <p>
                         <span class="fw-bold">Payment Mode: </span>Visa
@@ -29,15 +29,6 @@
                     </p>
                     </ul>
                     <hr>
-                    <div class="text-center">
-                        <small>BubbleT Building</small>
-                        <br>
-                        <small>180 Ang Mo Kio Avenue 8</small>
-                        <br>
-                        <small>Singapore 569830</small>
-                        <br>
-                    </div>
-                    <hr>
                     {{#each invoice.items}}    
                     <p><b>{{ drink.name }} <span style="float: right !important">x{{ quantity }}</span></b></p>
                     <ul>
@@ -49,6 +40,15 @@
                         </li>
                     </ul>
                     {{/each}}
+                    <hr>
+                    <div class="text-center">
+                        <small>BubbleT Building</small>
+                        <br>
+                        <small>180 Ang Mo Kio Avenue 8</small>
+                        <br>
+                        <small>Singapore 569830</small>
+                        <br>
+                    </div>
                 </div>
             </div>
             <div class="text-center mb-2">
