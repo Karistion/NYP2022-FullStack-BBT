@@ -150,4 +150,24 @@ router.post('/create_admin', async function (req, res) { //this is to get the in
 	}
 });
 
+router.get('/adminProfile', ensureAuthenticated, (req, res) => {
+	User.findByPk(req.user.id)
+		.then((user) => {
+			var page = 'users';
+			res.render('user/customer/profile', { layout: 'admin', page, user });
+		})
+		.catch(err => console.log(err));
+});
+
+router.get('/updateAdmin', ensureAuthenticated, (req, res) => {
+	User.findByPk(req.user.id)
+		.then((user) => {
+			var page = 'users';
+			res.render('user/customer/editprofile', { layout: 'admin', page, user });
+		})
+		.catch(err => console.log(err));
+});
+
+// router.get('/downloadExcel', exportUser)
+
 module.exports = router;
