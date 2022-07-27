@@ -201,14 +201,14 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     let address = req.body.address;
     let email = req.body.email;
     // let user = await User.findOne({ where: { username: username } });
+    // if (user){
+    //     flashMessage(res, 'error', username + ' alreay taken');
+    //     res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
+    // };
     if (password != password2) {
         flashMessage(res, 'error', 'Password not matching');
         res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
     }
-    // if (user){
-    //     flashMessage(res, 'error', username + ' alreay taken');
-    //     res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
-    // }
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
     User.update(
@@ -255,9 +255,10 @@ router.get('/suspendUser/:id', ensureAuthenticated, async function
         )
         console.log(' User Suspended');
         let user = await User.findByPk(req.params.id);
+        let email = user.email;
         let token = jwt.sign(email, process.env.APP_SECRET);
         let url = `${process.env.BASE_URL}:${process.env.PORT}/user/suspend/${user.id}/${token}`;
-        sendSuspend(user.email,url);
+        sendSuspend(email,url);
         res.redirect('/report/listUsers');
     }
     catch (err) {
@@ -379,12 +380,13 @@ router.get('/verify/:userId/:token', async function (req, res) {
 //     }
 // });
 
-router.get('/OTP/:suspend/:token', async function (req, res) {
+router.get('/suspend/user.id/:token', async function (req, res) {
     let id = req.params.userId;
     let token = req.params.token;
     try {
         // Check if user is found
         let user = await User.findByPk(id);
+        console.log(id);
         if (!user) {
             flashMessage(res, 'error', 'User not found');
             res.redirect('/user/login');
@@ -410,8 +412,13 @@ router.get('/OTP/:suspend/:token', async function (req, res) {
     }
 });
 
-router.get('/suspend', (req, res) => { //this is where we get the info
-    res.render('user/customer/suspend', { layout: 'main' }); //this is for the handlebar name
+router.get('/suspend/:id', (req, res) => { //this is where we get the info
+    User.findByPk(req.user.id)
+        .then((user) => {
+            res.render('user/customer/suspend', { user, layout: 'main' });
+        })
+        .catch(err => console.log(err));
 });
+
 
 module.exports = router;
