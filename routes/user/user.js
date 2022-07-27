@@ -190,7 +190,7 @@ router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
+router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     let name = req.body.name;
     let username = req.body.username;
     let password = req.body.password;
@@ -200,10 +200,15 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     let postal = req.body.postal;
     let address = req.body.address;
     let email = req.body.email;
+    // let user = await User.findOne({ where: { username: username } });
     if (password != password2) {
         flashMessage(res, 'error', 'Password not matching');
         res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
     }
+    // if (user){
+    //     flashMessage(res, 'error', username + ' alreay taken');
+    //     res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
+    // }
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
     User.update(
