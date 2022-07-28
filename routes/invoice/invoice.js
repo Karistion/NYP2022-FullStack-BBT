@@ -64,16 +64,20 @@ router.post('/checkout', async function (req, res) {
 	isValid=true;
     card_number=card_number.trim()
     var postal=postal_code;
-    var voucher1 = await Voucher.findAll({
-        where: {Voucher_Name: voucher}, 
-        raw:true})
+    if (voucher!=''){
+        var voucher1 = await Voucher.findOne({
+            where: {Voucher_Name: voucher}, 
+            raw:true});
+    }else{
+        var voucher1=0
+    }
 	if (!Luhn.isValid(card_number)) {
         flashMessage(res, 'error', 'Invalid Card Number');
         isValid = false;
     }else if (!validate.isPostalCode(postal_code, 'SG')){
         flashMessage(res, 'error', 'Invalid Address');
         isValid = false;
-    }else if (voucher1==[]){
+    }else if (voucher1!=0&&!voucher1){
         flashMessage(res, 'error', 'Invalid Voucher');
         isValid = false;
     }
@@ -83,10 +87,13 @@ router.post('/checkout', async function (req, res) {
         });
         return;
     }
+    if (voucher1!=0){
+        voucher1=voucher1.Value
+    }
     let userId=req.user.id;
     var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
     var cartId = cart.id
-    var totalprice = cart.totalPrice*(100-voucher1.Value);
+    var totalprice = parseFloat(cart.totalPrice)*parseFloat((100-parseInt(voucher1))/100);
 	var invoice = await Invoice.create({ card_number, card_name, postal, address, totalprice, userId, cartId })
     Cart.create({userId})
     sendEmail(req.user.email, invoice)

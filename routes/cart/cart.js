@@ -38,9 +38,7 @@ router.post('/addtocart/:id', ensureAuthenticated, async (req, res) => {
 	var drinkId=drink.id
 	var cartId=cart.id
 	Cartitems.create({ sugar, topping, quantity, drinkId, cartId });
-	console.log(drink.price*quantity);
 	var price = parseFloat(cart.totalPrice) + parseFloat(drink.price*quantity);
-	console.log(price);
 	Cart.update(
         {
             totalPrice:price
@@ -50,7 +48,7 @@ router.post('/addtocart/:id', ensureAuthenticated, async (req, res) => {
 	res.redirect(req.get('referer'));
 });
 
-router.get('/addtocart/:id', ensureAuthenticated, (req, res) => {
+router.get('/addtocart/:id', ensureAuthenticated, async (req, res) => {
 	res.render('tempform', {layout:'main'})
 });
 
@@ -62,6 +60,15 @@ router.get('/deletecart/:id', ensureAuthenticated, async function(req, res) {
 			res.redirect(req.get('referer'));
 			return;
 		}
+		var cart = await Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
+		var drink = await Drink.findByPk(cartitems.drinkId);
+		var price = parseFloat(cart.totalPrice) - parseFloat(drink.price*cartitems.quantity);
+		Cart.update(
+			{
+				totalPrice:price
+			},
+			{ where: { id:cart.id } }
+		)
 		Cartitems.destroy({ where: { id: cartitems.id } });
 		res.redirect(req.get('referer'));
 		}

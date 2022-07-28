@@ -102,8 +102,7 @@ router.post('/register', async function (req, res) { //this is to get the input 
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', username + ' alreay registered');
             res.render('user/customer/register', {
-                name, email, mobile, postal, address, username
-            }, { layout: 'main' });
+                name, email, mobile, postal, address, username, layout: 'main' });
         }
         else if (user) {
             // If user is found, that means email has already been registered
@@ -118,6 +117,8 @@ router.post('/register', async function (req, res) { //this is to get the input 
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
             let user = await User.create({ name, email, gender, password: hash, mobile, postal, address, username });
+            var userId=user.id
+            Cart.create({userId})
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
@@ -254,7 +255,7 @@ router.get('/suspendUser/:id', ensureAuthenticated, async function
             {activity},
             { where: { id: req.params.id } }
         )
-        console.log(' User Suspended');
+        console.log('User Suspended');
         let user = await User.findByPk(req.params.id);
         let email = user.email;
         let token = jwt.sign(email, process.env.APP_SECRET);
@@ -381,8 +382,8 @@ router.get('/verify/:userId/:token', async function (req, res) {
 //     }
 // });
 
-router.get('/suspend/user.id/:token', async function (req, res) {
-    let id = req.params.userId;
+router.get('/suspend/:id/:token', async function (req, res) {
+    let id = req.params.id;
     let token = req.params.token;
     try {
         // Check if user is found
@@ -413,12 +414,16 @@ router.get('/suspend/user.id/:token', async function (req, res) {
     }
 });
 
-router.get('/suspend/:id', (req, res) => { //this is where we get the info
-    User.findByPk(req.user.id)
+router.get('/suspend', (req, res) => { //this is where we get the info
+    User.findByPk(req.params.id)
         .then((user) => {
             res.render('user/customer/suspend', { user, layout: 'main' });
         })
         .catch(err => console.log(err));
+});
+
+router.post('/suspend', (req,res) =>{
+
 });
 
 router.get('/export', async (req,res) =>{
@@ -448,7 +453,7 @@ router.get('/export', async (req,res) =>{
     }
     convertJsontoExcel();
     res.redirect('/report/listUsers');
-    flashMessage(res, 'success', "Excel sheet created.");
+    // flashMessage(res, 'success', "Excel sheet created.");
 });
 
 
