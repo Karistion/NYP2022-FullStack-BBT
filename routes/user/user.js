@@ -117,6 +117,8 @@ router.post('/register', async function (req, res) { //this is to get the input 
             var hash = bcrypt.hashSync(password, salt);
             // Use hashed password
             let user = await User.create({ name, email, gender, password: hash, mobile, postal, address, username });
+            var userId=user.id
+            Cart.create({userId})
             // Send email
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/verify/${user.id}/${token}`;
