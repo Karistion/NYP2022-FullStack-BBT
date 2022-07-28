@@ -254,7 +254,7 @@ router.get('/suspendUser/:id', ensureAuthenticated, async function
             {activity},
             { where: { id: req.params.id } }
         )
-        console.log(' User Suspended');
+        console.log('User Suspended');
         let user = await User.findByPk(req.params.id);
         let email = user.email;
         let token = jwt.sign(email, process.env.APP_SECRET);
@@ -381,8 +381,8 @@ router.get('/verify/:userId/:token', async function (req, res) {
 //     }
 // });
 
-router.get('/suspend/user.id/:token', async function (req, res) {
-    let id = req.params.userId;
+router.get('/suspend/:id/:token', async function (req, res) {
+    let id = req.params.id;
     let token = req.params.token;
     try {
         // Check if user is found
@@ -413,12 +413,16 @@ router.get('/suspend/user.id/:token', async function (req, res) {
     }
 });
 
-router.get('/suspend/:id', (req, res) => { //this is where we get the info
-    User.findByPk(req.user.id)
+router.get('/suspend', (req, res) => { //this is where we get the info
+    User.findByPk(req.params.id)
         .then((user) => {
             res.render('user/customer/suspend', { user, layout: 'main' });
         })
         .catch(err => console.log(err));
+});
+
+router.post('/suspend', (req,res) =>{
+
 });
 
 router.get('/export', async (req,res) =>{
@@ -448,7 +452,7 @@ router.get('/export', async (req,res) =>{
     }
     convertJsontoExcel();
     res.redirect('/report/listUsers');
-    flashMessage(res, 'success', "Excel sheet created.");
+    // flashMessage(res, 'success', "Excel sheet created.");
 });
 
 
