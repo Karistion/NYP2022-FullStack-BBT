@@ -1,0 +1,43 @@
+
+
+
+<div class="container-fluid">
+    <div class="col-md-12 text-center">
+      <p class="h3 my-4">Rewards Management</p>
+      </div>
+
+      <div class="container-sm my-2" style="width: 90%;">
+        <h1 class="display-7">Add Voucher</h1>
+
+        <form method="POST" action = "">
+        <div class="mb-3 mx-auto" style="width: 300px; ">
+            <p>Voucher Name </p>
+            <input type="text" name="Voucher_Name" placeholder="" class="form-control" required>
+        </div>
+        <div class="mb-3 mx-auto" style="max-width: 750px;">
+            <p>Description: </p>
+            <textarea placeholder ="What the customer sees..." rows="5" cols = "60" name="Description" class="form-control" required></textarea><br>
+        </div>
+        <div class="mb-3 mx-auto" style="width: 300px; ">
+            <p>Value </p>
+            <input type="text" name="Value" placeholder="" class="form-control" required>
+        </div>
+        <div class="mb-3 mx-auto" style="width: 300px; ">
+            <p>Status</p>
+            <select id="Status" name="Status">
+            <option value="Pending">Pending</option>
+            <option value="Used">Used</option>
+            <option value="Removed">Removed</option>
+            <option value="Expired">Expired</option>
+</select>
+        </div>
+          
+          
+          <div style="width: 95%;">
+            <input type="submit" value="Add Voucher" class="float-end mb-3" style="background-color: rgba(196, 250, 247, 0.904); padding: 1px 5px; margin: 7px;">
+          </div>
+      </form>
+      </div>
+      
+
+</div>

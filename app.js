@@ -109,7 +109,7 @@ const cartRoute = require('./routes/cart/cart');
 const menuRoute = require('./routes/menu/menu');
 const reportRoute = require('./routes/report/report');
 const trackingRoute = require('./routes/tracking/tracking');
-// const voucherRoute = require('./routes/voucher/voucher');
+const voucherRoute = require('./routes/forums/vouchers');
 
 // Any URL with the pattern ‘/*’ is directed to routes/main.js
 app.use('/', mainRoute);
@@ -120,7 +120,7 @@ app.use('/cart', cartRoute)
 app.use('/menu', menuRoute);
 app.use('/report', reportRoute);
 app.use('/tracking', trackingRoute);
-// app.use('/voucher', voucherRoute);
+app.use('/vouchers', voucherRoute);
 
 /*
 * Creates a port for express server since we don't want our app to clash with well known

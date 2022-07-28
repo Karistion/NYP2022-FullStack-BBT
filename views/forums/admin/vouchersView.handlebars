@@ -1,0 +1,79 @@
+
+
+  <div class="container-fluid">
+
+  <div class="col-md-12 text-center">
+
+    <p class="h3 mt-4">Vouchers</p>
+    <div>
+  {{#if vouchers}}
+  <p>There are {{vouchers.length}} voucher entree(s).</p>
+  {{else}}
+  <p>There are no voucher entrees.</p>
+  {{/if}}
+  <hr>
+</div>
+      
+    </div>
+
+
+        
+                
+      <table class="table table-striped" id="customers-table">
+    <thead>
+      <tr >
+        <th>Code</th>
+        <th>Voucher Name</th>
+        <th>Value</th>
+        <th>Created_By</th>
+        <th>Description</th>
+        <th>Status</th>
+        
+      </tr>
+    </thead>
+    <tbody>         
+            
+    {{#each vouchers}}    
+        
+    <div class="container-sm my-5" style="width: 80%;">
+      <tr class="fs-6 my-0" style="font-weight: 600;">
+          <td>{{ id }}</td>
+          <td>{{ Voucher_Name }}</td>
+          <td>{{Value}}</td>
+          <td>{{ Created_By}}</td>
+          <td>{{ Description }}</td>
+          <td>{{ Status }}</td>
+          
+          <td><div class="mx-auto" style="mix-width: 500px; float:right;">
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/vouchers/vouchersEdit/{{id}}">Edit Voucher</a>
+          
+                                </button>
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/vouchers/vouchersDelete/{{id}}">Delete Voucher</a>
+                                </button>
+        
+    </div>
+    </td>
+      
+  
+</div>
+</td>
+        </tr>
+      </tbody>
+{{/each}}
+</table>
+
+<div class="mx-auto" style="mix-width: 500px; float:right;">
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/vouchers/vouchersCreate">Add Voucher</a>
+          
+                                </button>
+        
+        
+    </div>
+             
+
+
+
+

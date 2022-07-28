@@ -3,7 +3,7 @@
  <div class="card mb-3">
             <div class="card-header">
                 <h5 class="fw-bold my-1">{{ Thread.thread_Title }}</h5>
-                <small class="p-0">Posted by: {{ user.username }}</small>
+                <small class="p-0">Posted by: {{ Thread.user.username }}</small>
                 
             </div>
             <div class="card-body py-2">
@@ -13,7 +13,10 @@
                     
             </div>
         </div>
-    <div class="mx-auto" style="max-width: 750px;">
+
+        {{#if (check Thread.userId user.id) }}
+                
+    <div class="mx-auto" style="mix-width: 500px; float:right;">
         <button type="submit" class="btn btn-primary" >
                                     <a style="color:antiquewhite;" href="/forums/UpdateThread/{{Thread.id}}">Edit Thread</a>
           
@@ -21,8 +24,83 @@
         <button type="submit" class="btn btn-primary" >
                                     <a style="color:antiquewhite;" href="/forums/DeleteThread/{{Thread.id}}">Delete Thread</a>
                                 </button>
-        <a href="/forums/forums">
+        
+    </div>
+                
+                {{/if}}
+
+    <br>
+
+    
+    <div class = "comments">
+        <h3 style="padding-left:8em; padding-bottom:1em;">Comments</h3>
+        <div class="d-flex justify-content-center row">
+            <div class="card mb-3" style="background-color:whitesmoke; min-height: 300px; width: 1000px;">
+                <div class="container mt-5 mb-5">
+            
+                <div class="d-flex flex-column col-md-8">
+                    <form method="POST" action="">
+        
+<div class="container card" style="width:920px">
+            <div class="mb-3 mx-auto" id ="comment_box">
+                
+            <textarea placeholder ="Add comment" rows="1" cols = "70" name="comment_Content"  class ="form-control mr-3"required></textarea>
+            <input id ="submit" type="submit" value="Comment" class="btn btn-info  mb-1">
+            </div>
+        
+            
+        {{#each comments}}
+<div style = "font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;padding-left:10em; font-size:large">
+                <h5 class="fw-bold my-1" style ="padding-top:2em;">{{ user.username }}</h5>
+                
+                
+           
+            
+                <h5 class="fw my-1" style="padding-bottom:1em; padding-top:20px ;font-family:Verdana, Geneva, Tahoma, sans-serif">{{comment_Content }}</h5>
+                
+
+            </div>
+            
+        {{/each}}
+</div> 
+       
+    
+</form>
+                    
+                    
+                
+                    
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    
+        </div>
+    </div>
+    <a href="/forums/forums" style="overflow:auto; margin-right:0px; float:right;">
             <button type="button" class="btn btn-info btn-block">Go Back</button>
         </a>
-    </div>
 </div>
+
+<style>
+    #comment_box{
+        padding-top: 50px;
+        
+        
+    }
+
+   
+
+textarea {
+  display:inline-block;
+  width:90%;
+  resize:none;
+}
+
+#submit {
+  display:inline-block;
+  width:20%;
+  margin-bottom:-10px
+}
+</style>
