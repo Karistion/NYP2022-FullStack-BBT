@@ -30,20 +30,28 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 	}).catch(err => console.log(err))
 });
 
-router.get('/addtocart/:id', ensureAuthenticated, (req, res) => {
+router.post('/addtocart/:id', ensureAuthenticated, async (req, res) => {
 	var userId=req.user.id;
 	let { sugar, topping, quantity } = req.body; //password/password2 is from the input name in the html
-	var cart = Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
-	Cartitems.create( sugar, topping, quantity, req.params.id, cart.id );
-	var drink = Drink.findByPk(req.params.id)
-	var price = cart.totalprice + (drink.price*quantity);
+	var cart = await Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
+	var drink = await Drink.findByPk(req.params.id);
+	var drinkId=drink.id
+	var cartId=cart.id
+	Cartitems.create({ sugar, topping, quantity, drinkId, cartId });
+	console.log(drink.price*quantity);
+	var price = parseFloat(cart.totalPrice) + parseFloat(drink.price*quantity);
+	console.log(price);
 	Cart.update(
         {
-            userId, price
+            totalPrice:price
         },
-        { where: { userId:req.user.id } }
+        { where: { id:cart.id } }
     )
 	res.redirect(req.get('referer'));
+});
+
+router.get('/addtocart/:id', ensureAuthenticated, (req, res) => {
+	res.render('tempform', {layout:'main'})
 });
 
 router.get('/deletecart/:id', ensureAuthenticated, async function(req, res) {

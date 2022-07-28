@@ -7,7 +7,6 @@ const Cartitems = require('../../models/CartItems');
 const ensureAuthenticated = require('../../helpers/auth');
 const Drink = require('../../models/Drink');
 const Invoice = require('../../models/Invoice');
-const Map = require("@googlemaps/google-maps-services-js");
 
 router.get('/tracking/:id', (req, res) => {
 	Invoice.findByPk(req.params.id).then((invoice)=>{

@@ -1,6 +1,6 @@
 const express = require('express');
 const res = require('express/lib/response');
-const router = express.Router();
+const router = express.Router(); 	
 const flashMessage = require('../helpers/messenger');
 
 router.get('/', (req, res) => {
@@ -12,8 +12,8 @@ router.get('/about', (req, res) => {
 	res.render('about', {layout: 'main'});
 });
 
-router.get('/map', (req, res) => {
-	res.render('map');
+router.get('/temp', (req, res) => {
+	res.render('tempfile');
 });
 
 router.get('/termsandconditions', (req, res) => {
