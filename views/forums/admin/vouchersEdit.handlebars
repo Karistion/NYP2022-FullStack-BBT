@@ -1,4 +1,4 @@
-<h1 class="fw-bold text-center mb-3">Edit Voucher</h1>
+<h1 class="fw-bold text-center mb-3" style = "padding-top: 50px;">Edit Voucher</h1>
 
 <form method="POST" action="">
     <!-- Modal Codes (SUBMIT) -->
@@ -53,13 +53,14 @@
                 <input type="text" name="Description" class="form-control"value="{{Voucher.Description}}" >
             </p>
         </div>
-        <div class="mb-3 mx-auto" style="width: 300px; ">
-            <p>Value </p>
-            <input type="text" name="Value" placeholder="" class="form-control" required value ="{{Voucher.Value}}" >
+        <div class="" style="width: 500px; padding-left:255px;" >
+            <p class="fw-bold">Value 
+            <input type="text" name="Value"  class="form-control" required value ="{{Voucher.Value}}" >
+            </p>
         </div>
         
-        <div class="mb-3 mx-auto" style="width: 300px; ">
-            <p>Status</p>
+        <div class="mb-3" style="width: 300px; padding-left:255px;">
+            <p class ="fw-bold">Status: 
             <select id="Status" name="Status">
             <option value="{{Voucher.Status}}">{{Voucher.Status}}</option>
             <option value="Pending">Pending</option>
@@ -67,6 +68,7 @@
             <option value="Removed">Removed</option>
             <option value="Expired">Expired</option>
         </select>
+        </p>
         </div>
       
         <hr class="mx-auto" style="max-width: 750px;">

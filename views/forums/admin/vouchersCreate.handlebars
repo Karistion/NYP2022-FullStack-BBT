@@ -2,34 +2,38 @@
 
 
 <div class="container-fluid">
-    <div class="col-md-12 text-center">
-      <p class="h3 my-4">Rewards Management</p>
-      </div>
+    
 
-      <div class="container-sm my-2" style="width: 90%;">
-        <h1 class="display-7">Add Voucher</h1>
+      <div class="container-sm my-2" style="width: 90%;" >
+        <h1 class="fw-bold text-center mb-3" >Add Voucher</h1>
 
         <form method="POST" action = "">
-        <div class="mb-3 mx-auto" style="width: 300px; ">
-            <p>Voucher Name </p>
-            <input type="text" name="Voucher_Name" placeholder="" class="form-control" required>
+        <div class="text-left">
+        <div class="mb-3 mx-auto" style="max-width: 750px;">
+            <p class="fw-bold">Voucher Name:
+                <input type="text" name="Voucher_Name" class="form-control" >
+            </p>
         </div>
         <div class="mb-3 mx-auto" style="max-width: 750px;">
-            <p>Description: </p>
-            <textarea placeholder ="What the customer sees..." rows="5" cols = "60" name="Description" class="form-control" required></textarea><br>
+            <p class="fw-bold">Description
+                <input type="text" name="Description" class="form-control" >
+            </p>
         </div>
-        <div class="mb-3 mx-auto" style="width: 300px; ">
-            <p>Value </p>
-            <input type="text" name="Value" placeholder="" class="form-control" required>
+        <div class="" style="width: 500px; padding-left:169px;" >
+            <p class="fw-bold">Value 
+            <input type="text" name="Value"  class="form-control" required >
+            </p>
         </div>
-        <div class="mb-3 mx-auto" style="width: 300px; ">
-            <p>Status</p>
+        
+        <div class="mb-3" style="width: 300px; padding-left:169px;">
+            <p class ="fw-bold">Status: 
             <select id="Status" name="Status">
             <option value="Pending">Pending</option>
             <option value="Used">Used</option>
             <option value="Removed">Removed</option>
             <option value="Expired">Expired</option>
-</select>
+        </select>
+        </p>
         </div>
           
           
