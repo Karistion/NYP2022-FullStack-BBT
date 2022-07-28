@@ -27,6 +27,9 @@
                     <p>
                         <span class="fw-bold">Card Number: </span>{{ invoice.card_number }}
                     </p>
+                    <p>
+                        <span class="fw-bold">Total Price: </span>{{ decimal2 invoice.totalprice }}
+                    </p>
                     </ul>
                     <hr>
                     {{#each invoice.items}}    
