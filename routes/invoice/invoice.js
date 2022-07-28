@@ -8,9 +8,11 @@ const Cart = require('../../models/Cart');
 const Drink = require('../../models/Drink');
 const Cartitems = require('../../models/CartItems');
 const User = require('../../models/User');
+const Voucher = require('../../models/Vouchers');
 const ensureAuthenticated = require('../../helpers/auth');
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
+const validate = require('validator');
 
 function sendEmail(toEmail, invoice) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -58,12 +60,21 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
 });
 
 router.post('/checkout', async function (req, res) {
-	let { card_number, card_name, postal_code, address, expiry_date, cvv } = req.body;
+	let { card_number, card_name, postal_code, address, expiry_date, cvv, voucher } = req.body;
 	isValid=true;
     card_number=card_number.trim()
     var postal=postal_code;
+    var voucher1 = await Voucher.findAll({
+        where: {Voucher_Name: voucher}, 
+        raw:true})
 	if (!Luhn.isValid(card_number)) {
         flashMessage(res, 'error', 'Invalid Card Number');
+        isValid = false;
+    }else if (!validate.isPostalCode(postal_code, 'SG')){
+        flashMessage(res, 'error', 'Invalid Address');
+        isValid = false;
+    }else if (voucher1==[]){
+        flashMessage(res, 'error', 'Invalid Voucher');
         isValid = false;
     }
     if (!isValid) {
@@ -75,7 +86,7 @@ router.post('/checkout', async function (req, res) {
     let userId=req.user.id;
     var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
     var cartId = cart.id
-    var totalprice = cart.totalPrice;
+    var totalprice = cart.totalPrice*(100-voucher1.Value);
 	var invoice = await Invoice.create({ card_number, card_name, postal, address, totalprice, userId, cartId })
     Cart.create({userId})
     sendEmail(req.user.email, invoice)
