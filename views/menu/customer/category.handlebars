@@ -1,13 +1,13 @@
 <section class="header">
-    {{#with category}}
+    {{#if drink includeZero=true}}
     <div class="centered">
             <h1>
                 <center>
-                    {{ drink }}
+                    {{ category }}
                 </center>
             </h1>
     </div>
-    {{/with}}
+    {{/if}}
  </section>
 
 <section class="py-3 bg-light">
