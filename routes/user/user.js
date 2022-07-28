@@ -8,6 +8,7 @@ const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
 const uuid = require('uuid');
 const Cart = require('../../models/Cart');
+const XLSX = require('xlsx');
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -190,7 +191,7 @@ router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
+router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     let name = req.body.name;
     let username = req.body.username;
     let password = req.body.password;
@@ -200,6 +201,11 @@ router.post('/editprofile/:id', ensureAuthenticated, (req, res) => {
     let postal = req.body.postal;
     let address = req.body.address;
     let email = req.body.email;
+    // let user = await User.findOne({ where: { username: username } });
+    // if (user){
+    //     flashMessage(res, 'error', username + ' alreay taken');
+    //     res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
+    // };
     if (password != password2) {
         flashMessage(res, 'error', 'Password not matching');
         res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
@@ -250,9 +256,10 @@ router.get('/suspendUser/:id', ensureAuthenticated, async function
         )
         console.log(' User Suspended');
         let user = await User.findByPk(req.params.id);
+        let email = user.email;
         let token = jwt.sign(email, process.env.APP_SECRET);
         let url = `${process.env.BASE_URL}:${process.env.PORT}/user/suspend/${user.id}/${token}`;
-        sendSuspend(user.email,url);
+        sendSuspend(email,url);
         res.redirect('/report/listUsers');
     }
     catch (err) {
@@ -374,12 +381,13 @@ router.get('/verify/:userId/:token', async function (req, res) {
 //     }
 // });
 
-router.get('/OTP/:suspend/:token', async function (req, res) {
+router.get('/suspend/user.id/:token', async function (req, res) {
     let id = req.params.userId;
     let token = req.params.token;
     try {
         // Check if user is found
         let user = await User.findByPk(id);
+        console.log(id);
         if (!user) {
             flashMessage(res, 'error', 'User not found');
             res.redirect('/user/login');
@@ -405,8 +413,43 @@ router.get('/OTP/:suspend/:token', async function (req, res) {
     }
 });
 
-router.get('/suspend', (req, res) => { //this is where we get the info
-    res.render('user/customer/suspend', { layout: 'main' }); //this is for the handlebar name
+router.get('/suspend/:id', (req, res) => { //this is where we get the info
+    User.findByPk(req.user.id)
+        .then((user) => {
+            res.render('user/customer/suspend', { user, layout: 'main' });
+        })
+        .catch(err => console.log(err));
 });
+
+router.get('/export', async (req,res) =>{
+    let array = await User.findAll({
+        order: [['id', 'ASC']],
+        raw: true
+    });
+    let array2 = [];
+    // array.forEach(function(element){
+    //     array2.push(element);
+    // });
+    for (var i = 0; i < array.length; i++) {
+        array2.push(array[i]);
+    }
+    console.log(array2);
+    // const test = [{name:'Jordan', email:'lol@gmail.com', age:18}];
+    const convertJsontoExcel =()=>{
+        const workSheet = XLSX.utils.json_to_sheet(array2);
+        const workBook = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(workBook,workSheet,'Users');
+        //Generate Buffer
+        XLSX.write(workBook,{bookType:'xlsx',type:'buffer'});
+        //Binary String
+        XLSX.write(workBook,{bookType:'xlsx',type:'binary'});
+        XLSX.writeFile(workBook,'usersData.xlsx');
+    }
+    convertJsontoExcel();
+    res.redirect('/report/listUsers');
+    flashMessage(res, 'success', "Excel sheet created.");
+});
+
 
 module.exports = router;

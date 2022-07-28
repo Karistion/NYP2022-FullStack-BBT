@@ -21,6 +21,7 @@
         <th>Gender</th>
         <th>Phone</th>
         <th>Email</th>
+        <th><button type="button" class="btn btn-info"><a href="/user/export" style="color: white;text-decoration: none;">Export</a></button></th>
       </tr>
     </thead>
     <tbody>
@@ -63,6 +64,13 @@
             data-bs-content="Disabled popover">
             <button class="btn btn-primary" type="button" disabled>User Disabled</button>
           </span>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger">
+              <a href="/user/suspend/{{id}}" style="color: white;text-decoration: none;">
+              Suspend Appeal
+              </a>
+            </button>
           </td>
           {{/if}}
           </td>

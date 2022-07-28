@@ -1,4 +1,7 @@
 <style>
+    #form{
+        padding-left: 50px;
+    }
     svg {
             height: 23rem;
             margin - right: 4rem;
@@ -578,7 +581,7 @@ form {
   -------------------------------------------------------------
   ------------------------------------------------------------>
 
-    <form>
+    <form id="form">
         <h1 class="title text-center mb-4">Talk to Us</h1>
 
         <!-- Name -->
@@ -588,6 +591,7 @@ form {
             </label>
             <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Username">
         </div>
+        <br>
 
         <!-- E-mail -->
         <div class="form-group position-relative">
@@ -596,11 +600,13 @@ form {
             </label>
             <input type="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail">
         </div>
+        <br>
 
         <!-- Message -->
         <div class="form-group message">
             <textarea id="formMessage" class="form-control form-control-lg" rows="7" placeholder="Appeal"></textarea>
         </div>
+        <br>
 
         <!-- Submit btn -->
         <div class="text-center">

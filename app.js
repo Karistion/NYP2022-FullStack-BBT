@@ -9,8 +9,11 @@ const Handlebars = require('handlebars');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
+const User = require('../FullStack-BBT/models/User');
+const bcrypt = require('bcryptjs');
 const helpers = require('./helpers/handlebars');
 const fs = require('fs');
+const Google = require('../FullStack-BBT/config/GoogleConfig')
 require('dotenv').config();
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -135,10 +138,19 @@ app.listen(port, () => {
 
 // Log in using Google
 var userProfile;
+// var salt = bcrypt.genSaltSync(10);
+// var hash = bcrypt.hashSync(password, salt);
 app.get('/success', (req, res) => res.send(userProfile));
 app.get('/error', (req, res) => res.send("error logging in"));
 app.get('/googleLogin', (req, res) => { //this is to render the page
-	res.render('user/customer/googleLogin', { layout: 'main', userProfile});
+	res.send(userProfile);
+	// let name = userProfile.name;
+	// let email = userProfile.email;
+	// let gender = userProfile.gender;
+	// let password = userProfile.password;
+	// let mobile = userProfile.mobile;
+	// User.create({ name, email, gender, password: hash, mobile, postal, address, username });
+	// res.render('user/customer/googleLogin', { layout: 'main', userProfile});
 });
 passport.serializeUser(function (user, cb) {
 	cb(null, user);
@@ -148,19 +160,9 @@ passport.deserializeUser(function (obj, cb) {
 	cb(null, obj);
 });
 
-const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const GOOGLE_CLIENT_ID = '1064844563981-jhen95c3vgcl5brl328apss4e7tsf2jk.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-passport.use(new GoogleStrategy({
-	clientID: GOOGLE_CLIENT_ID,
-	clientSecret: GOOGLE_CLIENT_SECRET,
-	callbackURL: "http://localhost:5000/auth/google/callback"
-},
-	function (accessToken, refreshToken, profile, done) {
-		userProfile = profile;
-		return done(null, userProfile);
-	}
-));
+//Google
+Google();
+
 
 app.get('/auth/google',
 	passport.authenticate('google', { scope: ['profile', 'email'] }));
@@ -169,5 +171,5 @@ app.get('/auth/google/callback',
 	passport.authenticate('google', { failureRedirect: '/error' }),
 	function (req, res) {
 		// Successful authentication, redirect success.
-		res.redirect('/googleLogin');
+		res.redirect('/');
 	});

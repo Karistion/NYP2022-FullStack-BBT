@@ -73,7 +73,6 @@ router.get('/listUsers', ensureAuthenticated, (req, res) => {
 		raw: true
 	})
 		.then((user) => {
-			console.log(user);
 			// pass object to listVideos.handlebar
 			var page = 'users';
 			res.render('user/admin/usertable', { layout: 'admin', page, user });
