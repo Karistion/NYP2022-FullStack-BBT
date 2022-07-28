@@ -8,6 +8,7 @@ const passport = require('passport');
 const ensureAuthenticated = require('../../helpers/auth');
 const uuid = require('uuid');
 const Cart = require('../../models/Cart');
+const XLSX = require('xlsx');
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -418,6 +419,36 @@ router.get('/suspend/:id', (req, res) => { //this is where we get the info
             res.render('user/customer/suspend', { user, layout: 'main' });
         })
         .catch(err => console.log(err));
+});
+
+router.get('/export', async (req,res) =>{
+    let array = await User.findAll({
+        order: [['id', 'ASC']],
+        raw: true
+    });
+    let array2 = [];
+    // array.forEach(function(element){
+    //     array2.push(element);
+    // });
+    for (var i = 0; i < array.length; i++) {
+        array2.push(array[i]);
+    }
+    console.log(array2);
+    // const test = [{name:'Jordan', email:'lol@gmail.com', age:18}];
+    const convertJsontoExcel =()=>{
+        const workSheet = XLSX.utils.json_to_sheet(array2);
+        const workBook = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(workBook,workSheet,'Users');
+        //Generate Buffer
+        XLSX.write(workBook,{bookType:'xlsx',type:'buffer'});
+        //Binary String
+        XLSX.write(workBook,{bookType:'xlsx',type:'binary'});
+        XLSX.writeFile(workBook,'usersData.xlsx');
+    }
+    convertJsontoExcel();
+    res.redirect('/report/listUsers');
+    flashMessage(res, 'success', "Excel sheet created.");
 });
 
 
