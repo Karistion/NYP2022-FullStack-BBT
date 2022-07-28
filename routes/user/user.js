@@ -102,8 +102,7 @@ router.post('/register', async function (req, res) { //this is to get the input 
             // If user is found, that means email has already been registered
             flashMessage(res, 'error', username + ' alreay registered');
             res.render('user/customer/register', {
-                name, email, mobile, postal, address, username
-            }, { layout: 'main' });
+                name, email, mobile, postal, address, username, layout: 'main' });
         }
         else if (user) {
             // If user is found, that means email has already been registered
