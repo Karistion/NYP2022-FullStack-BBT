@@ -14,5 +14,4 @@ router.get('/category/:category', async (req, res) => {
 	res.render('menu/customer/category', {layout: 'main', drink});
 });
 
-
 module.exports = router;
