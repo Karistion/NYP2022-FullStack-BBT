@@ -1,10 +1,18 @@
 <div class="card">
-<h1 class="display-4">Orders </h1>
+  {{#if (check page 'orderlist')}}
+<h1 class="display-4">Orders</h1>
+{{else}}
+<h1 class="display-4">Orders History</h1>
+{{/if}}
 <div>
   {{#if count}}
   <p>There are no pending orders.</p>
   {{else}}
-  <p>There are {{ invoices.length }} orders.</p>
+    {{#if (check page 'orderlist')}}
+    <p>There are {{ invoices.length }} orders.</p>
+    {{else}}
+    <p>There are {{ invoices.length }} orders delivered.</p>
+    {{/if}}
   {{/if}}
 </div>
 <!-- 
@@ -24,7 +32,7 @@
       {{#each invoices}}
       <tr>
         <td>{{ id }}</td>
-        <td>{{ status }}. {{ statusdesc status }}</td>
+        <td><span class="badge bg-{{statuscolor status}}">{{ status }}. {{ statusdesc status }}</span></td>
         <td>{{ totalprice }}</td>
         <td>{{ formatDate datedelivery }}</td>
         {{#if (check delivered 0)}}
@@ -74,11 +82,11 @@
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel{{id}}">{{id}}</h5>
+                  <h5 class="modal-title" id="exampleModalLabel{{id}}">Order: {{id}}</h5>
                   <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></span>
                 </div>
                 <div class="modal-body">
-                 Order Successfully Delivered
+                 Is the order completed?
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
