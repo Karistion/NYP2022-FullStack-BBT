@@ -18,7 +18,7 @@ router.get('/category/:category', async (req, res) => {
 
 router.get('/adminmenu', ensureAuthenticated, async (req, res) => {
 	var page='addition';
-	res.render('menu/admin/add_product', {layout: 'admin', page});
+	res.render('menu/admin/drink', {layout: 'admin', page});
 });
 
 module.exports = router;

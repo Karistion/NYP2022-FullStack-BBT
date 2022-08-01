@@ -1,8 +1,8 @@
 <div class="card">
 <h1 class="display-4">Add Drink</h1>
 <div>
-  {{#if user}}
-  <p>There are {{Drink.length}} Drink(s).</p>
+  {{#if drink}}
+  <p>There are {{drink.length}} Drink(s).</p>
   {{/if}}
 </div>
 <!-- 
@@ -13,26 +13,22 @@
   <table class="table table-striped" id="customers-table">
     <thead>
       <tr>
-        <th>User ID</th>
+        <th>Drink ID</th>
         <th>Name</th>
-        <th>Username</th>
-        <th>Role</th>
-        <th>Gender</th>
-        <th>Phone</th>
-        <th>Email</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Description</th>
         <th><button type="button" class="btn btn-info"><a href="/user/export" style="color: white;text-decoration: none;">Export</a></button></th>
       </tr>
     </thead>
     <tbody>
-        {{#each user}}
+        {{#each drink}}
         <tr>
           <td>{{ id }}</td>
           <td>{{ name }}</td>
-          <td>{{ username }}</td>
-          <td>{{ member }}</td>
-          <td>{{ gender }}</td>
-          <td>{{ mobile }}</td>
-          <td>{{ email }}</td>
+          <td>{{ price }}</td>
+          <td>{{ category }}</td>
+          <td>{{ desc }}</td>
           {{#if activity}}
           <td>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
