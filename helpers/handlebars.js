@@ -68,13 +68,13 @@ const statuscolor = function (status) {
 
 const statusdesc = function (status) {
     if (status==1){
-        return "Making Order";
+        return "Making of Drinks";
     }else if (status==2){
-        return "Collected Order";
+        return "Driver collected Order";
     }else if (status==3){
-        return "Drinks En Route";
+        return "Drinks En Route to Delivery";
     }else if (status==4){
-        return "Drinks Delivered";
+        return "Drinks Delivered to Home";
     }
 }
 
@@ -95,4 +95,8 @@ const sumdictvalue = function (dict) {
     return Object.values(dict).reduce((a, b) => a + b, 0).toFixed(2);
 } 
 
-module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, sum, dictkey, dictvalue, sumdictvalue, statuscolor};
+const sumdictvaluepercent = function (dict) {
+    return Object.values(dict).reduce((a, b) => a + b, 0).toFixed(2)*0.9;
+} 
+
+module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent};
