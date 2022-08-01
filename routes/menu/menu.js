@@ -23,7 +23,7 @@ router.get('/adminmenu', ensureAuthenticated, async (req, res) => {
 	var page='menuchange';
 	var category=req.params.category;
 	var drink = await Drink.findAll({order: [['category']], raw: true});
-	res.render('menu/admin/drink', {layout: 'admin', page, drink});
+	res.render('menu/admin/drink_list', {layout: 'admin', page, drink});
 });
 
 router.get('/AddDrinks', ensureAuthenticated, async (req, res) => { 
