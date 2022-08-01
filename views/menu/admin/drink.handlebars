@@ -1,5 +1,5 @@
 <div class="card">
-<h1 class="display-4">Add Drink</h1>
+<h1 class="display-4">Drink Options</h1>
 <div>
   {{#if drink}}
   <p>There are {{drink.length}} Drink(s).</p>
@@ -33,7 +33,7 @@
           <td>
             <div class="mx-auto" style="mix-width: 500px; float:right;">
               <button type="submit" class="btn btn-primary" >
-                <a style="color:antiquewhite;" href="">Edit Drink</a>
+                <a style="color:antiquewhite;" href="/menu/EditDrinks/{{id}}">Edit Drink</a>
               </button>
               <button type="submit" class="btn btn-danger">
                 <a style="color:antiquewhite;" href="/menu/DeleteDrinks/{{id}}">Delete Drink</a>

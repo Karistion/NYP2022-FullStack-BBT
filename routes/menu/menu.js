@@ -49,6 +49,30 @@ router.post('/AddDrinks', ensureAuthenticated, async (req, res) => {
         .catch(err => console.log(err))
 });
 
+router.get('/EditDrinks/:id',ensureAuthenticated, async (req, res) => { //this is to render the page
+    var drink = await Drink.findByPk(req.params.id);
+	res.render('menu/admin/edit_drinks', { layout: 'admin', drink});
+});
+
+router.post('/EditDrinks/:id', ensureAuthenticated, async (req, res) => {
+	var name = req.body.name;
+	var price = req.body.price;
+	var category = req.body.category;
+    var desc = req.body.desc;
+
+    Drink.update(
+        {
+			name, price, category, desc
+        },
+        { where: { id: req.params.id } }
+    )
+        .then((result) => {
+            console.log(result[0] + ' drink updated');
+            res.redirect('/menu/adminmenu');
+        })
+        .catch(err => console.log(err));
+});
+
 router.get('/DeleteDrinks/:id', ensureAuthenticated, async function(req, res) {
 	try {
 		
