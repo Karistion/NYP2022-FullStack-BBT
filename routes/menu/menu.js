@@ -1,8 +1,10 @@
 const express = require('express');
 const res = require('express/lib/response');
 const router = express.Router();
+const moment = require('moment');
 const flashMessage = require('../../helpers/messenger');
 const Drink = require('../../models/Drink');
+const Cart = require('../../models/Cart');
 const ensureAuthenticated = require('../../helpers/auth');
 
 // CUSTOMER SIDE
@@ -28,5 +30,22 @@ router.get('/AddDrinks', ensureAuthenticated, async (req, res) => {
     res.render('menu/admin/add_drinks', { layout: 'admin' });
 });
 
+router.post('/AddDrinks', ensureAuthenticated, async (req, res) => { 
+    var name = req.body.name;
+	var price = req.body.price;
+	var category = req.body.category;
+    var desc = req.body.desc;
+    var dateCreated = moment(req.body.dateRelease, 'DD/MM/YYYY');
 
+	Drink.create(
+        {
+            name, price, category, desc, dateCreated
+        }
+    )
+        .then((Drink) => {
+            console.log(Drink.toJSON());
+            res.redirect('/menu/adminmenu');
+        })
+        .catch(err => console.log(err))
+});
 module.exports = router;
