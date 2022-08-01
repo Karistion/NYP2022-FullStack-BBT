@@ -48,4 +48,15 @@ router.post('/AddDrinks', ensureAuthenticated, async (req, res) => {
         })
         .catch(err => console.log(err))
 });
+
+router.get('/DeleteDrinks/:id', ensureAuthenticated, async function(req, res) {
+	try {
+		
+		let result = await Drink.destroy({ where: { id: req.params.id } });
+		res.redirect('/menu/adminmenu');
+		}
+		catch (err) {
+			console.log(err);	
+		}
+});
 module.exports = router;
