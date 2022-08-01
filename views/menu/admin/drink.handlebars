@@ -18,7 +18,7 @@
         <th>Price</th>
         <th>Category</th>
         <th>Description</th>
-        <th><button type="button" class="btn btn-info"><a href="/user/export" style="color: white;text-decoration: none;">Export</a></button></th>
+        <th><button type="button" class="btn btn-success"><a href="" style="color: white;text-decoration: none;">Add Drink</a></button></th>
       </tr>
     </thead>
     <tbody>
@@ -29,48 +29,15 @@
           <td>{{ price }}</td>
           <td>{{ category }}</td>
           <td>{{ desc }}</td>
-          {{#if activity}}
+        
           <td>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
-              Suspend
-            </button>
-            <!-- Modal -->
-            <div class="modal fade" id="id{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;"
-              aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="id{{id}}">Confirmation</h5>
-                    <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button></span>
-                  </div>
-                  <div class="modal-body">
-                    Are you sure you want to suspend account {{id}}?
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary"><a href="/user/suspendUser/{{id}}" style="color: white;text-decoration: none;">Confirm</a></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {{else}}
-          <td>
-          <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus"
-            data-bs-content="Disabled popover">
-            <button class="btn btn-primary" type="button" disabled>User Disabled</button>
-          </span>
-          </td>
-          {{#if appeal}}
-          <td>
-            <button type="button" class="btn btn-danger">
-              <a href="/user/appeal/{{id}}" style="color: white;text-decoration: none;">
-              Appeal
-              </a>
-            </button>
-          </td>
-          {{/if}}
-        {{/if}}
+            <div class="mx-auto" style="mix-width: 500px; float:right;">
+              <button type="submit" class="btn btn-primary" >
+                <a style="color:antiquewhite;" href="">Edit Drink</a>
+              </button>
+              <button type="submit" class="btn btn-danger">
+                <a style="color:antiquewhite;" href="">Delete Drink</a>
+              </button>
           </td>
         </tr>
       </tbody>
