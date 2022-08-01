@@ -18,6 +18,7 @@
         <th>User ID</th>
         <th>Name</th>
         <th>Username</th>
+        <th>Role</th>
         <th>Gender</th>
         <th>Phone</th>
         <th>Email</th>
@@ -30,6 +31,7 @@
           <td>{{ id }}</td>
           <td>{{ name }}</td>
           <td>{{ username }}</td>
+          <td>{{ member }}</td>
           <td>{{ gender }}</td>
           <td>{{ mobile }}</td>
           <td>{{ email }}</td>
@@ -65,14 +67,16 @@
             <button class="btn btn-primary" type="button" disabled>User Disabled</button>
           </span>
           </td>
+          {{#if appeal}}
           <td>
             <button type="button" class="btn btn-danger">
-              <a href="/user/suspend/{{id}}" style="color: white;text-decoration: none;">
-              Suspend Appeal
+              <a href="/user/appeal/{{id}}" style="color: white;text-decoration: none;">
+              Appeal
               </a>
             </button>
           </td>
           {{/if}}
+        {{/if}}
           </td>
         </tr>
       </tbody>

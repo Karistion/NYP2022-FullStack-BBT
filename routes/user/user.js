@@ -9,6 +9,7 @@ const ensureAuthenticated = require('../../helpers/auth');
 const uuid = require('uuid');
 const Cart = require('../../models/Cart');
 const XLSX = require('xlsx');
+const multer = require('multer');
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -41,13 +42,13 @@ function sendEmail(toEmail, url) {
     });
 }
 
-function sendPassword(toEmail, url,password) {
+function sendPassword(toEmail, url,OTP) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
         from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
         subject: 'Reset Password',
-        html: ` Your OTP: ${password} <br>
+        html: ` Your OTP: ${OTP} <br>
         OTP expires in 15mins.`
     };
     // Returns the promise from SendGrid to the calling function
@@ -145,34 +146,40 @@ router.post('/register', async function (req, res) { //this is to get the input 
 router.post('/login',async function (req, res, next) {
     let {username} = req.body;
     let user = await User.findOne({ where: { username: username } });
-    if (user.activity == 0){
-        res.redirect('/user/login');
-        flashMessage(res,'error','Account has been suspended.')
+    if (user){
+        if (user.activity == 0){
+            flashMessage(res, 'error', 'Account has been suspended.');
+            res.render('user/customer/login', { layout: 'main' });
+        }
+        else if (user.member == "member") {
+            passport.authenticate('local', {
+                // Success redirect URL
+                successRedirect: '/',
+                // Failure redirect URL
+                failureRedirect: '/user/login',
+                /* Setting the failureFlash option to true instructs Passport to flash
+                an error message using the message given by the strategy's verify callback.
+                When a failure occur passport passes the message object as error */
+                failureFlash: true
+            })(req, res, next);
+        }
+        else if (user.member == "admin") {
+            passport.authenticate('local', {
+                // Success redirect URL
+                successRedirect: '/report/admin',
+                // Failure redirect URL
+                failureRedirect: '/user/login',
+                /* Setting the failureFlash option to true instructs Passport to flash
+                an error message using the message given by the strategy's verify callback.
+                When a failure occur passport passes the message object as error */
+                failureFlash: true
+            })(req, res, next);
+        }
+    }else{
+        flashMessage(res, 'error', 'Account does not exist.');
+        res.redirect('/user/login');       
     }
-    if (user.member == "member"){
-    passport.authenticate('local', {
-        // Success redirect URL
-        successRedirect: '/',
-        // Failure redirect URL
-        failureRedirect: '/user/login' ,
-        /* Setting the failureFlash option to true instructs Passport to flash
-        an error message using the message given by the strategy's verify callback.
-        When a failure occur passport passes the message object as error */
-        failureFlash: true
-    })(req, res, next);
-    }
-    if (user.member == "admin") {
-        passport.authenticate('local', {
-            // Success redirect URL
-            successRedirect: '/report/admin',
-            // Failure redirect URL
-            failureRedirect: '/user/login',
-            /* Setting the failureFlash option to true instructs Passport to flash
-            an error message using the message given by the strategy's verify callback.
-            When a failure occur passport passes the message object as error */
-            failureFlash: true
-        })(req, res, next);
-    }
+    
 });
 
 router.get('/logout', (req, res) => {
@@ -285,18 +292,16 @@ router.post('/forgotpassword', async function (req,res){
             // res.send("Correct");
             let token = jwt.sign(email, process.env.APP_SECRET);
             let url = `${process.env.BASE_URL}:${process.env.PORT}/user/OTP/${user.id}/${token}`;
-            let password = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
-            sendPassword(user.email, url,password)
+            let OTP = otpGenerator.generate(6, { upperCaseAlphabets: false, specialChars: false });
+            sendPassword(user.email, url,OTP)
                 .then(response => {
                     console.log(response);
                     flashMessage(res, 'success', "One Time Password(OTP) has been sent to "+ user.email);
-                    var salt = bcrypt.genSaltSync(10);
-                    var hash = bcrypt.hashSync(password, salt);
                     User.update(
-                        { password: hash },
+                        { OTP: OTP },
                         { where: { id: user.id } });
-                    console.log(' user OTP updated');
-                    res.redirect('/user/login');
+                    console.log('user OTP updated');
+                    res.redirect('/user/otp/:id');
                 })
                 .catch(err => {
                     console.log(err);
@@ -306,6 +311,56 @@ router.post('/forgotpassword', async function (req,res){
         }
     }
 });
+
+router.get('/otp/:id', (req,res)=>{
+    res.render('user/customer/otp', {layout:'main'});
+});
+
+router.post('/otp/:id',async (req,res)=>{
+    let otp = req.body.otp;
+    let user = await User.findOne({ where: { OTP: otp } });
+    // console.log(user.id);
+    if (user){
+        if (user.OTP == otp){
+            res.redirect('/user/newPW/' + user.id);
+        }else{
+            flashMessage(res,'error', 'Invalid OTP')
+            res.render('/otp/:id', {layout: 'main'})
+        }
+    }
+});
+
+router.get('/newPW/:id', (req,res)=>{
+    res.render('user/customer/newPW', { layout: 'main'})
+});
+
+router.post('/newPW/:id', async (req,res) => {
+    let { password, password2 } = req.body;
+    let isValid = true;                              
+    if (password.length < 6) {
+        flashMessage(res, 'error', 'Password must be at least 6 characters');
+        isValid = false;
+    }
+    if (password != password2) {
+        flashMessage(res, 'error', 'Passwords do not match');
+        isValid = false;
+    }
+    if (!isValid) {
+        res.render('user/customer/newPW', {
+            password
+        , layout: 'main' });
+        return;
+    } try {
+        // If all is well, checks if user is already registered
+        let user = await User.findByPk(req.params.id);
+        var salt = bcrypt.genSaltSync(10);
+        var hash = bcrypt.hashSync(password, salt);
+        User.update({ password:hash},
+            { where: { id: user.id } });
+        res.redirect('/');
+    } catch (err) {
+        console.log(err);}
+})
 
 router.get('/verify/:userId/:token', async function (req, res) {
     let id = req.params.userId;
@@ -422,8 +477,33 @@ router.get('/suspend', (req, res) => { //this is where we get the info
         .catch(err => console.log(err));
 });
 
-router.post('/suspend', (req,res) =>{
+router.post('/suspend', async (req,res) =>{
+    let username = req.body.username;
+    let email = req.body.email;
+    let appeal = req.body.appeal;
+    // let user = User.findOne({ where: { username: username } });
+    await User.update(
+        { appeal:appeal },
+        { where: { username: username } });
+    flashMessage(res,'success','Your appeal has been submitted.')
+    res.redirect('/')
 
+});
+
+router.get('/appeal/:id',async (req,res)=>{
+    let user = await User.findByPk(req.params.id);
+    console.log(user.appeal);
+    res.render('user/customer/appeal',{layout:'main', user});
+});
+
+router.post('/appeal/:id',(req,res)=>{
+    let activity = 1;
+    let appeal = null;
+    User.update({activity},{where:{id:req.params.id}});
+    User.update({ appeal }, { where: { id: req.params.id } });
+    console.log('user no longer suspended');
+    flashMessage(res,'success', 'Account has been activated.')
+    res.redirect('/report/admin')
 });
 
 router.get('/export', async (req,res) =>{
@@ -438,7 +518,7 @@ router.get('/export', async (req,res) =>{
     for (var i = 0; i < array.length; i++) {
         array2.push(array[i]);
     }
-    console.log(array2);
+    // console.log(array2);
     // const test = [{name:'Jordan', email:'lol@gmail.com', age:18}];
     const convertJsontoExcel =()=>{
         const workSheet = XLSX.utils.json_to_sheet(array2);
@@ -449,12 +529,39 @@ router.get('/export', async (req,res) =>{
         XLSX.write(workBook,{bookType:'xlsx',type:'buffer'});
         //Binary String
         XLSX.write(workBook,{bookType:'xlsx',type:'binary'});
-        XLSX.writeFile(workBook,'usersData.xlsx');
+        XLSX.writeFile(workBook,'C:/Users/jorda/Downloads/usersData.xlsx');
     }
     convertJsontoExcel();
+    flashMessage(res,'success','File has been downloaded.')
     res.redirect('/report/listUsers');
     // flashMessage(res, 'success', "Excel sheet created.");
 });
 
+// Required for file upload
+const fs = require('fs');
+const upload = require('../../helpers/addImage');
+
+router.post('/profile', ensureAuthenticated, (req, res) => {
+    // Creates user id directory for upload if not exist
+    if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+        fs.mkdirSync('./public/uploads/' + req.user.id, {
+            recursive:
+                true
+        });
+    }
+    upload(req, res, (err) => {
+        if (err) {
+            // e.g. File too large
+            res.json({ file: '/img/no-image.jpg', err: err });
+        }
+        else {
+            let image = `${req.file.filename}`
+            User.update({ image }, { where: { id: req.user.id } });
+            res.json({
+                file: `/uploads/${req.user.id}/${req.file.filename}`
+            });
+        }
+    });
+});
 
 module.exports = router;

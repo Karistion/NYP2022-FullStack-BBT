@@ -124,16 +124,13 @@ form {
         }
 </style>
 
-<script>
-    feather.replace();
-</script>
 <div class="container d-flex justify-content-center align-items-center">
 
     <!-- // SVG
 					from: https://www.freepik.com/free-vector/new-message-concept-landing-page_5777076.htm 
-  -------------------------------------------------------------
-  -- Note: need to use inline svg to manipulate its components
-  ------------------------------------------------------------>
+  -
+   Note: need to use inline svg to manipulate its components
+  -->
 
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 563" fill="none">
         <g id="Image">
@@ -577,11 +574,8 @@ form {
     </svg>
 
 
-    <!-- // FORM
-  -------------------------------------------------------------
-  ------------------------------------------------------------>
 
-    <form id="form">
+    <form method="post" id="form">
         <h1 class="title text-center mb-4">Talk to Us</h1>
 
         <!-- Name -->
@@ -589,7 +583,7 @@ form {
             <label for="formName" class="d-block">
                 <i class="icon" data-feather="user"></i>
             </label>
-            <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Username">
+            <input type="text" name="username" id="formName" class="form-control form-control-lg thick" placeholder="Username">
         </div>
         <br>
 
@@ -598,13 +592,13 @@ form {
             <label for="formEmail" class="d-block">
                 <i class="icon" data-feather="mail"></i>
             </label>
-            <input type="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail">
+            <input type="email" name="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail">
         </div>
         <br>
 
         <!-- Message -->
         <div class="form-group message">
-            <textarea id="formMessage" class="form-control form-control-lg" rows="7" placeholder="Appeal"></textarea>
+            <textarea id="formMessage" name="appeal" class="form-control form-control-lg" rows="7" placeholder="Appeal"></textarea>
         </div>
         <br>
 
@@ -615,3 +609,6 @@ form {
     </form>
 
 </div>
+<script>
+    feather.replace();
+</script>
