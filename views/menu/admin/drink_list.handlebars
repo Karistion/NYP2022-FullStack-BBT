@@ -36,12 +36,37 @@
                 <a style="color:antiquewhite;" href="/menu/EditDrinks/{{id}}">Edit Drink</a>
               </button>
               <button type="submit" class="btn btn-danger">
-                <a style="color:antiquewhite;" href="/menu/DeleteDrinks/{{id}}">Delete Drink</a>
+                <a style="color:antiquewhite;" href="/menu/DeleteDrinks/{{id}}" data-bs-toggle="modal" data-bs-target="#staticBackdropDiscard">Delete Drink</a>
               </button>
           </td>
         </tr>
       </tbody>
-        {{/each}}
+
+      <form method="POST" action=""></form>
+        <div class="modal fade" id="staticBackdropDiscard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelDiscard" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="fw-bold" id="staticBackdropLabelDiscard">Delete Confirmation</h5>
+                  </div>
+                      <div class="modal-body">
+                        <p>Are you sure that you would want to Delete this Drink?</p>
+                        <small class="text-danger fw-bold">
+                          <sup>*</sup>This action is irreversible.
+                        </small>
+                      </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <a href="/menu/DeleteDrinks/{{id}}">
+                            <button type="button" class="btn btn-danger">Confirm</button>
+                          </a>
+                    </div>
+                </div>
+            </div>
+          </div>    
+      </form>
+      {{/each}}
     </table>
   </div>
 </div>
+
