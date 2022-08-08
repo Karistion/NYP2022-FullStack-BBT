@@ -65,8 +65,15 @@
 							<input type="number" name="cvv" value="{{cvv}}" class="form-control" required>
                         </div>
                         <div class="mb-2" style="max-width: 22.5%;">
-                            <label for="voucher">Vouchers (Optional)</label>
-							<input type="text" name="voucher" class="form-control">
+                            <label for="voucher">Vouchers (Optional)</label><br>
+							{{#if voucher}}
+                                <select name="voucher" id="voucher" required>
+                                    {{#each voucher}}
+                                    <option value="{{id}}">{{Voucher_Name}} {{Value}}% off</option>
+                                    {{/each}}
+                                    <option value="0">None</option>
+                                </select>
+                            {{/if}}
                         </div>
                         <div class="mx-auto">
                             <input type="submit" value="Place Order" class="btn btn-info w-100">

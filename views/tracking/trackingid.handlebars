@@ -42,8 +42,16 @@
 									<p>See your order status</p>
 
 									<div class="form-outline mb-4">
-										<label for="username">Order ID</label>
-										<input type="text" name="id" class="form-control" required>
+										<label for="orderid">Order ID</label>
+										{{#if invoice}}
+											<select name="orderid" id="orderid" required><br>
+												{{#each invoice}}
+												<option value="{{id}}">ID: {{id}} | Delivery Date:{{formatDate datedelivery}}</option>
+												{{/each}}
+											</select>
+										{{else}}
+											<p>You have no deliveries right now</p>
+										{{/if}}
 									</div>
                                     <div class="text-center pt-1 mb-5 pb-1">
 										<button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"

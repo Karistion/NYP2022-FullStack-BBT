@@ -20,13 +20,17 @@ router.get('/tracking/:id', (req, res) => {
 	}).catch(err => console.log(err));
 });
 
-router.get('/tracking', (req, res) => {
-	res.render('tracking/trackingid', {layout: 'main'});
+router.get('/tracking', async(req, res) => {
+	var invoice = await Invoice.findAll({
+		where: {userId: req.user.id, delivered: 1}, 
+		raw: true
+	})
+	res.render('tracking/trackingid', {layout: 'main', invoice});
 });
 
 router.post('/tracking', (req, res) => {
-	let { id } = req.body;
-	res.redirect('/tracking/tracking/'+id);
+	let { orderid } = req.body;
+	res.redirect('/tracking/tracking/'+orderid);
 });
 
 module.exports = router;

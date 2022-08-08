@@ -51,8 +51,12 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
                     where: {id:req.user.id},
                     order: [['updatedAt', 'DESC']], 
                     raw: true
-                }).then((user)=>{
-                    res.render('invoice/customer/checkout', {layout: 'main', items, user});
+                }).then(async(user)=>{
+                    var voucher = await Voucher.findAll({
+                        where: {status: 'Pending'}, 
+                        raw:true
+                    })
+                    res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher});
                 })
             })
             .catch(err => console.log(err));
@@ -64,31 +68,23 @@ router.post('/checkout', async function (req, res) {
 	isValid=true;
     card_number=card_number.trim()
     var postal=postal_code;
-    if (voucher!=''){
-        var voucher1 = await Voucher.findOne({
-            where: {Voucher_Name: voucher}, 
-            raw:true});
-    }else{
-        var voucher1=0
-    }
 	if (!Luhn.isValid(card_number)) {
         flashMessage(res, 'error', 'Invalid Card Number');
         isValid = false;
     }else if (!validate.isPostalCode(postal_code, 'SG')){
         flashMessage(res, 'error', 'Invalid Address');
         isValid = false;
-    }else if (voucher1!=0&&!voucher1){
-        flashMessage(res, 'error', 'Invalid Voucher');
-        isValid = false;
     }
     if (!isValid) {
         res.render('invoice/customer/checkout', {
-            card_number, card_name, expiry_date, cvv, layout: 'main'
+            card_number, card_name, expiry_date, cvv, voucher, layout: 'main'
         });
         return;
     }
-    if (voucher1!=0){
-        voucher1=voucher1.Value
+    if (voucher!=0){
+        var voucher1 = await Voucher.findByPk(voucher).Value;
+    }else{
+        voucher1=0;
     }
     let userId=req.user.id;
     var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
