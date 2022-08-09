@@ -22,7 +22,7 @@ router.get('/tracking/:id', (req, res) => {
 
 router.get('/tracking', async(req, res) => {
 	var invoice = await Invoice.findAll({
-		where: {userId: req.user.id, delivered: 1}, 
+		where: {userId: req.user.id, delivered: 0}, 
 		raw: true
 	})
 	res.render('tracking/trackingid', {layout: 'main', invoice});

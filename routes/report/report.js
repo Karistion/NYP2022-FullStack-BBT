@@ -40,9 +40,10 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
 	for (i=11;i>=0;i--){
 		var sum=0;
 		var invoice = await Invoice.findAll({where: {createdAt: {
-			[Op.gte]: moment().subtract(i+1, 'months').toDate(),
-      		[Op.lt]: moment().subtract(i, 'months').toDate(),
+			[Op.gte]: `2022-${moment().subtract(i, 'months').format('MM')}-02T00:00:00.000Z`,
+      		[Op.lt]: `2022-${moment().subtract(i-1, 'months').format('MM')}-01T00:00:00.000Z`,
 		  }}, order:['createdAt'], raw: true})
+		console.log(invoice);
 		for(x=0;x<invoice.length;x++){
 			sum+=invoice[x]['totalprice'];
 		}

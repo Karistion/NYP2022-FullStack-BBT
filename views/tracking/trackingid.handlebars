@@ -44,7 +44,7 @@
 									<div class="form-outline mb-4">
 										<label for="orderid">Order ID</label>
 										{{#if invoice}}
-											<select name="orderid" id="orderid" required><br>
+											<select name="orderid" id="orderid" class="form-select" aria-label="Default select example" required><br>
 												{{#each invoice}}
 												<option value="{{id}}">ID: {{id}} | Delivery Date:{{formatDate datedelivery}}</option>
 												{{/each}}

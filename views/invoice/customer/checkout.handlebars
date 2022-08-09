@@ -67,7 +67,7 @@
                         <div class="mb-2" style="max-width: 22.5%;">
                             <label for="voucher">Vouchers (Optional)</label><br>
 							{{#if voucher}}
-                                <select name="voucher" id="voucher" required>
+                                <select name="voucher" id="voucher" class="form-select" aria-label="Default select example" required>
                                     {{#each voucher}}
                                     <option value="{{id}}">{{Voucher_Name}} {{Value}}% off</option>
                                     {{/each}}

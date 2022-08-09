@@ -10,6 +10,7 @@ const uuid = require('uuid');
 const Cart = require('../../models/Cart');
 const XLSX = require('xlsx');
 const multer = require('multer');
+const path = require('path');
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -42,7 +43,7 @@ function sendEmail(toEmail, url) {
     });
 }
 
-function sendPassword(toEmail, url,OTP) {
+function sendPassword(toEmail, url, OTP) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const message = {
         to: toEmail,
@@ -518,6 +519,9 @@ router.get('/export', async (req,res) =>{
     for (var i = 0; i < array.length; i++) {
         array2.push(array[i]);
     }
+    var userpath = path.dirname(__dirname).split("\\")
+    userpath.splice(3)
+    userpath = userpath.join("\\")
     // console.log(array2);
     // const test = [{name:'Jordan', email:'lol@gmail.com', age:18}];
     const convertJsontoExcel =()=>{
@@ -529,7 +533,7 @@ router.get('/export', async (req,res) =>{
         XLSX.write(workBook,{bookType:'xlsx',type:'buffer'});
         //Binary String
         XLSX.write(workBook,{bookType:'xlsx',type:'binary'});
-        XLSX.writeFile(workBook,'C:/Users/jorda/Downloads/usersData.xlsx');
+        XLSX.writeFile(workBook,`${userpath}/Downloads/usersData.xlsx`);
     }
     convertJsontoExcel();
     flashMessage(res,'success','File has been downloaded.')

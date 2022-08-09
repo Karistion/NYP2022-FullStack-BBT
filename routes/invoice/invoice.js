@@ -13,6 +13,10 @@ const ensureAuthenticated = require('../../helpers/auth');
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 const validate = require('validator');
+const XLSX = require('xlsx');
+const path = require('path');
+const Stripe = require('stripe');
+const stripe = Stripe('sk_test_51LUnCLKUrLH8IiDgCMoRLXtao9J89E8fZeU6HWOoG0MIjfHljm0q33PW7Ul5NoNqrVLDI9xBJ7hFxL9TWg9l3rTy002mIBI3Z0');
 
 function sendEmail(toEmail, invoice) {
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -28,6 +32,32 @@ function sendEmail(toEmail, invoice) {
             .then(response => resolve(response))
             .catch(err => reject(err));
     });
+}
+
+function exportexcel(array, filename, res) {
+    let array2 = [];
+    // array.forEach(function(element){
+    //     array2.push(element);
+    // });
+    for (var i = 0; i < array.length; i++) {
+        array2.push(array[i]);
+    }
+    var userpath = path.dirname(__dirname).split("\\")
+    userpath.splice(3)
+    userpath = userpath.join("\\")
+    const convertJsontoExcel =()=>{
+        const workSheet = XLSX.utils.json_to_sheet(array2);
+        const workBook = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(workBook,workSheet,'Users');
+        //Generate Buffer
+        XLSX.write(workBook,{bookType:'xlsx',type:'buffer'});
+        //Binary String
+        XLSX.write(workBook,{bookType:'xlsx',type:'binary'});
+        XLSX.writeFile(workBook,`${userpath}/Downloads/${filename}.xlsx`);
+    }
+    convertJsontoExcel();
+    flashMessage(res,'success','File has been downloaded.')
 }
 
 router.get('/checkout', ensureAuthenticated, (req, res) => {
@@ -222,6 +252,26 @@ router.get('/invoicelist', ensureAuthenticated, async function(req, res) {
     var invoices= await Invoice.findAll({where: {delivered:1}, order:['createdAt'], raw: true})
     var page='invoicelist';
 	res.render('invoice/admin/order_list', {layout: 'admin', invoices, page});
+});
+
+router.get('/exportinvoicelist', ensureAuthenticated, async function(req, res){
+    let array = await Invoice.findAll({
+        where: {delivered:1},
+        order: [['id']],
+        raw: true
+    });
+    exportexcel(array, 'invoicelist', res);
+    res.redirect('/invoice/invoicelist');
+});
+
+router.get('/exportorderlist', ensureAuthenticated, async function(req, res){
+    let array = await Invoice.findAll({
+        where: {delivered:0},
+        order: [['id']],
+        raw: true
+    });
+    exportexcel(array, 'orderlist', res)
+    res.redirect('/invoice/orderlist');
 });
 
 module.exports = router;
