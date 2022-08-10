@@ -130,8 +130,6 @@ router.post('/checkout', async function (req, res) {
 	res.redirect('/invoice/cfmorder/'+invoice.id);
 });
 
-
-
 router.get('/cfmorder/:id', ensureAuthenticated, (req, res) => {
     Invoice.findOne({
         where: { id: req.params.id },

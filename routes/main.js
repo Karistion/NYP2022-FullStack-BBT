@@ -16,6 +16,10 @@ router.get('/temp', (req, res) => {
 	res.render('tempfile');
 });
 
+router.get('/spinningwheel', (req, res) => {
+	res.render('spinningwheel/spinningwheel', {layout: 'main'});
+});
+
 router.get('/termsandconditions', (req, res) => {
 	res.render('termsandconditions', {layout: 'main'});
 });

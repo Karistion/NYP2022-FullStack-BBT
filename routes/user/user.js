@@ -569,7 +569,6 @@ router.post('/profile', ensureAuthenticated, (req, res) => {
 });
 
 router.post('/profileSave/:id', ensureAuthenticated, async (req, res) => {
-    console.log(req.body)
     let {posterURL, posterUpload} = req.body;
     posterURL = posterURL.split("/")[3]
     // let image = `${req.file.filename}`

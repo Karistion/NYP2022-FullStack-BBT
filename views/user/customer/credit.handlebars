@@ -507,6 +507,7 @@ input {
   </div>
 </div>
 </form>
+<script src="https://unpkg.com/imask"></script>
 <script>
   window.onload = function () {
 
@@ -605,9 +606,19 @@ input {
       //Mask the Expiration Date
       var expirationdate_mask = new IMask(expirationdate, {
         mask: 'MM{/}YY',
-        groups: {
-          YY: new IMask.MaskedPattern.Group.Range([0, 99]),
-          MM: new IMask.MaskedPattern.Group.Range([1, 12]),
+        blocks: {
+          YY: {
+              mask: IMask.MaskedRange,
+              from: 0,
+              to: 99,
+              autofix:true
+            },
+          MM: {
+              mask: IMask.MaskedRange,
+              from: 1,
+              to: 12,
+              autofix:true
+            },
         }
       });
 
@@ -721,9 +732,6 @@ input {
         let randomNumber = Math.floor(Math.random() * testCards.length);
         cardnumber_mask.unmaskedValue = testCards[randomNumber];
       }
-      generatecard.addEventListener('click', function () {
-        randomCard();
-      });
 
 
       // CREDIT CARD IMAGE JS
