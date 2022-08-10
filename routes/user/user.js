@@ -11,6 +11,8 @@ const Cart = require('../../models/Cart');
 const XLSX = require('xlsx');
 const multer = require('multer');
 const path = require('path');
+var Luhn = require('luhn-js');
+const validate = require('validator');
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -559,13 +561,43 @@ router.post('/profile', ensureAuthenticated, (req, res) => {
             res.json({ file: '/img/no-image.jpg', err: err });
         }
         else {
-            let image = `${req.file.filename}`
-            User.update({ image }, { where: { id: req.user.id } });
             res.json({
                 file: `/uploads/${req.user.id}/${req.file.filename}`
             });
         }
     });
+});
+
+router.post('/profileSave/:id', ensureAuthenticated, async (req, res) => {
+    console.log(req.body)
+    let {posterURL, posterUpload} = req.body;
+    posterURL = posterURL.split("/")[3]
+    // let image = `${req.file.filename}`
+    await User.update({ image: posterURL }, { where: { id: req.user.id } });
+    res.redirect(`/user/profile/${req.user.id}`);
+});
+
+router.get('/e-wallet/:id', ensureAuthenticated,(req,res)=>{
+    res.render('user/customer/credit');
+});
+
+router.post('/e-wallet/:id', async function (req, res) {
+    let { card_number, card_name, expiry_date, cvv,amount } = req.body;
+    isValid = true;
+    card_number = card_number.trim()
+    if (!Luhn.isValid(card_number)) {
+        flashMessage(res, 'error', 'Invalid Card Number');
+        isValid = false;
+    } else {
+        let userId = req.params.id;
+        await User.update({wallet},{ where: { userId: userId } });
+    };
+    if (!isValid) {
+        res.render('user/customer/credit', {
+            card_number, card_name, expiry_date, cvv
+        });
+        return;
+    }
 });
 
 module.exports = router;
