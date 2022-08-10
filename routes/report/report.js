@@ -43,7 +43,6 @@ router.get('/admin', ensureAuthenticated, async (req, res) => {
 			[Op.gte]: `2022-${moment().subtract(i, 'months').format('MM')}-02T00:00:00.000Z`,
       		[Op.lt]: `2022-${moment().subtract(i-1, 'months').format('MM')}-01T00:00:00.000Z`,
 		  }}, order:['createdAt'], raw: true})
-		console.log(invoice);
 		for(x=0;x<invoice.length;x++){
 			sum+=invoice[x]['totalprice'];
 		}

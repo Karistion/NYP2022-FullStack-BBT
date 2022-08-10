@@ -15,14 +15,15 @@ router.get('/vouchersView', ensureAuthenticated, (req, res) => {
     })
         .then((vouchers) => {
             // pass object to listVideos.handlebar
-            
-            res.render('forums/admin/vouchersView', { vouchers, layout: 'admin' });
+            var page='voucher';
+            res.render('forums/admin/vouchersView', { vouchers, layout: 'admin', page});
         })
         .catch(err => console.log(err));         
 });
 
 router.get('/vouchersCreate', (req, res) => { //this is to render the page
-    res.render('forums/admin/vouchersCreate', { layout: 'admin' });
+    var page='voucher';
+    res.render('forums/admin/vouchersCreate', { layout: 'admin', page });
 });
 
 router.post('/vouchersCreate', ensureAuthenticated, async function (req, res) { //this is to get the input of the page, req is to get what the user input
@@ -50,13 +51,14 @@ router.post('/vouchersCreate', ensureAuthenticated, async function (req, res) { 
 
 router.get('/vouchersEdit/:id',ensureAuthenticated, async function (req, res)  { //this is to render the page
     var Voucher = await Vouchers.findByPk(req.params.id);
+    var page='voucher';
     // User.findOne({
     //     where: {id:Thread.userId}
     // }).then((user)=>{
     //     res.render('forums/admin/vouchersView', { layout: 'main', Thread, user });
     // })
     // .catch(err => console.log(err)); 
-res.render('forums/admin/vouchersEdit', { layout: 'admin', Voucher});
+    res.render('forums/admin/vouchersEdit', { layout: 'admin', Voucher, page});
 });
 
 
