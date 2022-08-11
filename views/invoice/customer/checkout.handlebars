@@ -40,6 +40,7 @@
 							<input type="text" name="postal_code" value="{{ user.postal }}" class="form-control" required>
                         </div>
                         <hr>
+                        {{#if (check page 'checkout')}}
                         <h5 class="fw-bold mb-3">Card Details</h5>
                         <div class="my-3">
                             <p class="mb-1">We accept the following payment method:</p>
@@ -64,16 +65,16 @@
                             <label for="cvv">CVV</label>
 							<input type="number" name="cvv" value="{{cvv}}" class="form-control" required>
                         </div>
+                        {{else}}
+                        {{/if}}
                         <div class="mb-2" style="max-width: 22.5%;">
                             <label for="voucher">Vouchers (Optional)</label><br>
-							{{#if voucher}}
-                                <select name="voucher" id="voucher" class="form-select" aria-label="Default select example" required>
-                                    {{#each voucher}}
-                                    <option value="{{id}}">{{Voucher_Name}} {{Value}}% off</option>
-                                    {{/each}}
-                                    <option value="0">None</option>
-                                </select>
-                            {{/if}}
+                            <select name="voucher" id="voucher" class="form-select" aria-label="Default select example" required>
+                                {{#each voucher}}
+                                <option value="{{id}}">{{Voucher_Name}} {{Value}}% off</option>
+                                {{/each}}
+                                <option value="0">None</option>
+                            </select>
                         </div>
                         <div class="mx-auto">
                             <input type="submit" value="Place Order" class="btn btn-info w-100">

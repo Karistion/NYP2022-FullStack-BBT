@@ -18,6 +18,7 @@
                     <p>
                         <span class="fw-bold">Estimated Delivery Date: </span>{{formatDate invoice.datedelivery}}
                     </p>
+                    {{#if (check invoice.type 'credit card')}}
                     <p>
                         <span class="fw-bold">Payment Mode: </span>Visa
                     </p>
@@ -27,6 +28,11 @@
                     <p>
                         <span class="fw-bold">Card Number: </span>{{ invoice.card_number }}
                     </p>
+                    {{else}}
+                    <p>
+                        <span class="fw-bold">Payment Mode: </span>E-wallet
+                    </p>
+                    {{/if}}
                     <p>
                         <span class="fw-bold">Total Price: </span>{{ decimal2 invoice.totalprice }}
                     </p>

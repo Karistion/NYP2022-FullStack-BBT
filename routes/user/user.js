@@ -95,8 +95,7 @@ router.post('/register', async function (req, res) { //this is to get the input 
     }
     if (!isValid) {
         res.render('user/customer/register', {
-            name, email, mobile, postal, address, username
-        }, { layout: 'main' });
+            name, email, mobile, postal, address, username, layout: 'main' });
         return;
     }
     try {

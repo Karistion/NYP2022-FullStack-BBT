@@ -36,6 +36,10 @@ const check = function (status, num) {
     return (status == num) ? true : false;
 }
 
+const checkpoints = function (point, price) {
+    return (point >= price*0.9) ? true : false;
+}
+
 const cssactive = function (id, active) {
     return (id == active) ? 'active' : '';
 }
@@ -99,4 +103,4 @@ const sumdictvaluepercent = function (dict) {
     return Object.values(dict).reduce((a, b) => a + b, 0).toFixed(2)*0.9;
 } 
 
-module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent};
+module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent};
