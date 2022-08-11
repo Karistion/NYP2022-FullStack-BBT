@@ -653,37 +653,42 @@ router.get('/convert', (req, res) => {
         res.redirect('/user/profile/'+req.user.id)
     }else{
     if (req.user.loyalty<=1){
+        flashMessage(res, 'success', `${req.user.loyalty} added to your wallet`)
         User.update(
             { wallet: req.user.wallet + req.user.loyalty, loyalty:0 },
             { where: { id: req.user.id } }
         )
     }else if (req.user.loyalty<=2){
+        flashMessage(res, 'success', `${req.user.loyalty*1.1} added to your wallet`)
         User.update(
             { wallet: req.user.wallet + (req.user.loyalty*1.1), loyalty:0 },
             { where: { id: req.user.id } }
         )
     }else if (req.user.loyalty<=3){
+        flashMessage(res, 'success', `${req.user.loyalty*1.2} added to your wallet`)
         User.update(
             { wallet: req.user.wallet + (req.user.loyalty*1.2), loyalty:0 },
             { where: { id: req.user.id } }
         )
     }else if (req.user.loyalty<=5){
+        flashMessage(res, 'success', `${req.user.loyalty*1.3} added to your wallet`)
         User.update(
             { wallet: req.user.wallet + (req.user.loyalty*1.3), loyalty:0 },
             { where: { id: req.user.id } }
         )
     }else if (req.user.loyalty<=10){
+        flashMessage(res, 'success', `${req.user.loyalty*1.4} added to your wallet`)
         User.update(
             { wallet: req.user.wallet + (req.user.loyalty*1.4), loyalty:0 },
             { where: { id: req.user.id } }
         )
     }else{
+        flashMessage(res, 'success', `${req.user.loyalty*1.5} added to your wallet`)
         User.update(
             { wallet: req.user.wallet + (req.user.loyalty*1.5), loyalty:0 },
             { where: { id: req.user.id } }
         )
     }}
-    
     res.redirect('/user/profile/'+req.user.id); 
 });
 
