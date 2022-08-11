@@ -13,6 +13,7 @@ const multer = require('multer');
 const path = require('path');
 var Luhn = require('luhn-js');
 const validate = require('validator');
+const sharp = require("sharp");
 // Required for email verification
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
@@ -570,11 +571,32 @@ router.post('/profile', ensureAuthenticated, (req, res) => {
 
 router.post('/profileSave/:id', ensureAuthenticated, async (req, res) => {
     let {posterURL, posterUpload} = req.body;
+    console.log(posterURL);
+    let metadata = getMetadata(posterURL);
     posterURL = posterURL.split("/")[3]
     // let image = `${req.file.filename}`
     await User.update({ image: posterURL }, { where: { id: req.user.id } });
     res.redirect(`/user/profile/${req.user.id}`);
 });
+
+async function getMetadata(posterURL) {
+    let posterURL2 = "./public"+posterURL;
+    const metadata = await sharp(posterURL2).metadata();
+    console.log(metadata);
+    return metadata;
+};
+async function resizeImage() {
+    try {
+        await sharp("sammy.png")
+            .resize({
+                width: 150,
+                height: 97
+            })
+            .toFile("sammy-resized.png");
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 router.get('/e-wallet/:id', ensureAuthenticated,(req,res)=>{
     res.render('user/customer/credit');
@@ -583,13 +605,20 @@ router.get('/e-wallet/:id', ensureAuthenticated,(req,res)=>{
 router.post('/e-wallet/:id', async function (req, res) {
     let { card_number, card_name, expiry_date, cvv,amount } = req.body;
     isValid = true;
-    card_number = card_number.trim()
+    card_number = card_number.replace(/\s+/g, '');
+    console.log(amount);
     if (!Luhn.isValid(card_number)) {
         flashMessage(res, 'error', 'Invalid Card Number');
         isValid = false;
     } else {
         let userId = req.params.id;
-        await User.update({wallet},{ where: { userId: userId } });
+        let user = await User.findByPk(req.params.id);
+        amount = amount.replace('$','');
+        let value = parseFloat(amount);
+        let wallet = user.wallet + value;
+        await User.update({wallet},{ where: { id: userId } });
+        flashMessage(res,'success','Wallet has been topped up!');
+        res.redirect('/');
     };
     if (!isValid) {
         res.render('user/customer/credit', {
