@@ -103,4 +103,8 @@ const sumdictvaluepercent = function (dict) {
     return Object.values(dict).reduce((a, b) => a + b, 0).toFixed(2)*0.9;
 } 
 
-module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent};
+const minus = function (num1, num2) {
+    return num1-num2;
+} 
+
+module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent, minus};

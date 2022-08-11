@@ -99,8 +99,8 @@ router.post('/register', async function (req, res) { //this is to get the input 
         return;
     }
     try {
-        // If all is well, checks if user is already registered
-        let user = await User.findOne({ where: { username: username } }); //left side is column email
+        // If all is well, checks if user is already registered 
+        let user = await User.findOne({ where: { username: username } }); //left side is column email   
         // let username = await User.findOne({ where: { username: username } });
         if (user) {
             // If user is found, that means email has already been registered

@@ -10,13 +10,21 @@
             </div>
             <div class="card-body">
                 {{#each items}}
-                <p class="fw-bold mb-0">{{drink.name}}</p> <!--name-->
-                <p class="fw mb-0">{{sugar}}</p> <!--sugar-->
-                <p class="fw mb-0">{{topping}}</p> <!--topping-->
+                <p class="fw-bold mb-0">{{drink.name}}</p> <!--name-->  
                 <ul style="list-style: none;">
-                    <li>{{multiply drink.price quantity}}</li>
+                    <li>Sugar: {{sugar}}%</li>
+                    <li>Topping: {{topping}}</li>
+                    <li>Price: {{multiply drink.price quantity}}</li>
                 </ul>
                 {{/each}}
+                <hr>
+                {{#if (check page 'ewallet')}}
+                <p class="fw mb-0" style="float:right">Price of purchase: {{cart.totalPrice}}</p>
+                <p class="fw mb-0" style="float:right">Discount (Ewallet) : {{decimal2 (minus cart.totalPrice (decimal2 price))}}</p>
+                <p class="fw-bold mt-3" style="float:right">Total Price : {{decimal2 price}}</p>
+                {{else}}
+                <p class="fw-bold" style="float:right">Total Price: {{cart.totalPrice}}</p>
+                {{/if}}
             </div>
         </div>
     </div>
@@ -66,6 +74,11 @@
 							<input type="number" name="cvv" value="{{cvv}}" class="form-control" required>
                         </div>
                         {{else}}
+                        <div class="border border-dark border-1 rounded-4 text-center w-50">
+                        <p class="fw-bold fa-2x ps-3">E-wallet Balance</p> 
+                        <hr>
+                        <p class="mx-auto ms-3 fs-5">${{user.wallet}} -> ${{decimal2 (minus user.wallet price)}}</p>
+                        </div>
                         {{/if}}
                         <div class="mb-2" style="max-width: 22.5%;">
                             <label for="voucher">Vouchers (Optional)</label><br>

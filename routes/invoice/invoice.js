@@ -88,7 +88,7 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
                             raw:true
                         })
                         var page = 'checkout'
-                        res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page});
+                        res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page, cart});
                     })
                 }
                 else{
@@ -170,7 +170,8 @@ router.get('/ewallet', ensureAuthenticated, (req, res) => {
                             raw:true
                         })
                         var page = 'ewallet'
-                        res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page});
+                        var price = cart.totalPrice * 0.95
+                        res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page, price, cart});
                     })
                 }
                 else{
