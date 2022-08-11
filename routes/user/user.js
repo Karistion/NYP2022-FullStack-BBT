@@ -585,7 +585,7 @@ async function getMetadata(posterURL) {
     console.log(metadata);
     return metadata;
 };
-async function resizeImage() {
+async function resizeImage(posterURL) {
     try {
         await sharp("sammy.png")
             .resize({
@@ -626,6 +626,10 @@ router.post('/e-wallet/:id', async function (req, res) {
         });
         return;
     }
+});
+
+router.get('/test', (req, res) => { //this is where we get the info
+    res.render('user/customer/test'); //this is for the handlebar name
 });
 
 module.exports = router;

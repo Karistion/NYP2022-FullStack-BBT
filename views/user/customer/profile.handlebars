@@ -168,59 +168,25 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-
-
-
                             <div class="mt-3">
                                 <form action="/user/profileSave/{{user.id}}" method="post">
                                     {{#if user.image}}
-                                    <img id="poster" src="/uploads/{{user.id}}/{{user.image}}" alt="#" class="border img-thumbnail
-                                                                        img-fluid" style="border-radius: 50%;">
+                                    <img id="poster" src="/uploads/{{user.id}}/{{user.image}}" alt="#" class="rounded-circle" width="150">
+                                    <hr>
                                     <div clss="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#image">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image">
                                             Edit
                                         </button>
-                                    </div>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="image" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                        style="display:none;" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="image">Confirmation</h5>
-                                                    <span style="float:right;"><button type="button" class="btn-close"
-                                                            data-bs-dismiss="modal" aria-label="Close"></button></span>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Are you sure you want to use this profile picture?
-                                                </div>
-                                                {{!—- Hidden field to submit URL of poster to the server --}}
-                                                <input id="posterURL" type="hidden" name="posterURL">
-                                                <div class="custom-file mb-2">
-                                                    <input type="file" class="custom-file-input" id="posterUpload"
-                                                        name="posterUpload"
-                                                        accept="image/png,image/jpeg,image/jpg,image/gif">
-                                                    {{!-- <label class="custom-file-label" for="customFile">Choose
-                                                        File</label> --}}
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button id="btnSubmit" type="submit" class="btn btn-primary">Save
-                                                    </button>
-                                                </div>
-
-                                            </div>
-                                        </div>
                                     </div>
                                     {{else}}
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
-                                        class="rounded-circle" width="150">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                    <hr>
                                     <div clss="modal-footer">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#image">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image">
                                             Edit
                                         </button>
                                     </div>
+                                    {{/if}}
                                     <!-- Modal -->
                                     <div class="modal fade" id="image" tabindex="-1" aria-labelledby="exampleModalLabel"
                                         style="display:none;" aria-hidden="true">
@@ -239,11 +205,12 @@
                                                 <div class="custom-file mb-2">
                                                     <input type="file" class="custom-file-input" id="posterUpload"
                                                         name="posterUpload"
-                                                        accept="image/png,image/jpeg,image/jpg,image/gif">
+                                                        accept="image/png,image/jpeg,image/jpg,image/gif"
+                                                        onchange="imagePreview(event);">
                                                     {{!-- <label class="custom-file-label" for="customFile">Choose
                                                         File</label> --}}
+                                                        <img id="pfp" src="../../../public/jordan/images/default.jpg"  class="border img-thumbnail img-fluid rounded circle" style="height:150px !important;width:150px !important;display:block !important;margin: auto !important;"/>
                                                 </div>
-
                                                 <div class="modal-footer">
                                                     <button id="btnSubmit" type="submit" class="btn btn-primary">Save
                                                     </button>
@@ -252,7 +219,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    {{/if}}
                                 </form>
 
                             </div>
@@ -379,4 +345,12 @@
             modal.style.display = "none";
         }
     }
+    var imagePreview = function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById('pfp');
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        };
 </script>
