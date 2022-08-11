@@ -73,21 +73,28 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
         })
             .then(async function(items) {
                 // pass object to listVideos.handlebar
-                for (var i=0;i<items.length;i++){
-                    var drink=await Drink.findByPk(items[i].drinkId)
-                    items[i]['drink']=drink;
-                }
-                User.findOne({
-                    where: {id:req.user.id},
-                    order: [['updatedAt', 'DESC']], 
-                    raw: true
-                }).then(async(user)=>{
-                    var voucher = await Voucher.findAll({
-                        where: {status: 'Pending'}, 
-                        raw:true
+                if (items.length!=0){
+                    for (var i=0;i<items.length;i++){
+                        var drink=await Drink.findByPk(items[i].drinkId)
+                        items[i]['drink']=drink;
+                    }
+                    User.findOne({
+                        where: {id:req.user.id},
+                        order: [['updatedAt', 'DESC']], 
+                        raw: true
+                    }).then(async(user)=>{
+                        var voucher = await Voucher.findAll({
+                            where: {status: 'Pending'}, 
+                            raw:true
+                        })
+                        var page = 'checkout'
+                        res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page, cart});
                     })
-                    res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher});
-                })
+                }
+                else{
+                    flashMessage(res, 'error', 'There is no items in cart')
+                    res.redirect('/cart/cart')
+                }
             })
             .catch(err => console.log(err));
     }).catch(err => console.log(err))
@@ -120,7 +127,93 @@ router.post('/checkout', async function (req, res) {
     var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
     var cartId = cart.id
     var totalprice = parseFloat(cart.totalPrice)*parseFloat((100-parseInt(voucher1))/100);
-	var invoice = await Invoice.create({ card_number, card_name, postal, address, totalprice, userId, cartId })
+    User.update(
+        { loyalty: req.user.loyalty + cart.totalPrice/50},
+        { where: { id: req.user.id } }
+    )
+    var type = 'credit card';
+	var invoice = await Invoice.create({ type, card_number, card_name, postal, address, totalprice, userId, cartId })
+    Cart.create({userId})
+    sendEmail(req.user.email, invoice)
+    .catch(err => {
+        console.log(err);
+        res.redirect('/');
+    });
+	res.redirect('/invoice/cfmorder/'+invoice.id);
+});
+
+router.get('/ewallet', ensureAuthenticated, (req, res) => {
+    Cart.findOne({
+        where: {userId:req.user.id},
+        order: [['updatedAt', 'DESC']], 
+        raw: true
+    }).then((cart)=>{
+        Cartitems.findAll({
+            where: { cartId: cart.id },
+            order: [['createdAt']],
+            raw: true
+        })
+            .then(async function(items) {
+                // pass object to listVideos.handlebar
+                if (items.length!=0){
+                    for (var i=0;i<items.length;i++){
+                        var drink=await Drink.findByPk(items[i].drinkId)
+                        items[i]['drink']=drink;
+                    }
+                    User.findOne({
+                        where: {id:req.user.id},
+                        order: [['updatedAt', 'DESC']], 
+                        raw: true
+                    }).then(async(user)=>{
+                        var voucher = await Voucher.findAll({
+                            where: {status: 'Pending'}, 
+                            raw:true
+                        })
+                        var page = 'ewallet'
+                        var price = cart.totalPrice * 0.95
+                        res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page, price, cart});
+                    })
+                }
+                else{
+                    flashMessage(res, 'error', 'There is no items in cart')
+                    res.redirect('/cart/cart')
+                }
+            })
+            .catch(err => console.log(err));
+    }).catch(err => console.log(err))
+});
+
+router.post('/ewallet', async function (req, res) {
+	let { postal_code, address, voucher } = req.body;
+	isValid=true;
+    var postal=postal_code;
+    if (!validate.isPostalCode(postal_code, 'SG')){
+        flashMessage(res, 'error', 'Invalid Address');
+        isValid = false;
+    }
+    if (!isValid) {
+        res.render('invoice/customer/ewallet', {
+            voucher, layout: 'main'
+        });
+        return;
+    }
+    if (voucher!=0){
+        var voucher1 = await Voucher.findByPk(voucher).Value;
+    }else{
+        voucher1=0;
+    }
+    let userId=req.user.id;
+    var cart = await Cart.findOne({where: {userId: userId}, order: [['updatedAt', 'DESC']], raw: true});
+    var cartId = cart.id
+    var totalprice = parseFloat(cart.totalPrice)*0.95*parseFloat((100-parseInt(voucher1))/100);
+    User.update(
+        { wallet: req.user.wallet - totalprice},
+        { where: { id: req.user.id } }
+    )
+    var card_name=req.user.name;
+    var card_number=0;
+    var type = 'ewallet';
+	var invoice = await Invoice.create({ type, card_number, card_name, postal, address, totalprice, userId, cartId })
     Cart.create({userId})
     sendEmail(req.user.email, invoice)
     .catch(err => {

@@ -131,6 +131,10 @@ app.use('/vouchers', voucherRoute);
 * */
 const port = process.env.PORT;
 
+app.use((req, res, next) => {
+	res.status(404).render('404', {layout: 'main'})
+  })
+
 // Starts the server and listen to port
 app.listen(port, () => {
 	console.log(`Server started on port ${port}`);

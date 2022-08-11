@@ -110,7 +110,13 @@
             <a href="/invoice/checkout"> <button type="button"  class="btn btn-primary btn-lg btn-block">
               Go to Checkout
             </button></a>
-            {{else}}
+            {{#if (checkpoints user.wallet cart.totalPrice)}}
+            <br>
+            <p class="mt-2 mb-2 lead">or</p>
+            <a href="/invoice/ewallet"> <button type="button"  class="btn btn-primary btn-lg btn-block">
+              Use E-wallet
+            </button></a>
+            {{/if}}
             {{/if}}
           </div>
         </div>

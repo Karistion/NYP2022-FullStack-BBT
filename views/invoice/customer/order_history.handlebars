@@ -28,7 +28,8 @@
                 <div class="accordion-item">
                 <h2 class="accordion-header" id="heading{{id}}">
                     <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{id}}" aria-expanded="true" aria-controls="collapse{{id}}">
-                    {{formatDate datedelivery}}<br> Total Price: ${{decimal2 totalprice}} <br>
+                    {{formatDate datedelivery}} 
+                    <br> Total Price: ${{decimal2 totalprice}} <br>
                     {{#if delivered}}
                     Status: Delivered
                     {{else}}
@@ -38,6 +39,7 @@
                 </h2>
                 <div id="collapse{{id}}" class="accordion-collapse collapse" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
+                        <div class="text-left text-sm-right fa-align-center col-6 d-grid p-3"><a class="btn btn-outline-primary btn-rounded btn-sm" href="/invoice/cfmorder/{{id}}" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
                     {{#each items}}    
                     <p><b>{{ drink.name }} (${{ multiply drink.price quantity}}) <span style="float: right !important">x{{ quantity }}</span></b></p>
                     <ul>
