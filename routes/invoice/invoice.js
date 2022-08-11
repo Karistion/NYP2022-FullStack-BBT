@@ -10,6 +10,7 @@ const Cartitems = require('../../models/CartItems');
 const User = require('../../models/User');
 const Voucher = require('../../models/Vouchers');
 const ensureAuthenticated = require('../../helpers/auth');
+const ensureAdmin= require('../../helpers/admin');
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 const validate = require('validator');
@@ -287,13 +288,13 @@ router.get('/order_history', ensureAuthenticated, async function(req, res) {
         // pass object to listVideos.handlebar
 });
 
-router.get('/orderlist', ensureAuthenticated, async function(req, res) {
+router.get('/orderlist', ensureAuthenticated, ensureAdmin, async function(req, res) {
     var invoices= await Invoice.findAll({where: {delivered:0}, order:['createdAt'], raw: true})
     var page='orderlist';
 	res.render('invoice/admin/order_list', {layout: 'admin', invoices, page});
 });
 
-router.get('/updateinvoice/:id', ensureAuthenticated, async function(req, res) {
+router.get('/updateinvoice/:id', ensureAuthenticated, ensureAdmin, async function(req, res) {
     var invoice= await Invoice.findByPk(req.params.id)
     invoice['cart']= await Cart.findOne({
         where: {id:invoice.cartId},
@@ -313,7 +314,7 @@ router.get('/updateinvoice/:id', ensureAuthenticated, async function(req, res) {
 	res.render('invoice/admin/updateorderstatus', {layout: 'admin', invoice, page});
 });
 
-router.get('/minusstatus/:id', ensureAuthenticated, async function(req, res) {
+router.get('/minusstatus/:id', ensureAuthenticated, ensureAdmin, async function(req, res) {
     var invoice= await Invoice.findByPk(req.params.id)
     Invoice.update(
         { status: invoice.status-1 },
@@ -322,7 +323,7 @@ router.get('/minusstatus/:id', ensureAuthenticated, async function(req, res) {
     res.redirect('/invoice/updateinvoice/'+req.params.id)
 });
 
-router.get('/plusstatus/:id', ensureAuthenticated, async function(req, res) {
+router.get('/plusstatus/:id', ensureAuthenticated, ensureAdmin, async function(req, res) {
     var invoice= await Invoice.findByPk(req.params.id)
     Invoice.update(
         { status: invoice.status+1 },
@@ -331,7 +332,7 @@ router.get('/plusstatus/:id', ensureAuthenticated, async function(req, res) {
     res.redirect('/invoice/updateinvoice/'+req.params.id)
 });
 
-router.get('/delivered/:id', ensureAuthenticated, async function(req, res) {
+router.get('/delivered/:id', ensureAuthenticated, ensureAdmin, async function(req, res) {
     Invoice.update(
         { delivered: 1 },
         { where: { id: req.params.id } }
@@ -339,13 +340,13 @@ router.get('/delivered/:id', ensureAuthenticated, async function(req, res) {
     res.redirect('/invoice/orderlist')
 });
 
-router.get('/invoicelist', ensureAuthenticated, async function(req, res) {
+router.get('/invoicelist', ensureAuthenticated, ensureAdmin, async function(req, res) {
     var invoices= await Invoice.findAll({where: {delivered:1}, order:['createdAt'], raw: true})
     var page='invoicelist';
 	res.render('invoice/admin/order_list', {layout: 'admin', invoices, page});
 });
 
-router.get('/exportinvoicelist', ensureAuthenticated, async function(req, res){
+router.get('/exportinvoicelist', ensureAuthenticated, ensureAdmin, async function(req, res){
     let array = await Invoice.findAll({
         where: {delivered:1},
         order: [['id']],
@@ -355,7 +356,7 @@ router.get('/exportinvoicelist', ensureAuthenticated, async function(req, res){
     res.redirect('/invoice/invoicelist');
 });
 
-router.get('/exportorderlist', ensureAuthenticated, async function(req, res){
+router.get('/exportorderlist', ensureAuthenticated, ensureAdmin, async function(req, res){
     let array = await Invoice.findAll({
         where: {delivered:0},
         order: [['id']],

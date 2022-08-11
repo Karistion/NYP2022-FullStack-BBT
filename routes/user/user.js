@@ -195,11 +195,16 @@ router.get('/logout', (req, res) => {
 // });
 
 router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
-    User.findByPk(req.user.id)
-        .then((user) => {
-            res.render('user/customer/editprofile', { user, layout: 'main' });
-        })
-        .catch(err => console.log(err));
+    if (req.params.id != req.user.id){
+        flashMessage(res, 'error', 'Unauthorised Access')
+        res.redirect('/')
+    }else{
+        User.findByPk(req.user.id)
+            .then((user) => {
+                res.render('user/customer/editprofile', { user, layout: 'main' });
+            })
+            .catch(err => console.log(err));
+    }
 });
 
 router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
@@ -237,15 +242,23 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
 });
 
 router.get('/profile/:id', ensureAuthenticated, (req, res) => {
+    if (req.params.id != req.user.id){
+        flashMessage(res, 'error', 'Unauthorised Access')
+        res.redirect('/')
+    }else{
     User.findByPk(req.user.id)
         .then((user) => {
             res.render('user/customer/profile', { user, layout: 'main' });
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err));}
 });
 
 router.get('/deleteUser/:id', ensureAuthenticated, async function
     (req, res) {
+    if (req.params.id != req.user.id){
+        flashMessage(res, 'error', 'Unauthorised Access')
+        res.redirect('/')
+    }else{
     try {
         let user = await User.findByPk(req.user.id);
         let result = await User.destroy({ where: { id: user.id } });
@@ -253,12 +266,16 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         res.redirect('/user/register');
     }
     catch (err) {
-        console.log(err);
+        console.log(err);}
     }
 });
 
 router.get('/suspendUser/:id', ensureAuthenticated, async function
     (req, res) {
+    if (req.user.member != 'admin'){
+        flashMessage(res, 'error', 'Unauthorised Access')
+        res.redirect('/')
+    }else{
     try {
         let activity = 0;
         User.update(
@@ -275,7 +292,7 @@ router.get('/suspendUser/:id', ensureAuthenticated, async function
     }
     catch (err) {
         console.log(err);
-    }
+    }}
 });
 
 router.get('/forgotpassword', (req,res) => {
@@ -629,6 +646,45 @@ router.post('/e-wallet/:id', async function (req, res) {
 
 router.get('/test', (req, res) => { //this is where we get the info
     res.render('user/customer/test'); //this is for the handlebar name
+});
+
+router.get('/convert', (req, res) => { 
+    if(req.get('referer')!='http://localhost:5000/user/profile/'+req.user.id){
+        res.redirect('/user/profile/'+req.user.id)
+    }else{
+    if (req.user.loyalty<=1){
+        User.update(
+            { wallet: req.user.wallet + req.user.loyalty, loyalty:0 },
+            { where: { id: req.user.id } }
+        )
+    }else if (req.user.loyalty<=2){
+        User.update(
+            { wallet: req.user.wallet + (req.user.loyalty*1.1), loyalty:0 },
+            { where: { id: req.user.id } }
+        )
+    }else if (req.user.loyalty<=3){
+        User.update(
+            { wallet: req.user.wallet + (req.user.loyalty*1.2), loyalty:0 },
+            { where: { id: req.user.id } }
+        )
+    }else if (req.user.loyalty<=5){
+        User.update(
+            { wallet: req.user.wallet + (req.user.loyalty*1.3), loyalty:0 },
+            { where: { id: req.user.id } }
+        )
+    }else if (req.user.loyalty<=10){
+        User.update(
+            { wallet: req.user.wallet + (req.user.loyalty*1.4), loyalty:0 },
+            { where: { id: req.user.id } }
+        )
+    }else{
+        User.update(
+            { wallet: req.user.wallet + (req.user.loyalty*1.5), loyalty:0 },
+            { where: { id: req.user.id } }
+        )
+    }}
+    
+    res.redirect('/user/profile/'+req.user.id); 
 });
 
 module.exports = router;

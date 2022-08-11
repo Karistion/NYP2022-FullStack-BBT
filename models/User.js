@@ -19,7 +19,5 @@ const User = db.define('user',
         image: { type: Sequelize.STRING },
         wallet: { type: Sequelize.FLOAT(10,2), defaultValue: 0.00 },
         loyalty: { type: Sequelize.FLOAT(10,4), defaultValue: 0.0000 },
-        // ewallet: { type: Sequelize.INTEGER, defaultValue: 0 },
-        // history: { type: Sequelize.STRING },
     });
 module.exports = User

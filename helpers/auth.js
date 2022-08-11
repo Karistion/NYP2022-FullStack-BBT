@@ -1,3 +1,5 @@
+const flashMessage = require("./messenger");
+
 const ensureAuthenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
         return next();
