@@ -248,7 +248,7 @@ router.get('/profile/:id', ensureAuthenticated, (req, res) => {
     }else{
     User.findByPk(req.user.id)
         .then((user) => {
-            res.render('user/customer/test', { user });
+            res.render('user/customer/test', { user, layout: 'main' });
         })
         .catch(err => console.log(err));}
 });
