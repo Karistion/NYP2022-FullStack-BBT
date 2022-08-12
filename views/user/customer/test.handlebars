@@ -529,6 +529,49 @@ header {
 .modal-backdrop{
   visibility: hidden !important;
 }
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  opacity: 1;
+  z-index: 1 !important;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 130px;
+  background-color: white;
+  color: #fff;
+  text-align: center;
+  bottom: 100%;
+  border-style: solid;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  font-size: 8.75px !important;
+  color:#000;
+  position: absolute;
+}
+
+table tr td { 
+  font-size: 8.75px !important;
+}
+
+table tr th { 
+  font-size: 8.75px !important;
+}
+
+.table{
+  margin-bottom: 0;
+}
 </style>
 <head>
 
@@ -575,7 +618,7 @@ header {
             <div class="skills">
                 <h1 class="heading">Others</h1>
                 <ul>
-                    <li style="--i:0">{{user.createdAt}}</li>
+                    <li style="--i:0">{{formatDate user.createdAt}}</li>
                     <li style="--i:1">Web-Design</li>
                     <li style="--i:2">UI/UX</li>
                     <li style="--i:3">Video Editing</li>
@@ -596,8 +639,47 @@ header {
             </div>
 
             <div class="rank">
+              <div class="row">
+                <div class="col">
                 <h1 class="heading">Balance</h1>
-                <span>${{user.wallet}}</span>
+                <span>${{user.wallet}}</span></div>
+                <div class="col">
+                <h1 class="heading">Bubble Points <div class="tooltip">Info<span class="tooltiptext">Conversion Rates to E-wallet<br><table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Balance</th>
+                    <th scope="col">Rate</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td> <=1 </td>
+                    <td> x1 </td>
+                  </tr>
+                  <tr>
+                    <td> <=2 </td>
+                    <td> x1.1 </td>
+                  </tr>
+                  <tr>
+                    <td> <=3 </td>
+                    <td> x1.2 </td>
+                  </tr>
+                  <tr>
+                    <td> <=5 </td>
+                    <td> x1.3 </td>
+                  </tr>
+                  <tr>
+                    <td> <=10 </td>
+                    <td> x1.4 </td>
+                  </tr>
+                  <tr>
+                    <td> >10 </td>
+                    <td> x1.5 </td>
+                  </tr>
+                </tbody>
+              </table></span></div></h1> 
+                <span>{{user.loyalty}} points</span></div>
+                </div>
                 {{!-- <div class="rating">
                     <i class="ri-star-fill rate">1</i>
                     <i class="ri-star-fill rate"></i>
@@ -622,7 +704,32 @@ header {
                         <i class="ri-check-fill ri"></i>
                         <a href="/user/e-wallet/{{user.id}}" style="text-decoration: none">Top-Up</a>
                     </li>
-
+                    {{#if user.loyalty}}
+                    <li class="sendMsg active">
+                        <a data-bs-toggle="modal" data-bs-target="#idconvert">Convert Bubble Points to E-wallet</a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="idconvert" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;"
+                          aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="idconvert">Confirmation</h5>
+                                <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button></span>
+                              </div>
+                              <div class="modal-body">
+                                Are you sure you want to convert all {{user.loyalty}} (${{convertpoints user.loyalty}}) to E-wallet?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary"><a href="/user/convert"
+                                    style="color: white;text-decoration: none;">Confirm</a></button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </li>
+                    {{/if}}
                     <li class="sendMsg active">
                         {{!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
                           Delete
@@ -726,4 +833,8 @@ header {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl)
+  });
 </script>

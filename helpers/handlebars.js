@@ -107,4 +107,20 @@ const minus = function (num1, num2) {
     return num1-num2;
 } 
 
-module.exports = { formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent, minus};
+const convertpoints = function (num1) {
+    if (num1<=1){
+        return num1*1
+    }else if (num1<=2){
+        return num1*1.1
+    }else if (num1<=3){
+        return num1*1.2
+    }else if (num1<=5){
+        return num1*1.3
+    }else if (num1<=10){
+        return num1*1.4
+    }else{
+        return num1*1.5
+    }
+}
+
+module.exports = { convertpoints, formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent, minus};

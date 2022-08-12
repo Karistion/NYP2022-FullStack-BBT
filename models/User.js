@@ -18,6 +18,6 @@ const User = db.define('user',
         appeal: { type: Sequelize.STRING, defaultValue:null },
         image: { type: Sequelize.STRING },
         wallet: { type: Sequelize.FLOAT(10,2), defaultValue: 0.00 },
-        loyalty: { type: Sequelize.FLOAT(10,4), defaultValue: 0.0000 },
+        loyalty: { type: Sequelize.FLOAT(10,3), defaultValue: 0.000 },
     });
 module.exports = User
