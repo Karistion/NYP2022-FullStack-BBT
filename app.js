@@ -132,7 +132,11 @@ app.use('/vouchers', voucherRoute);
 const port = process.env.PORT;
 
 app.use((req, res, next) => {
-	res.status(404).render('404', {layout: 'main'})
+	if (req.user == null || req.user.member == 'member'){
+		res.status(404).render('404', {layout: 'main'})
+	}else if (req.user.member == 'admin'){
+		res.status(404).render('404', {layout: 'admin'})
+	}
   })
 
 // Starts the server and listen to port
