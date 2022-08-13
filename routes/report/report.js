@@ -167,6 +167,27 @@ router.get('/updateAdmin', ensureAuthenticated, (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.post('/adminProfile', ensureAuthenticated, (req, res) => {
+	// Creates user id directory for upload if not exist
+	if (!fs.existsSync('./public/uploads/' + req.user.id)) {
+		fs.mkdirSync('./public/uploads/' + req.user.id, {
+			recursive:
+				true
+		});
+	}
+	upload(req, res, (err) => {
+		if (err) {
+			// e.g. File too large
+			res.json({ file: '/img/no-image.jpg', err: err });
+		}
+		else {
+			res.json({
+				file: `/uploads/${req.user.id}/${req.file.filename}`
+			});
+		}
+	});
+});
+
 // router.get('/downloadExcel', exportUser)
 
 module.exports = router;

@@ -587,32 +587,41 @@ router.post('/profile', ensureAuthenticated, (req, res) => {
 
 router.post('/profileSave/:id', ensureAuthenticated, async (req, res) => {
     let {posterURL, posterUpload} = req.body;
-    console.log(posterURL);
-    let metadata = getMetadata(posterURL);
+    // console.log(posterURL);
+    // let metadata = getMetadata(posterURL);
     posterURL = posterURL.split("/")[3]
     // let image = `${req.file.filename}`
     await User.update({ image: posterURL }, { where: { id: req.user.id } });
     res.redirect(`/user/profile/${req.user.id}`);
 });
 
-async function getMetadata(posterURL) {
-    let posterURL2 = "./public"+posterURL;
-    const metadata = await sharp(posterURL2).metadata();
-    console.log(metadata);
-    return metadata;
-};
-async function resizeImage(posterURL) {
-    try {
-        await sharp("sammy.png")
-            .resize({
-                width: 150,
-                height: 97
-            })
-            .toFile("sammy-resized.png");
-    } catch (error) {
-        console.log(error);
-    }
-};
+router.post('/profileSaveAdmin/:id', ensureAuthenticated, async (req, res) => {
+    let { posterURL, posterUpload } = req.body;
+    // console.log(posterURL);
+    // let metadata = getMetadata(posterURL);
+    posterURL = posterURL.split("/")[3]
+    // let image = `${req.file.filename}`
+    await User.update({ image: posterURL }, { where: { id: req.user.id } });
+    res.redirect(`/report/adminProfile`);
+});
+// async function getMetadata(posterURL) {
+//     let posterURL2 = "./public"+posterURL;
+//     const metadata = await sharp(posterURL2).metadata();
+//     console.log(metadata);
+//     return metadata;
+// };
+// async function resizeImage(posterURL) {
+//     try {
+//         await sharp("sammy.png")
+//             .resize({
+//                 width: 150,
+//                 height: 97
+//             })
+//             .toFile("sammy-resized.png");
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
 router.get('/e-wallet/:id', ensureAuthenticated,(req,res)=>{
     res.render('user/customer/credit');

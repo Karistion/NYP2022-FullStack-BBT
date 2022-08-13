@@ -579,18 +579,69 @@ table tr th {
       <div class="container">
 
         <!-- ===== ===== Header/Navbar ===== ===== -->
-        <header>
+        {{!-- <header>
             <div class="brandLogo">
                 <figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_GG1OyU7EBBufcWyBXxa4VidtHNpUjD2vKQ&usqp=CAU" alt="logo" width="40px" height="40px"></figure>
                 <span>BubbleT</span>
             </div>
-        </header>
+        </header> --}}
 
 
         <!-- ===== ===== User Main-Profile ===== ===== -->
         <section class="userProfile card">
             <div class="profile">
-                <figure><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_GG1OyU7EBBufcWyBXxa4VidtHNpUjD2vKQ&usqp=CAU" alt="default.jpg" width="250px" height="250px"></figure>
+                <figure>
+                  <form action="/user/profileSave/{{user.id}}" method="post">
+                  {{#if user.image}}
+                  <img id="poster" src="/uploads/{{user.id}}/{{user.image}}" alt="#" class="rounded-circle" width="150">
+                  <hr>
+                  <div clss="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image" style="margin-left:70px;">
+                      Edit
+                    </button>
+                  </div>
+                  {{else}}
+                  <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                  <hr>
+                  <div clss="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image" style="margin-left:70px;">
+                      Edit
+                    </button>
+                  </div>
+                  {{/if}}
+                  <!-- Modal -->
+                  <div class="modal fade" id="image" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;"aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="image">Confirmation</h5>
+                          <span style="float:right;"><button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button></span>
+                        </div>
+                        <div class="modal-body">
+                          Are you sure you want to use this profile picture?
+                        </div>
+                        {{!—- Hidden field to submit URL of poster to the server --}}
+                        <input id="posterURL" type="hidden" name="posterURL">
+                        <div class="custom-file mb-2">
+                          <input type="file" class="custom-file-input" id="posterUpload" name="posterUpload"
+                            accept="image/png,image/jpeg,image/jpg,image/gif" onchange="imagePreview(event);">
+                          {{!-- <label class="custom-file-label" for="customFile">Choose
+                            File</label> --}}
+                          <img id="pfp" src="../../../public/jordan/images/default.jpg"
+                            class="border img-thumbnail img-fluid rounded circle"
+                            style="height:150px !important;width:150px !important;display:block !important;margin: auto !important;" />
+                        </div>
+                        <div class="modal-footer">
+                          <button id="btnSubmit" type="submit" class="btn btn-primary">Save
+                          </button>
+                        </div>
+                
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </figure>
             </div>
         </section>
 
@@ -615,7 +666,7 @@ table tr th {
             </div>
 
             <!-- ===== ===== Skills Contaienr ===== ===== -->
-            <div class="skills">
+            {{!-- <div class="skills">
                 <h1 class="heading">Others</h1>
                 <ul>
                     <li style="--i:0">{{formatDate user.createdAt}}</li>
@@ -623,7 +674,7 @@ table tr th {
                     <li style="--i:2">UI/UX</li>
                     <li style="--i:3">Video Editing</li>
                 </ul>
-            </div>
+            </div> --}}
         </section>
 
 
@@ -749,7 +800,7 @@ table tr th {
                                 Are you sure you want to delete this account {{user.id}}?
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><a style="color: white;">Close</a></button>
                                 <button type="button" class="btn btn-primary"><a href="/user/deleteUser/{{user.id}}"
                                     style="color: white;text-decoration: none;">Confirm</a></button>
                               </div>
@@ -774,7 +825,7 @@ table tr th {
                 </ul>
             </div>
 
-            <div class="contact_Info">
+            <div class="basic_info">
                 <h1 class="heading">Contact Details</h1>
                 <ul>
                     <li class="phone">
