@@ -8,6 +8,7 @@ const Threads = require('../models/CustSupp');
 const List = require('../models/List');
 const Comments = require('../models/Comments');
 const Vouchers = require('../models/Vouchers');
+const ThreadReport = require('../models/ThreadReport');
 // If drop is true, all existing tables are dropped and recreated
 const setUpDB = (drop) => {
     mySQLDB.authenticate()
@@ -23,8 +24,10 @@ const setUpDB = (drop) => {
             Comments.belongsTo(Threads);
             User.hasMany(Comments)
             Comments.belongsTo(User)
-            // User.hasMany(Vouchers);
-            // Vouchers.belongsTo(User);
+            Threads.hasMany(ThreadReport);
+            ThreadReport.belongsTo(Threads);
+            User.hasMany(ThreadReport)
+            ThreadReport.belongsTo(User)
             User.hasMany(Invoice);
             Invoice.belongsTo(User);
             Drink.hasMany(Cartitems);

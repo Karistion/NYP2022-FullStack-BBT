@@ -3,7 +3,8 @@
  <div class="card mb-3">
             <div class="card-header">
                 <h5 class="fw-bold my-1">{{ Thread.thread_Title }}</h5>
-                <small class="p-0">Posted by: {{ Thread.user.username }}</small>
+                <small class="p-0">Posted by: {{ Thread.user.username }}</small> 
+                {{!-- <p class="date" >Created On: {{Thread.dateCreated}}</p> --}}
                 
             </div>
             <div class="card-body py-2">
@@ -26,6 +27,10 @@
                                 </button>
         
     </div>
+        {{else}}
+        <button type="submit" style="float:right;background-color:crimson" >
+        <a style="color:antiquewhite;" href="/forums/CreateReport/{{Thread.id}}">Report Thread <i class="fa-solid fa-font-awesome" style="color:black; "></i></a>
+        </button>
                 
                 {{/if}}
 
@@ -50,18 +55,18 @@
             </div>
         <hr>
            
-        <table class="table table-striped" id="customers-table">
+        <table class="table " id="customers-table">
           
         {{#each comments}}
 
 <tr class="fs-6 my-0" style="font-weight: 600;"> <td>
-<div style = "font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;padding-left:10em; font-size:large">
+<div style = "font-family:'Courier New', Courier, monospace;padding-left:10em; font-size:large">
                 <h5 class="fw-bold my-1" style ="padding-top:2em;"> <span id ="tablespan">Username: </span>{{ user.username }}</h5>
                 
                 
            
             
-                <h5 class="fw my-1" style="padding-bottom:1em; padding-top:20px ;font-family:Verdana, Geneva, Tahoma, sans-serif"><span id ="tablespan">Comment: </span>{{comment_Content }}</h5>
+                <h5 class="fw my-1" style="padding-bottom:1em; padding-top:20px ;font-family:'Courier New', Courier, monospace;"><span id ="tablespan">Comment: </span>{{comment_Content }}</h5>
                 
 
             </div>
@@ -91,6 +96,7 @@
         </a>
 </div>
 
+
 <style>
     #comment_box{
         padding-top: 50px;
@@ -115,4 +121,5 @@ textarea {
     font-family:Arial, Helvetica, sans-serif ;
     text-align: left;
 }
+
 </style>

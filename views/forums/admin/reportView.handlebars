@@ -1,0 +1,76 @@
+
+
+  <div class="container-fluid">
+
+  <div class="col-md-12 text-center">
+
+    <p class="h3 mt-4">Thread reports</p>
+    <div>
+  {{!-- {{#if vouchers}}
+  <p>There are {{vouchers.length}} voucher entree(s).</p>
+  {{else}}
+  <p>There are no voucher entrees.</p>
+  {{/if}} --}}
+  <hr>
+</div>
+      
+    </div>
+
+
+        
+                
+      <table class="table table-striped" id="customers-table">
+    <thead>
+      <tr >
+        <th>Thread ID</th>
+        <th>Thread Username</th>
+        <th>Reported By</th>
+        <th>Reason for report</th>
+        <th>Additional details</th>
+        
+        
+      </tr>
+    </thead>
+    <tbody>         
+            
+    {{#each Thread}}    
+        
+    <div class="container-sm my-5" style="width: 80%;">
+      <tr class="fs-6 my-0" style="font-weight: 600;">
+          <td>{{ threadId }}</td>
+          <td>{{thread.user.username}}</td>
+          <td>{{Reporteduser.username}} ({{userId}})</td>
+          <td>{{ type}}</td>
+          <td>{{ description }}</td>
+          
+          
+          <td><div class="mx-auto" style="mix-width: 500px; float:right;">
+       
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/forums/DeleteReport/{{id}}">Delete Report</a>
+                                </button>
+        
+    </div>
+    </td>
+      
+  
+</div>
+</td>
+        </tr>
+      </tbody>
+{{/each}}
+</table>
+
+{{!-- <div class="mx-auto" style="mix-width: 500px; float:right;">
+        <button type="submit" class="btn btn-primary" >
+                                    <a style="color:antiquewhite;" href="/vouchers/vouchersCreate">Add Voucher</a>
+          
+                                </button>
+        
+        
+    </div> --}}
+             
+
+
+
+

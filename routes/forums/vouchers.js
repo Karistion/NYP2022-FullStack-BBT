@@ -5,8 +5,9 @@ const moment = require('moment');
 const ensureAuthenticated = require('../../helpers/auth');
 const { get } = require('express/lib/response');
 const Vouchers = require('../../models/Vouchers');
-
-router.get('/vouchersView', ensureAuthenticated, (req, res) => {
+const ensureAdmin = require('../../helpers/admin');
+const e = require('connect-flash');
+router.get('/vouchersView',ensureAdmin, ensureAuthenticated, (req, res) => {
 	
     Vouchers.findAll({
         
@@ -21,12 +22,12 @@ router.get('/vouchersView', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));         
 });
 
-router.get('/vouchersCreate', (req, res) => { //this is to render the page
+router.get('/vouchersCreate',ensureAdmin, (req, res) => { //this is to render the page
     var page='voucher';
     res.render('forums/admin/vouchersCreate', { layout: 'admin', page });
 });
 
-router.post('/vouchersCreate', ensureAuthenticated, async function (req, res) { //this is to get the input of the page, req is to get what the user input
+router.post('/vouchersCreate',ensureAdmin, ensureAuthenticated, async function (req, res) { //this is to get the input of the page, req is to get what the user input
     var Voucher_Name = req.body.Voucher_Name;
     
     var Description = req.body.Description;
@@ -49,7 +50,7 @@ router.post('/vouchersCreate', ensureAuthenticated, async function (req, res) { 
 });
 
 
-router.get('/vouchersEdit/:id',ensureAuthenticated, async function (req, res)  { //this is to render the page
+router.get('/vouchersEdit/:id',ensureAdmin, ensureAuthenticated, async function (req, res)  { //this is to render the page
     var Voucher = await Vouchers.findByPk(req.params.id);
     var page='voucher';
     // User.findOne({
@@ -62,7 +63,7 @@ router.get('/vouchersEdit/:id',ensureAuthenticated, async function (req, res)  {
 });
 
 
-router.post('/vouchersEdit/:id', ensureAuthenticated, (req, res) => {
+router.post('/vouchersEdit/:id',ensureAdmin, ensureAuthenticated, (req, res) => {
     var Voucher_Name = req.body.Voucher_Name;
     
     var Description = req.body.Description;
@@ -82,7 +83,7 @@ router.post('/vouchersEdit/:id', ensureAuthenticated, (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.get('/vouchersDelete/:id', ensureAuthenticated, async function(req, res) {
+router.get('/vouchersDelete/:id',ensureAdmin, ensureAuthenticated, async function(req, res) {
 	try {
 		
 		
