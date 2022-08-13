@@ -224,7 +224,7 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     // };
     if (password != password2) {
         flashMessage(res, 'error', 'Password not matching');
-        res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
+        res.redirect(`/user/customer/editprofile/${req.user.id}`, { layout: 'main' });
     }
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
@@ -236,7 +236,7 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     )
         .then((result) => {
             console.log(result[0] + ' User updated');
-            res.redirect('/user/profile/{{id}}');
+            res.redirect(`/user/profile/${req.user.id}`);
         })
         .catch(err => console.log(err));
 });
@@ -304,7 +304,7 @@ router.post('/forgotpassword', async function (req,res){
     let user = await User.findOne({ where: { username: username } });
     if (user)
     {
-        if(email != user.email)
+        if(!user || email != user.email)
         {
             flashMessage(res, 'error', 'Email and username does not match username.');
             res.render('user/customer/forgotpassword', { layout: 'main' });
@@ -377,7 +377,7 @@ router.post('/newPW/:id', async (req,res) => {
         var hash = bcrypt.hashSync(password, salt);
         User.update({ password:hash},
             { where: { id: user.id } });
-        res.redirect('/');
+        res.redirect('/user/login');
     } catch (err) {
         console.log(err);}
 })
@@ -635,21 +635,22 @@ router.post('/e-wallet/:id', async function (req, res) {
     if (!Luhn.isValid(card_number)) {
         flashMessage(res, 'error', 'Invalid Card Number');
         isValid = false;
-    } else {
-        let userId = req.params.id;
-        let user = await User.findByPk(req.params.id);
-        amount = amount.replace('$','');
-        let value = parseFloat(amount);
-        let wallet = user.wallet + value;
-        await User.update({wallet},{ where: { id: userId } });
-        flashMessage(res,'success','Wallet has been topped up!');
-        res.redirect('/');
-    };
+    }
     if (!isValid) {
         res.render('user/customer/credit', {
             card_number, card_name, expiry_date, cvv
         });
         return;
+    }else {
+        let userId = req.params.id;
+        let user = await User.findByPk(req.params.id);
+        amount = amount.replace('$','');
+        amount = amount.replace(',','');
+        let value = parseFloat(amount);
+        let wallet = user.wallet + value;
+        await User.update({wallet},{ where: { id: userId } });
+        flashMessage(res,'success','Wallet has been topped up!');
+        res.redirect(`/user/profile/${req.user.id}`);
     }
 });
 

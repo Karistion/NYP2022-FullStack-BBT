@@ -5,6 +5,14 @@
         <p class="lead">
             The page you’re looking for doesn’t exist.
             </p>
-        <a href="/" class="btn btn-primary">Go Back</a>
+            {{#if user}}
+                {{#if (check user.member 'admin')}}
+                    <a href="/report/report" class="btn btn-primary">Go Back</a>
+                {{else}}
+                <a href="/" class="btn btn-primary">Go Back</a>
+                {{/if}}
+            {{else}}
+                <a href="/" class="btn btn-primary">Go Back</a>
+            {{/if}}
     </div>
 </div>

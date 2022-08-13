@@ -5,7 +5,6 @@ const flashMessage = (res, messageType, message, icon, dismissable) => //this is
         case 'success':
         alert = res.flashMessenger.success(message);
         alert.titleIcon = 'fas fa-check-circle';
-        alert.canBeDismissed = true;
         break;
 
         case 'error':
@@ -16,7 +15,6 @@ const flashMessage = (res, messageType, message, icon, dismissable) => //this is
         case 'info':
             alert = res.flashMessenger.info(message);
             alert.titleIcon = 'fas fa-info-circle';
-            alert.canBeDismissed = true;
         break;
 
     default:

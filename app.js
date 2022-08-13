@@ -131,18 +131,7 @@ app.use('/vouchers', voucherRoute);
 * */
 const port = process.env.PORT;
 
-app.use((req, res, next) => {
-	if (req.user == null || req.user.member == 'member'){
-		res.status(404).render('404', {layout: 'main'})
-	}else if (req.user.member == 'admin'){
-		res.status(404).render('404', {layout: 'admin'})
-	}
-  })
 
-// Starts the server and listen to port
-app.listen(port, () => {
-	console.log(`Server started on port ${port}`);
-});
 
 // Log in using Google
 var userProfile;
@@ -181,3 +170,16 @@ app.get('/auth/google/callback',
 		// Successful authentication, redirect success.
 		res.redirect('/');
 	});
+
+app.use((req, res, next) => {
+	if (req.user == null || req.user.member == 'member'){
+		res.status(404).render('404', {layout: 'main'})
+	}else if (req.user.member == 'admin'){
+		res.status(404).render('404', {layout: 'admin'})
+	}
+  })
+
+// Starts the server and listen to port
+app.listen(port, () => {
+	console.log(`Server started on port ${port}`);
+});

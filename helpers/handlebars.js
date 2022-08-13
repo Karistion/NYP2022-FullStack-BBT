@@ -36,6 +36,10 @@ const check = function (status, num) {
     return (status == num) ? true : false;
 }
 
+const notcheck = function (status, num) {
+    return (status == num) ? false : true;
+}
+
 const checkpoints = function (point, price) {
     return (point >= price*0.9) ? true : false;
 }
@@ -123,4 +127,4 @@ const convertpoints = function (num1) {
     }
 }
 
-module.exports = { convertpoints, formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent, minus};
+module.exports = { notcheck, convertpoints, formatDate,formatDay, formatTime, replaceCommas, checkboxCheck, radioCheck, multiply, cssactive, decimal2, statuscompleted, changestatus, statusdesc, check, checkpoints, sum, dictkey, dictvalue, sumdictvalue, statuscolor,sumdictvaluepercent, minus};

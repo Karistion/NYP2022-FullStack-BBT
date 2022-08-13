@@ -42,18 +42,6 @@
                     </ul>
                     <hr class=".d-none .d-md-block .d-lg-none">
                     <ul class="navbar-nav align-items-lg-center">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarSearchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-lg-end mb-md-2" aria-labelledby="navbarSearchDropdown" style="min-width: 300px;">
-                                <li>
-                                    <form action="" method="" class="px-2">
-                                        <input class="form-control" type="search" placeholder="What Drink are you craving?" aria-label="Search">
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
                         {{#if user}}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="authenticatedUserNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -67,7 +55,7 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="/cart/cart">
-                                    <img src="https://cdn-icons.flaticon.com/png/128/2838/premium/2838895.png?token=exp=1656139041~hmac=4bea4d6971d791ef9ddbfe14a6bf4ba8" width="25" height="25"> Cart
+                                    <i class="fa-solid fa-shopping-cart"></i>Cart
                                 </a>
                             </li>
                             <li>
@@ -267,10 +255,43 @@
 
                 <hr>
 
+                <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About Us</h2>
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. </p>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            <p>
+              BubbleT is a brand of artisan tea focused on providing affordable
+high-quality and tasty blends of Tea with a hint of local flavour. 
+
+            </p>
+            <ul>
+              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+              <li><i class="ri-check-double-line"></i> Duis aute irure dolor in reprehenderit in voluptate velit</li>
+              <li><i class="ri-check-double-line"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat</li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p>
+              Our founders had found on their travels abroad the various tastes of Taiwanese, Japanese and  Chinese Bubble teas that are vastly superior and have brought back the best of both worlds to Singapore - fusion of quality overseas teas and high grade bobas
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+<hr>
+
                 <div class="pt-3">
                     <h2 class="fw-bold text-center mb-4">What Are You Waiting For?</h2>
                     <div class="text-center">
-                        <a href="/buy-car" class="btn btn-info px-4 mb-3">Shop Now</a>
+                        <a href="/menu/menu" class="btn btn-info px-4 mb-3">Shop Now</a>
                     </div>
                 </div>
             </div>

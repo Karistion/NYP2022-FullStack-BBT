@@ -1,8 +1,8 @@
 <div class="card">
 <h1 class="display-4">User Management</h1>
 <div>
-  {{#if user}}
-  <p>There are {{user.length}} account(s).</p>
+  {{#if users}}
+  <p>There are {{users.length}} account(s).</p>
   {{else}}
   <p>There are no Customers.</p>
   {{/if}}
@@ -26,7 +26,7 @@
       </tr>
     </thead>
     <tbody>
-        {{#each user}}
+        {{#each users}}
         <tr>
           <td>{{ id }}</td>
           <td>{{ name }}</td>
@@ -37,9 +37,11 @@
           <td>{{ email }}</td>
           {{#if activity}}
           <td>
+            {{#if (notcheck username ../user.username)}}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#id{{id}}">
               Suspend
             </button>
+            {{/if}}
             <!-- Modal -->
             <div class="modal fade" id="id{{id}}" tabindex="-1" aria-labelledby="exampleModalLabel" style="display:none;"
               aria-hidden="true">

@@ -72,10 +72,10 @@ router.get('/listUsers', ensureAuthenticated, (req, res) => {
 		order: [['id', 'ASC']],
 		raw: true
 	})
-		.then((user) => {
+		.then((users) => {
 			// pass object to listVideos.handlebar
 			var page = 'users';
-			res.render('user/admin/usertable', { layout: 'admin', page, user });
+			res.render('user/admin/usertable', { layout: 'admin', page, users });
 		})
 		.catch(err => console.log(err));
 });
@@ -133,14 +133,14 @@ router.post('/create_admin', async function (req, res) { //this is to get the in
 			sendEmail(user.email, url)
 				.then(response => {
 					console.log(response);
-					flashMessage(res, 'success', user.email + ' registered successfully');
-					res.redirect('/user/login');
+					flashMessage(res, 'success', user.username + ' registered successfully');
+					res.redirect('/report/listUsers');
 				})
 				.catch(err => {
 					console.log(err);
 					flashMessage(res, 'error', 'Error when sending email to ' +
 						user.email);
-					res.redirect('/');
+					res.redirect('/report/create_admin');
 				});
 		}
 	}

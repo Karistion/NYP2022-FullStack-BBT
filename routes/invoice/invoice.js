@@ -111,12 +111,42 @@ router.post('/checkout', async function (req, res) {
         isValid = false;
     }else if (!validate.isPostalCode(postal_code, 'SG')){
         flashMessage(res, 'error', 'Invalid Address');
-        isValid = false;
+        isValid = false; 
     }
     if (!isValid) {
-        res.render('invoice/customer/checkout', {
-            card_number, card_name, expiry_date, cvv, voucher, layout: 'main'
-        });
+        Cart.findOne({
+            where: {userId:req.user.id},
+            order: [['updatedAt', 'DESC']], 
+            raw: true
+        }).then((cart)=>{
+            Cartitems.findAll({
+                where: { cartId: cart.id },
+                order: [['createdAt']],
+                raw: true
+            })
+                .then(async function(items) {
+                    // pass object to listVideos.handlebar
+                    if (items.length!=0){
+                        for (var i=0;i<items.length;i++){
+                            var drink=await Drink.findByPk(items[i].drinkId)
+                            items[i]['drink']=drink;
+                        }
+                        User.findOne({
+                            where: {id:req.user.id},
+                            order: [['updatedAt', 'DESC']], 
+                            raw: true
+                        }).then(async(user)=>{
+                            var page = 'checkout'
+                            res.render('invoice/customer/checkout', {layout: 'main', items, user, voucher, page, cart, card_number, card_name, expiry_date, cvv});
+                        })
+                    }
+                    else{
+                        flashMessage(res, 'error', 'There is no items in cart')
+                        res.redirect('/cart/cart')
+                    }
+                })
+                .catch(err => console.log(err));
+        }).catch(err => console.log(err))
         return;
     }
     if (voucher!=0){
