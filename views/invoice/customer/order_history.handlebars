@@ -39,7 +39,9 @@
                 </h2>
                 <div id="collapse{{id}}" class="accordion-collapse collapse" aria-labelledby="heading+{{id}}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <div class="text-left text-sm-right fa-align-center col-6 d-grid p-3"><a class="btn btn-outline-primary btn-rounded btn-sm" href="/invoice/cfmorder/{{id}}" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+                        <div class="row justify-content-center">
+                        <div class="text-left text-sm-right col-6 d-grid p-3"><a class="btn btn-outline-primary btn-rounded btn-sm" href="/invoice/cfmorder/{{id}}" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
+                        </div>
                     {{#each items}}    
                     <p><b>{{ drink.name }} (${{ multiply drink.price quantity}}) <span style="float: right !important">x{{ quantity }}</span></b></p>
                     <ul>
