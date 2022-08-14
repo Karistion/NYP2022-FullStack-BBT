@@ -255,7 +255,7 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         let activity = 0;
         let result = await User.update({ activity }, { where: { id: user.id } });
         console.log(result + ' User deleted');
-        res.redirect('/user/register'); //still login
+        res.redirect('/user/logout');
     }
     catch (err) {
         console.log(err);}
@@ -484,7 +484,7 @@ router.get('/suspend/:id/:token', async function (req, res) {
 router.get('/suspend/:id', (req, res) => { //this is where we get the info
     User.findByPk(req.params.id)
         .then((user) => {
-            res.render('user/customer/suspend', { user, layout: 'main' });
+            res.render('user/customer/suspend', { user });
         })
         .catch(err => console.log(err));
 });
@@ -498,7 +498,7 @@ router.post('/suspend/:id', async (req,res) =>{
         { appeal:appeal },
         { where: { id: req.params.id } });
     flashMessage(res,'success','Your appeal has been submitted.')
-    res.redirect('/') // change to where?
+    res.redirect('/user/suspend/'+ req.params.id) // change to where?
 
 });
 
