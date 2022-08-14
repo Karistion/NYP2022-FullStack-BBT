@@ -1,4 +1,8 @@
 <h1 class="fw-bold text-center mb-3">View Support Thread</h1>
+
+        <a style="color:antiquewhite;" href="/forums/forums"><button type="submit" style="background-color:aqua;" >Go Back </button></a>
+        
+
 <hr>
  <div class="card mb-3">
             <div class="card-header">
@@ -14,23 +18,45 @@
                     
             </div>
         </div>
+        <div class="modal fade" id="staticBackdropDiscard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelDiscard" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="fw-bold" id="staticBackdropLabelDiscard">Delete Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure that you would want to delete your this thread?</p>
+                    <small class="text-danger fw-bold">
+                        <sup>*</sup>This action is irreversible.
+                    </small>
+                </div>
+                <div class="modal-footer">
+                    <a href="/forums/forums">
+                        <a style="color:antiquewhite;" href="/forums/DeleteThread/{{Thread.id}}"><button type="button" class="btn btn-danger">Confirm</button></a>
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
 
         {{#if (check Thread.userId user.id) }}
                 
     <div class="mx-auto" style="mix-width: 500px; float:right;">
-        <button type="submit" class="btn btn-primary" >
-                                    <a style="color:antiquewhite;" href="/forums/UpdateThread/{{Thread.id}}">Edit Thread</a>
+        
+                                    <a style="color:antiquewhite;" href="/forums/UpdateThread/{{Thread.id}}"><button type="submit" class="btn btn-primary" >Edit Thread</button></a>
           
-                                </button>
-        <button type="submit" class="btn btn-primary" >
-                                    <a style="color:antiquewhite;" href="/forums/DeleteThread/{{Thread.id}}">Delete Thread</a>
-                                </button>
+                               
+        
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropDiscard">Delete Thread</button></a>
+                                
         
     </div>
         {{else}}
-        <button type="submit" style="float:right;background-color:crimson" >
-        <a style="color:antiquewhite;" href="/forums/CreateReport/{{Thread.id}}">Report Thread <i class="fa-solid fa-font-awesome" style="color:black; "></i></a>
-        </button>
+        
+        <a style="color:antiquewhite;" href="/forums/CreateReport/{{Thread.id}}"><button type="submit" style="float:right;background-color:crimson" >Report Thread <i class="fa-solid fa-font-awesome" style="color:black; "></i></button></a>
+        
                 
                 {{/if}}
 
@@ -79,9 +105,10 @@
       
     
 </form>
+        
+
                     
-                    
-                
+               
                     
             </div>
         </div>
@@ -91,9 +118,7 @@
     
         </div>
     </div>
-    <a href="/forums/forums" style="overflow:auto; margin-right:0px; float:right;">
-            <button type="button" class="btn btn-info btn-block">Go Back</button>
-        </a>
+    
 </div>
 
 

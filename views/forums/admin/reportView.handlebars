@@ -12,7 +12,7 @@
   <p>There are no voucher entrees.</p>
   {{/if}} --}}
   <hr>
-</div>
+</div>    
       
     </div>
 
@@ -45,11 +45,62 @@
           
           
           <td><div class="mx-auto" style="mix-width: 500px; float:right;">
-       
-        <button type="submit" class="btn btn-primary" >
-                                    <a style="color:antiquewhite;" href="/forums/DeleteReport/{{id}}">Delete Report</a>
-                                </button>
+                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropDiscard">Delete Thread</button>
         
+                                    <button type="submit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdropDiscardR">Delete Report</button>
+                                
+         <div class="modal fade" id="staticBackdropDiscardR" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelDiscardR" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="fw-bold" id="staticBackdropLabelDiscardR">Delete Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this report?</p>
+                    <small class="text-danger fw-bold">
+                        <sup>*</sup>This action is irreversible.
+                    </small>
+                </div>
+                <div class="modal-footer">
+                    <a href="/forums/ViewReport">
+                        <a style="color:antiquewhite;" href="/forums/DeleteReport/{{id}}"><button type="button" class="btn btn-danger">Confirm</button></a>
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+                <div class="modal fade" id="staticBackdropDiscard" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabelDiscard" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="fw-bold" id="staticBackdropLabelDiscard">Delete Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this thread?</p>
+                    <small class="text-danger fw-bold">
+                        <sup>*</sup>This action is irreversible.
+                    </small>
+                </div>
+                <div class="modal-footer">
+                    <a href="/forums/ViewReport">
+                        <a style="color:antiquewhite;" href="/forums/DeleteThreadAdmin/{{threadId}}"><button type="button" class="btn btn-danger">Confirm</button></a>
+                    </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     </td>
       
@@ -61,14 +112,7 @@
 {{/each}}
 </table>
 
-{{!-- <div class="mx-auto" style="mix-width: 500px; float:right;">
-        <button type="submit" class="btn btn-primary" >
-                                    <a style="color:antiquewhite;" href="/vouchers/vouchersCreate">Add Voucher</a>
-          
-                                </button>
-        
-        
-    </div> --}}
+
              
 
 

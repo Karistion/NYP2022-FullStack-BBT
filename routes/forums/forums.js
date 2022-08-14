@@ -72,8 +72,9 @@ router.post('/UpdateThread/:id', ensureAuthenticated, (req, res) => {
 router.get('/DeleteThread/:id', ensureAuthenticated, async function(req, res) {
 	try {
 		
-		
+		let result2 = await ThreadReport.destroy({ where: { threadId: req.params.id } });
 		let result = await Threads.destroy({ where: { id: req.params.id } });
+        
 		res.redirect('/forums/forums');
 		}
 		catch (err) {
@@ -218,4 +219,19 @@ router.get('/DeleteReport/:id',ensureAdmin, ensureAuthenticated, async function(
 			console.log(err);	
 		}
 });
+
+router.get('/DeleteThreadAdmin/:id', ensureAuthenticated, async function(req, res) {
+	try {
+		
+		let result2 = await ThreadReport.destroy({ where: { ThreadId: req.params.id } });
+		let result = await Threads.destroy({ where: { id: req.params.id } });
+        
+		res.redirect('/forums/ViewReport');
+		}
+		catch (err) {
+			console.log(err);	
+		}
+});
+
+
 module.exports = router;

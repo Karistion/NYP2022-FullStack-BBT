@@ -6,14 +6,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="fw-bold" id="staticBackdropLabel">Reply Confirmation</h5>
+                    <h5 class="fw-bold" id="staticBackdropLabel">Confirmation</h5>
                 </div>
                 <div class="modal-body">
-                    <p>Are you sure that you would want to add a reply?</p>
+                    <p>Are you sure that you want to save changes?</p>
                 </div>
                 <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Save</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-info">Add Reply</button>
+                    
                 </div>
             </div>
         </div>
@@ -33,10 +34,11 @@
                     </small>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <a href="/forums/forums">
                         <button type="button" class="btn btn-danger">Confirm</button>
                     </a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    
                 </div>
             </div>
         </div>
@@ -60,6 +62,7 @@
             <!-- Trigger Add Reply Modal -->
             <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdropReply">Save Changes</button>
             <!-- Trigger Discard Changes & Go Back Modal -->
+            
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropDiscard">Discard Changes & Exit</button>
         </div>
     </div>
