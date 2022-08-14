@@ -169,6 +169,28 @@ router.get('/updateAdmin', ensureAuthenticated, (req, res) => {
 		.catch(err => console.log(err));
 });
 
+router.post('/updateAdmin', ensureAuthenticated, async function (req, res) {
+	let name = req.body.name;
+	let username = req.body.username;
+	let gender = req.body.gender;
+	let mobile = req.body.mobile;
+	let postal = req.body.postal;
+	let address = req.body.address;
+	let email = req.body.email;
+	User.update(
+		{
+			name, username, gender, mobile, postal, address, email
+		},
+		{ where: { id: req.user.id } }
+	)
+		.then((result) => {
+			console.log(result[0] + ' User updated');
+			res.redirect('/report/adminProfile');
+			// res.redirect(`/user/profile/${req.user.id}`);
+		})
+		.catch(err => console.log(err));
+});
+
 router.post('/adminProfile', ensureAuthenticated, (req, res) => {
 	// Creates user id directory for upload if not exist
 	if (!fs.existsSync('./public/uploads/' + req.user.id)) {

@@ -255,7 +255,7 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
         let activity = 0;
         let result = await User.update({ activity }, { where: { id: user.id } });
         console.log(result + ' User deleted');
-        res.redirect('/user/register');
+        res.redirect('/user/register'); //still login
     }
     catch (err) {
         console.log(err);}
@@ -474,14 +474,14 @@ router.get('/suspend/:id/:token', async function (req, res) {
             res.redirect('/user/login');
             return;
         }
-        res.redirect('/user/suspend');
+        res.redirect('/user/suspend/' + id);
     }
     catch (err) {
         console.log(err);
     }
 });
 
-router.get('/suspend', (req, res) => { //this is where we get the info
+router.get('/suspend/:id', (req, res) => { //this is where we get the info
     User.findByPk(req.params.id)
         .then((user) => {
             res.render('user/customer/suspend', { user, layout: 'main' });
@@ -489,16 +489,16 @@ router.get('/suspend', (req, res) => { //this is where we get the info
         .catch(err => console.log(err));
 });
 
-router.post('/suspend', async (req,res) =>{
-    let username = req.body.username;
-    let email = req.body.email;
+router.post('/suspend/:id', async (req,res) =>{
+    // let username = req.body.username;
+    // let email = req.body.email;
     let appeal = req.body.appeal;
     // let user = User.findOne({ where: { username: username } });
     await User.update(
         { appeal:appeal },
-        { where: { username: username } });
+        { where: { id: req.params.id } });
     flashMessage(res,'success','Your appeal has been submitted.')
-    res.redirect('/')
+    res.redirect('/') // change to where?
 
 });
 
@@ -508,7 +508,7 @@ router.get('/appeal/:id',async (req,res)=>{
     res.render('user/customer/appeal',{layout:'main', user});
 });
 
-router.post('/appeal/:id',(req,res)=>{
+router.post('/appeal/:id', (req,res)=>{
     let activity = 1;
     let appeal = null;
     User.update({activity},{where:{id:req.params.id}});
