@@ -93,6 +93,10 @@ router.post('/register', async function (req, res) { //this is to get the input 
         flashMessage(res, 'error', 'Passwords do not match');
         isValid = false;
     }
+    if (mobile.length != 8){
+        flashMessage(res, 'error', 'Phone number is invalid');
+        isValid = false;
+    }
     if (!isValid) {
         res.render('user/customer/register', {
             name, email, mobile, postal, address, username, layout: 'main' });
@@ -210,8 +214,6 @@ router.get('/editprofile/:id', ensureAuthenticated, (req, res) => {
 router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     let name = req.body.name;
     let username = req.body.username;
-    let password = req.body.password;
-    let password2 = req.body.password2;
     let gender = req.body.gender;
     let mobile = req.body.mobile;
     let postal = req.body.postal;
@@ -222,15 +224,18 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     //     flashMessage(res, 'error', username + ' alreay taken');
     //     res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
     // };
+<<<<<<< Updated upstream
     if (password != password2) {
         flashMessage(res, 'error', 'Password not matching');
         res.redirect(`/user/customer/editprofile/${req.user.id}`, { layout: 'main' });
     }
     var salt = bcrypt.genSaltSync(10);
     var hash = bcrypt.hashSync(password, salt);
+=======
+>>>>>>> Stashed changes
     User.update(
         {
-            name, username, password: hash, password2, gender, mobile, postal, address, email
+            name, username, gender, mobile, postal, address, email
         },
         { where: { id: req.user.id } }
     )
@@ -261,7 +266,8 @@ router.get('/deleteUser/:id', ensureAuthenticated, async function
     }else{
     try {
         let user = await User.findByPk(req.user.id);
-        let result = await User.destroy({ where: { id: user.id } });
+        let activity = 0;
+        let result = await User.update({ activity }, { where: { id: user.id } });
         console.log(result + ' User deleted');
         res.redirect('/user/register');
     }
@@ -595,15 +601,6 @@ router.post('/profileSave/:id', ensureAuthenticated, async (req, res) => {
     res.redirect(`/user/profile/${req.user.id}`);
 });
 
-router.post('/profileSaveAdmin/:id', ensureAuthenticated, async (req, res) => {
-    let { posterURL, posterUpload } = req.body;
-    // console.log(posterURL);
-    // let metadata = getMetadata(posterURL);
-    posterURL = posterURL.split("/")[3]
-    // let image = `${req.file.filename}`
-    await User.update({ image: posterURL }, { where: { id: req.user.id } });
-    res.redirect(`/report/adminProfile`);
-});
 // async function getMetadata(posterURL) {
 //     let posterURL2 = "./public"+posterURL;
 //     const metadata = await sharp(posterURL2).metadata();

@@ -14,6 +14,8 @@ const sequelize = require('sequelize');
 const Cartitems = require('../../models/CartItems');
 const Drink = require('../../models/Drink');
 const Op = sequelize.Op;
+const fs = require('fs');
+const upload = require('../../helpers/addImage');
 
 function sendEmail(toEmail, url) {
 	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -186,6 +188,15 @@ router.post('/adminProfile', ensureAuthenticated, (req, res) => {
 			});
 		}
 	});
+});
+
+router.post('/profileSaveAdmin/:id', ensureAuthenticated, async (req, res) => {
+	let { posterURL, posterUpload } = req.body;
+	console.log(posterURL);
+	posterURL = posterURL.split("/")[3]
+	// let image = `${req.file.filename}`
+	await User.update({ image: posterURL }, { where: { id: req.user.id } });
+	res.redirect(`/report/adminProfile`);
 });
 
 // router.get('/downloadExcel', exportUser)

@@ -44,6 +44,28 @@ $('#posterUpload').on('change', function () {
         })
 });
 
+$('#posterUpload').on('change', function () {
+    let formdata = new FormData();
+    let image = $("#posterUpload")[0].files[0];
+    formdata.append('posterUpload', image);
+    fetch('/user/profileAdmin', {
+        method: 'POST',
+        body: formdata
+    })
+        .then(res => res.json())
+        .then((data) => {
+            $('#poster').attr('src', data.file);
+            $('#posterURL').attr('value', data.file); // sets posterURL hidden field
+            if (data.err) {
+                $('#posterErr').show();
+                $('#posterErr').text(data.err.message);
+            }
+            else {
+                $('#posterErr').hide();
+            }
+        })
+});
+
 
 function initialiseTitle() {
     let title = $('#title').val();

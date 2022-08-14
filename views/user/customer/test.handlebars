@@ -593,7 +593,7 @@ table tr th {
                 <figure>
                   <form action="/user/profileSave/{{user.id}}" method="post">
                   {{#if user.image}}
-                  <img id="poster" src="/uploads/{{user.id}}/{{user.image}}" alt="#" class="rounded-circle" width="150">
+                  <img id="poster1" src="/uploads/{{user.id}}/{{user.image}}" alt="#" class="rounded-circle" width="150">
                   <hr>
                   <div clss="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#image" style="margin-left:70px;">
@@ -884,6 +884,7 @@ table tr th {
     };
     reader.readAsDataURL(event.target.files[0]);
   };
+
   var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)

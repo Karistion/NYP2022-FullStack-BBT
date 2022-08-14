@@ -26,7 +26,7 @@ async function InitaliseGoogleLogin() {
                         postal: null,
                         address: null,
                         verified: 1,
-                        username: null,
+                        username: profile.displayName,
                         member: 'member',
                         activity: 1,
                         createdAt: Date.now(),
