@@ -219,20 +219,6 @@ router.post('/editprofile/:id', ensureAuthenticated, async function (req, res){
     let postal = req.body.postal;
     let address = req.body.address;
     let email = req.body.email;
-    // let user = await User.findOne({ where: { username: username } });
-    // if (user){
-    //     flashMessage(res, 'error', username + ' alreay taken');
-    //     res.redirect('/user/customer/editprofile/{{id}}', { layout: 'main' });
-    // };
-<<<<<<< Updated upstream
-    if (password != password2) {
-        flashMessage(res, 'error', 'Password not matching');
-        res.redirect(`/user/customer/editprofile/${req.user.id}`, { layout: 'main' });
-    }
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(password, salt);
-=======
->>>>>>> Stashed changes
     User.update(
         {
             name, username, gender, mobile, postal, address, email
