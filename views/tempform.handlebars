@@ -52,28 +52,51 @@
 									<p>Choose your options</p>
 
 									<div class="form-outline mb-4">
-										<label for="sugar">Sugar:</label>
-										<input type="number" name="sugar" class="form-control" required>
+										<label for="sugar">Sugar Level:</label>
+										<select id="sugar" name="sugar" class="form-control" required>
+											<option value="0%">0%</option>
+											<option value="25%">25%</option>
+											<option value="50%">50%</option>
+											<option value="75%">75%</option>
+											<option value="100%">100%</option>
+										</select>
 									</div>
 
 									<div class="form-outline mb-4">
 										<label for="topping">Topping 1:</label>
-										<input type="text" name="topping" class="form-control" required>
+										<select id="topping" name="topping" class="form-control" required>
+											<option value="Nil">No Extra Topping</option>
+											<option value="BSP">Brown Sugar Pearl</option>
+											<option value="WP">White Pearl</option>
+											<option value="KJ">Konjac Jelly</option>
+											<option value="AVC">Aloe Vera Cubes</option>
+										</select>
 									</div>
 
 									<div class="form-outline mb-4">
 										<label for="topping">Topping 2:</label>
-										<input type="text" name="topping" class="form-control" required>
+										<select id="topping" name="topping" class="form-control" required>
+											<option value="Nil">No Extra Topping</option>
+											<option value="BSP">Brown Sugar Pearl</option>
+											<option value="WP">White Pearl</option>
+											<option value="KJ">Konjac Jelly</option>
+											<option value="AVC">Aloe Vera Cubes</option>
+										</select>
 									</div>
-									
+
 									<div class="form-outline mb-4">
 										<label for="topping">Ice Level:</label>
-										<input type="text" name="topping" class="form-control" required>
+										<select id="ice" name="ice" class="form-control" required>
+											<option value="Normal">Normal Ice</option>
+											<option value="Less">Less Ice</option>
+											<option value="More">More Ice</option>
+											<option value="No">No Ice</option>
+										</select>
 									</div>
 
                                     <div class="form-outline mb-4">
 										<label for="quantity">Quantity:</label>
-										<input type="number" min="1" name="quantity" class="form-control" required>
+										<input type="number" value="1" min="1" name="quantity" class="form-control" required>
 									</div>
 
 									<div class="form-outline mb-4" id="forgot">
