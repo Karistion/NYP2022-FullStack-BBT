@@ -30,13 +30,13 @@ router.get('/adminmenu', ensureAuthenticated, async (req, res) => {
 	var drink = await Drink.findAll({order: [['category']], raw: true});
 	res.render('menu/admin/drink_list', {layout: 'admin', page, drink});
 });
-//admin drink options
-router.get('/adminmenu2', ensureAuthenticated, async (req, res) => {
-	var page='optionchange';
-	var topping=req.params.topping;
-	var CartItems = await Cartitems.findAll({order: [['topping']], raw: true});
-	res.render('menu/admin/drink_options', {layout: 'admin', page, CartItems});
-});
+//admin drink options - placeholder
+// router.get('/adminmenu2', ensureAuthenticated, async (req, res) => {
+// 	var page='optionchange';
+// 	var topping=req.params.topping;
+// 	var CartItems = await Cartitems.findAll({order: [['topping']], raw: true});
+// 	res.render('menu/admin/drink_options', {layout: 'admin', page, CartItems});
+// });
 //admin add drinks from drink list
 router.get('/AddDrinks', ensureAuthenticated, async (req, res) => { 
     res.render('menu/admin/add_drinks', { layout: 'admin' });
@@ -95,6 +95,5 @@ router.get('/DeleteDrinks/:id', ensureAuthenticated, async function(req, res) {
 			console.log(err);	
 		}
 });
-
 
 module.exports = router;
