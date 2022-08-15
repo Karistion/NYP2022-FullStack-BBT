@@ -340,7 +340,11 @@ router.get('/updateinvoice/:id', ensureAuthenticated, ensureAdmin, async functio
         var drink=await Drink.findByPk(invoice['items'][j].drinkId)
         invoice['items'][j]['drink']=drink;
     }
-    var page='orderlist';
+    if (req.get('referrer')=='http://localhost:5000/invoice/orderlist'){
+        var page='orderlist';
+    }else{
+        var page='invoicelist';
+    }
 	res.render('invoice/admin/updateorderstatus', {layout: 'admin', invoice, page});
 });
 
