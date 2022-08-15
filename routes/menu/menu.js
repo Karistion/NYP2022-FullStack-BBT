@@ -5,6 +5,7 @@ const moment = require('moment');
 const flashMessage = require('../../helpers/messenger');
 const Drink = require('../../models/Drink');
 const Cart = require('../../models/Cart');
+const Cartitems = require('../../models/CartItems');
 const ensureAuthenticated = require('../../helpers/auth');
 
 // CUSTOMER SIDE
@@ -24,6 +25,13 @@ router.get('/adminmenu', ensureAuthenticated, async (req, res) => {
 	var category=req.params.category;
 	var drink = await Drink.findAll({order: [['category']], raw: true});
 	res.render('menu/admin/drink_list', {layout: 'admin', page, drink});
+});
+
+router.get('/adminmenu2', ensureAuthenticated, async (req, res) => {
+	var page='optionchange';
+	var topping=req.params.topping;
+	var CartItems = await Cartitems.findAll({order: [['topping']], raw: true});
+	res.render('menu/admin/drink_options', {layout: 'admin', page, CartItems});
 });
 
 router.get('/AddDrinks', ensureAuthenticated, async (req, res) => { 
