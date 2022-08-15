@@ -7,6 +7,7 @@ const Drink = require('../../models/Drink');
 const Cart = require('../../models/Cart');
 const Cartitems = require('../../models/CartItems');
 const ensureAuthenticated = require('../../helpers/auth');
+const ensureAdmin= require('../../helpers/admin');
 
 // CUSTOMER SIDE
 
@@ -20,6 +21,12 @@ router.get('/category/:category', async (req, res) => {
 	var drink = await Drink.findAll({where: {category: category}, order: [['name']], raw: true});
 	res.render('menu/customer/category', {layout: 'main', drink});
 });
+//
+// router.get('/category/:category', async (req, res) => {
+// 	var category=req.params.category;
+// 	var drink = await Drink.findAll({where: {category: category}, order: [['name']], raw: true});
+// 	res.render('/cart/addtocart/1', {layout: 'main', drink});
+// });
 
 // ADMIN SIDE
 
