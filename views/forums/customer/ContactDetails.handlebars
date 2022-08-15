@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="myPage">
+
+<!-- Sidebar on click -->
+
+
+
+
+
+
+<!-- Modal -->
+
+
+
+
+<!-- Work Row -->
+
+
+
+
+
+<!-- Contact Container -->
+<div class="w3-container w3-padding-64 w3-theme-l5" id="contact">
+  <div class="w3-row">
+    <div class="w3-col m5">
+    <div class="w3-padding-16"><span class="w3-xlarge w3-border-teal w3-bottombar">BubbleT</span></div>
+      <h3>PO Box 213</h3>
+      
+      <p><i class="fa fa-map-marker "></i>  BubbleT Building<br>
+180 Ang Mo Kio Avenue 8<br>
+Singapore 569830</p>
+      <p><a href="tel:+6564515115" ><i class="fa fa-phone "></i>+65 6451 5115</a></p>
+      <p><i class="fa-solid fa-envelope me-1"></i>  ask@bubblet.sg</p>
+      <p style="text-align:left;float:left;"><i class="fa-solid fa-clock me-1"></i>  Operating Hours<br>
+- Monday to Friday:
+    08:00 to 21:00<br>
+- Saturday:
+    08:00 to 19:30<br>
+- Closed on Sundays and PH</p>
+    </div>
+    <div class="w3-col m7">
+        
+      <form class="w3-container w3-card-4 w3-padding-16 w3-white"  >
+    <h3>Send us a message!</h3>
+      <div class="w3-section">      
+        <label>Name</label>
+        <input class="w3-input" type="text" name="Name" required>
+      </div>
+      <div class="w3-section">      
+        <label>Email</label>
+        <input class="w3-input" type="text" name="Email" required>
+      </div>
+      <div class="w3-section">      
+        <label>Message</label>
+        <input class="w3-input" type="text" name="Message" required>
+      </div>  
+      <input class="w3-check" type="checkbox" checked name="Like">
+      <label>I Like it!</label>
+      <button type="submit" class="w3-button w3-right w3-theme">Send</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Image of location/map -->
+{{!-- <img src="../../../public/images/AddressPic.png" > --}}
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-32 w3-theme-d1 w3-center">
+  <h4>Follow Us</h4>
+  <a href="https://www.facebook.com/" target="_blank">
+                                <i class="fa-brands fa-facebook me-1"></i></a>
+                            
+                        
+  <a href="https://twitter.com/" target="_blank">
+                                <i class="fa-brands fa-twitter me-1"></i></a>
+  <a href="https://www.youtube.com/" target="_blank">
+                                <i class="fa-brands fa-youtube me-1"></i></a>
+<a href="https://www.instagram.com/" target="_blank">
+                                <i class="fa-brands fa-instagram me-1"></i></a>
+  
+                                <div class="footer-legal text-center">
+                    <ul class="list-inline">
+                        <li class="list-inline-item m-0 pe-3">
+                            <a href="/termsandconditions">Terms of Use</a>
+                        </li>
+                        <li class="list-inline-item m-0 ps-2 pe-3">
+                            <a href="/privacypolicy">Privacy Policy</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+                <div class="pt-1 pb-2">
+                    <p class="text-center m-1">&copy; 2022 BubbleT</p>
+                </div>
+  <p></p>
+
+  <div style="position:relative;bottom:100px;z-index:1;" class="w3-tooltip w3-right">
+    <span class="w3-text w3-padding w3-teal w3-hide-small">Go To Top</span>   
+    <a class="w3-button w3-theme" href="#myPage"><span class="w3-xlarge">
+    <i class="fa fa-chevron-circle-up"></i></span></a>
+  </div>
+</footer>
+
+<script>
+// Script for side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "300px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+
+// Close side navigation
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+</script>
+
+</body>
+</html>

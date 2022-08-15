@@ -232,6 +232,9 @@ router.get('/DeleteThreadAdmin/:id', ensureAuthenticated, async function(req, re
 			console.log(err);	
 		}
 });
+router.get('/ContactDetails',(req, res) => { //this is to render the page
+    res.render('forums/customer/ContactDetails', { layout: 'main' });
+});
 
 
 module.exports = router;
