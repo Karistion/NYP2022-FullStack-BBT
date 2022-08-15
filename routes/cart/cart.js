@@ -49,7 +49,13 @@ router.post('/addtocart/:id', ensureAuthenticated, async (req, res) => {
 });
 
 router.get('/addtocart/:id', ensureAuthenticated, async (req, res) => {
+	try{
+	// var drink = await Drink.findByPk(req.drink.id);
 	res.render('tempform', {layout:'main'})
+	}
+	catch (err) {
+		console.log(err);	
+	}
 });
 
 router.get('/deletecart/:id', ensureAuthenticated, async function(req, res) {

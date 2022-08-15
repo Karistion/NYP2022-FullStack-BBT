@@ -21,12 +21,6 @@ router.get('/category/:category', async (req, res) => {
 	var drink = await Drink.findAll({where: {category: category}, order: [['name']], raw: true});
 	res.render('menu/customer/category', {layout: 'main', drink});
 });
-//
-// router.get('/category/:category', async (req, res) => {
-// 	var category=req.params.category;
-// 	var drink = await Drink.findAll({where: {category: category}, order: [['name']], raw: true});
-// 	res.render('/cart/addtocart/1', {layout: 'main', drink});
-// });
 
 // ADMIN SIDE
 
@@ -37,15 +31,14 @@ router.get('/adminmenu', ensureAuthenticated, async (req, res) => {
 	var drink = await Drink.findAll({order: [['category']], raw: true});
 	res.render('menu/admin/drink_list', {layout: 'admin', page, drink});
 });
-//admin drink options - placeholder
 
+//admin drink options - placeholder
 // router.get('/adminmenu2', ensureAuthenticated, async (req, res) => {
 // 	var page='optionchange';
 // 	var topping=req.params.topping;
 // 	var CartItems = await Cartitems.findAll({order: [['topping']], raw: true});
 // 	res.render('menu/admin/drink_options', {layout: 'admin', page, CartItems});
 // });
-
 
 //admin add drinks from drink list
 router.get('/AddDrinks', ensureAuthenticated, async (req, res) => { 
