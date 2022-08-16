@@ -53,7 +53,8 @@ function sendPassword(toEmail, url, OTP) {
         from: `BubbleT <${process.env.SENDGRID_SENDER_EMAIL}>`,
         subject: 'Reset Password',
         html: ` Your OTP: ${OTP} <br>
-        OTP expires in 15mins.`
+        Sincerely,<br>
+        BubbleT Development Team`
     };
     // Returns the promise from SendGrid to the calling function
     return new Promise((resolve, reject) => {
@@ -294,8 +295,7 @@ router.get('/forgotpassword', (req,res) => {
 router.post('/forgotpassword', async function (req,res){
     let { username, email } = req.body;
     let user = await User.findOne({ where: { username: username } });
-    if (user)
-    {
+
         if(!user || email != user.email)
         {
             flashMessage(res, 'error', 'Email and username does not match username.');
@@ -321,7 +321,7 @@ router.post('/forgotpassword', async function (req,res){
                     // res.redirect('/');
                 });
         }
-    }
+    
 });
 
 router.get('/otp/:id', (req,res)=>{
@@ -369,6 +369,7 @@ router.post('/newPW/:id', async (req,res) => {
         var hash = bcrypt.hashSync(password, salt);
         User.update({ password:hash},
             { where: { id: user.id } });
+        flashMessage(res,'success','Password has been reset.')
         res.redirect('/user/login');
     } catch (err) {
         console.log(err);}
