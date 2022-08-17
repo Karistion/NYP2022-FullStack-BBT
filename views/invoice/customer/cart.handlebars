@@ -28,6 +28,7 @@
                 <p><strong>{{items.drink.name}}</strong></p>
                 <p>Sugar: {{items.sugar}}%</p>
                 <p>Toppings: {{items.topping}}</p>
+                <p>Ice Level: {{items.ice}}</p>
                 <a href='/cart/deletecart/{{id}}'><button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
                   title="Remove item">
                   <i class="fas fa-trash"></i>
@@ -46,7 +47,7 @@
 
                 <!-- Price -->
                 <p class="text-end">
-                  <strong>${{ multiply items.drink.price items.quantity}}</strong>
+                  <strong>${{ multiply items.price items.quantity}}</strong>
                 </p>
                 <!-- Price -->
               </div>

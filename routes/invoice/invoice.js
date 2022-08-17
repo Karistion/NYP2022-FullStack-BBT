@@ -85,7 +85,7 @@ router.get('/checkout', ensureAuthenticated, (req, res) => {
                         raw: true
                     }).then(async(user)=>{
                         var voucher = await Voucher.findAll({
-                            where: {status: 'Pending'}, 
+                            where: {status: 'Available'}, 
                             raw:true
                         })
                         var page = 'checkout'
@@ -150,7 +150,8 @@ router.post('/checkout', async function (req, res) {
         return;
     }
     if (voucher!=0){
-        var voucher1 = await Voucher.findByPk(voucher).Value;
+        var voucher1 = await Voucher.findByPk(voucher);
+        voucher1=voucher1.Value;
     }else{
         voucher1=0;
     }
@@ -340,10 +341,10 @@ router.get('/updateinvoice/:id', ensureAuthenticated, ensureAdmin, async functio
         var drink=await Drink.findByPk(invoice['items'][j].drinkId)
         invoice['items'][j]['drink']=drink;
     }
-    if (req.get('referrer')=='http://localhost:5000/invoice/orderlist'){
-        var page='orderlist';
-    }else{
+    if (req.get('referrer')=='http://localhost:5000/invoice/invoicelist'){
         var page='invoicelist';
+    }else{
+        var page='orderlist';
     }
 	res.render('invoice/admin/updateorderstatus', {layout: 'admin', invoice, page});
 });

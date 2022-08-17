@@ -32,13 +32,31 @@ router.get('/cart', ensureAuthenticated, (req, res) => {
 
 router.post('/addtocart/:id', ensureAuthenticated, async (req, res) => {
 	var userId=req.user.id;
-	let { sugar, topping, quantity } = req.body; //password/password2 is from the input name in the html
+	let { sugar, topping, ice, quantity } = req.body; //password/password2 is from the input name in the html
 	var cart = await Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
 	var drink = await Drink.findByPk(req.params.id);
 	var drinkId=drink.id
 	var cartId=cart.id
-	Cartitems.create({ sugar, topping, quantity, drinkId, cartId });
-	var price = parseFloat(cart.totalPrice) + parseFloat(drink.price*quantity);
+	var price = parseFloat(drink.price);
+	if (topping=='Brown Sugar Pearl'){
+		price +=0.5;
+	}else if (topping=='Aloe Vera Cubes'){
+		price +=1.5;
+	}else if (topping=='White Pearl'){
+		price +=0.75;
+	}else if (topping=='Konjac Jelly'){
+		price +=1.0;
+	}
+	if (ice=='No'){
+		price +=1.0;
+	}else if (ice=='Less'){
+		price +=0.5;
+	}else if (ice=='More'){
+		price +=0.5;
+	}
+	Cartitems.create({ sugar, topping, ice, quantity, price, drinkId, cartId });
+	price *= quantity;
+	price += parseFloat(cart.totalPrice);
 	Cart.update(
         {
             totalPrice:price
@@ -68,7 +86,7 @@ router.get('/deletecart/:id', ensureAuthenticated, async function(req, res) {
 		}
 		var cart = await Cart.findOne({where: { userId:req.user.id },order: [['updatedAt', 'DESC']], raw: true}).catch(err => console.log(err));
 		var drink = await Drink.findByPk(cartitems.drinkId);
-		var price = parseFloat(cart.totalPrice) - parseFloat(drink.price*cartitems.quantity);
+		var price = parseFloat(cart.totalPrice) - parseFloat(cartitems.price);
 		Cart.update(
 			{
 				totalPrice:price
