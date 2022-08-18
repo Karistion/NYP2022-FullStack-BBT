@@ -10,11 +10,12 @@
             </div>
             <div class="card-body">
                 {{#each items}}
-                <p class="fw-bold mb-0">{{drink.name}}</p> <!--name-->  
+                <p class="fw-bold mb-0">{{drink.name}} <span style='float:right;'>x{{quantity}}</span></p> <!--name-->  
                 <ul style="list-style: none;">
                     <li>Sugar: {{sugar}}%</li>
                     <li>Topping: {{topping}}</li>
-                    <li>Price: {{multiply drink.price quantity}}</li>
+                    <li>Ice Level: {{ice}}</li>
+                    <li>Price: {{multiply price quantity}}</li>
                 </ul>
                 {{/each}}
                 <hr>

@@ -43,10 +43,13 @@
                         <div class="text-left text-sm-right col-6 d-grid p-3"><a class="btn btn-outline-primary btn-rounded btn-sm" href="/invoice/cfmorder/{{id}}" data-toggle="modal" data-target="#orderDetails">View Order Details</a></div>
                         </div>
                     {{#each items}}    
-                    <p><b>{{ drink.name }} (${{ multiply drink.price quantity}}) <span style="float: right !important">x{{ quantity }}</span></b></p>
+                    <p><b>{{ drink.name }} (${{ multiply price quantity}}) <span style="float: right !important">x{{ quantity }}</span></b></p>
                     <ul>
                         <li>
                             {{ sugar }}% sugar
+                        </li>
+                        <li>
+                            {{ ice }} ice level
                         </li>
                         <li>
                             {{ topping }}

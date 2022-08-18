@@ -295,8 +295,9 @@ router.get('/forgotpassword', (req,res) => {
 router.post('/forgotpassword', async function (req,res){
     let { username, email } = req.body;
     let user = await User.findOne({ where: { username: username } });
-
-        if(!user || email != user.email)
+    if (user)
+    {
+        if(email != user.email)
         {
             flashMessage(res, 'error', 'Email and username does not match username.');
             res.render('user/customer/forgotpassword', { layout: 'main' });
@@ -313,7 +314,7 @@ router.post('/forgotpassword', async function (req,res){
                         { OTP: OTP },
                         { where: { id: user.id } });
                     console.log('user OTP updated');
-                    res.redirect('/user/otp/:id');
+                    res.redirect('/user/otp/'+ user.id);
                 })
                 .catch(err => {
                     console.log(err);
@@ -321,7 +322,10 @@ router.post('/forgotpassword', async function (req,res){
                     // res.redirect('/');
                 });
         }
-    
+    }else{
+        flashMessage(res, 'error', 'Invalid username');
+        res.render('user/customer/forgotpassword', { layout: 'main' });
+    }
 });
 
 router.get('/otp/:id', (req,res)=>{
@@ -330,14 +334,14 @@ router.get('/otp/:id', (req,res)=>{
 
 router.post('/otp/:id',async (req,res)=>{
     let otp = req.body.otp;
-    let user = await User.findOne({ where: { OTP: otp } });
+    let user = await User.findOne({ where: { id: req.params.id } });
     // console.log(user.id);
     if (user){
         if (user.OTP == otp){
             res.redirect('/user/newPW/' + user.id);
         }else{
             flashMessage(res,'error', 'Invalid OTP')
-            res.render('/otp/:id', {layout: 'main'})
+            res.redirect('/user/otp/'+user.id)
         }
     }
 });

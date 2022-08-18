@@ -14,7 +14,7 @@
               <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
                 <!-- Image -->
                 <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Vertical/12a.webp"
+                  <img src="/images/SignaT.png"
                     class="w-100" alt="Blue Jeans Jacket" />
                   <a href="#!">
                     <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
@@ -28,6 +28,7 @@
                 <p><strong>{{items.drink.name}}</strong></p>
                 <p>Sugar: {{items.sugar}}%</p>
                 <p>Toppings: {{items.topping}}</p>
+                <p>Ice Level: {{items.ice}}</p>
                 <a href='/cart/deletecart/{{id}}'><button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
                   title="Remove item">
                   <i class="fas fa-trash"></i>
@@ -46,7 +47,7 @@
 
                 <!-- Price -->
                 <p class="text-end">
-                  <strong>${{ multiply items.drink.price items.quantity}}</strong>
+                  <strong>${{ multiply items.price items.quantity}}</strong>
                 </p>
                 <!-- Price -->
               </div>

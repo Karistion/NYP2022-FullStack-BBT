@@ -769,7 +769,7 @@ table tr th {
                                     aria-label="Close"></button></span>
                               </div>
                               <div class="modal-body">
-                                Are you sure you want to convert all {{user.loyalty}} (${{convertpoints user.loyalty}}) to E-wallet?
+                                Are you sure you want to convert all {{user.loyalty}} (${{decimal2 (convertpoints user.loyalty)}}) to E-wallet?
                               </div>
                               <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

@@ -34,7 +34,7 @@
       <tr>
         <td>{{ id }}</td>
         <td><span class="badge bg-{{statuscolor status}}">{{ status }}. {{ statusdesc status }}</span></td>
-        <td>{{ totalprice }}</td>
+        <td>{{ decimal2 totalprice }}</td>
         <td>{{ formatDate datedelivery }}</td>
         {{#if (check delivered 0)}}
         <td><a href="/invoice/updateinvoice/{{id}}" class="btn btn-warning">Update Order</a></td>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary"><a href="/invoice/delivered/{{id}}" style="color:white">Complete</a></button>
+                  <a href="/invoice/delivered/{{id}}" style="color:white"><button type="button" class="btn btn-primary">Complete</button></a>
                 </div>
               </div>
             </div>
